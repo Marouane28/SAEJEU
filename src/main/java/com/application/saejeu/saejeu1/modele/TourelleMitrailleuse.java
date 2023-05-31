@@ -2,7 +2,7 @@ package com.application.saejeu.saejeu1.modele;
 
 public class TourelleMitrailleuse extends Tourelle {
 
-    public TourelleMitrailleuse(double x, double y, Environnement env) {
+    public TourelleMitrailleuse(int x, int y, Environnement env) {
         super(x, y, 5*16, 50, 3, env);
     }
 

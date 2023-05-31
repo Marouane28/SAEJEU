@@ -1,19 +1,21 @@
 package com.application.saejeu.saejeu1.modele;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Tourelle {
-    private DoubleProperty x, y;
+    private IntegerProperty x, y;
     private int portee;
     private int pv;
     private int degat;
     protected Environnement environnement;
     protected Acteur cible; // Référence à l'ennemi actuellement ciblé
 
-    public Tourelle(double x, double y, int portee, int pv, int degat, Environnement env) {
-        this.x = new SimpleDoubleProperty(x);
-        this.y = new SimpleDoubleProperty(y);
+    public Tourelle(int x, int y, int portee, int pv, int degat, Environnement env) {
+        this.x = new SimpleIntegerProperty(x);
+        this.y = new SimpleIntegerProperty(y);
         this.portee = portee;
         this.pv = pv;
         this.degat = degat;
@@ -23,11 +25,11 @@ public abstract class Tourelle {
 
     }
 
-    public DoubleProperty xProperty() {
+    public IntegerProperty xProperty() {
         return x;
     }
 
-    public DoubleProperty yProperty() {
+    public IntegerProperty yProperty() {
         return y;
     }
 

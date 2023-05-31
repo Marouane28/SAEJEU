@@ -69,7 +69,7 @@ public abstract class Acteur {
 
     @Override
     public String toString() {
-        return "x=" + x + ", y=" + y;
+        return "x = " + x + ", y = " + y;
     }
 
     public boolean estGele() {

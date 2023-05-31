@@ -41,7 +41,7 @@ public class VueTourelle {
             this.panneauJeu.getChildren().add(iv2);
         }
         else {
-            URL urlImageEnn = Main.class.getResource("tourelleRepousse.jpg");
+            URL urlImageEnn = Main.class.getResource("tourelleRepousse.png");
             image = new Image(String.valueOf(urlImageEnn));
             ImageView iv2 = new ImageView(image);
             iv2.translateXProperty().bind(tourelles.xProperty());

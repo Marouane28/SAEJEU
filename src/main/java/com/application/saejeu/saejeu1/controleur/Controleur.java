@@ -71,23 +71,23 @@ public class Controleur implements Initializable {
 
         reglerTaille();
 
-        Acteur z = créerZombie(1);
+        Acteur z = créerZombie();
         vueEnnemi = new VueEnnemi(panneauDeJeu, z);
 
-        Tourelle t = créerTourelle(2);
-        vueTourelle = new VueTourelle(panneauDeJeu,t);
+//        Tourelle t = créerTourelle(2);
+//        vueTourelle = new VueTourelle(panneauDeJeu,t);
 
-//        Tourelle t = new TourelleMitrailleuse(20*16,15*16,environnement);
-//        environnement.ajouterTourelle(t);
-//        tours.add(t);
-//        for (Tourelle tour : tours) {
-//            for (Acteur zombie : zombies){
-//                if (zombie.estVivant()) {
-//                    tour.setCible(zombie);
-//                }
-//            }
-//        }
-//        vueTourelle = new VueTourelle(panneaudejeu, t);
+        Tourelle t = new TourelleMitrailleuse(20*16,15*16,environnement);
+        environnement.ajouterTourelle(t);
+        tours.add(t);
+        for (Tourelle tour : tours) {
+            for (Acteur zombie : zombies){
+                if (zombie.estVivant()) {
+                    tour.setCible(zombie);
+                }
+            }
+        }
+        vueTourelle = new VueTourelle(panneauDeJeu, t);
 
 
         bfs();
@@ -119,8 +119,8 @@ public class Controleur implements Initializable {
 
 
         cible = environnement.getSommet(89, 34);
-        Circle circle = new Circle(89 * 16, 34 * 16, 10, Color.BLACK);
-        panneauDeJeu.getChildren().add(circle);
+//        Circle circle = new Circle(89 * 16, 34 * 16, 10, Color.BLACK);
+//        panneauDeJeu.getChildren().add(circle);
 
         System.out.println("sommet cible poid " + cible.getPoids());
 
@@ -135,9 +135,8 @@ public class Controleur implements Initializable {
 //        }
     }
 
-    public Acteur créerZombie(int nbZombie){
-        Acteur zombie = null;
-        for (int i = 0 ; i < nbZombie ; i++){
+    public Acteur créerZombie(){
+        Acteur zombie;
             Random rand = new Random();
             int nb = rand.nextInt(3 - 1 + 1) + 1;
 
@@ -161,36 +160,36 @@ public class Controleur implements Initializable {
                 environnement.ajouterActeur(z2);
                 zombie = z2;
             }
-        }
+
         return zombie;
     }
 
-        public Tourelle créerTourelle(int nbTourelle){
-        Tourelle tourelle = null;
-        for (int i = 0 ; i < nbTourelle ; i++){
-            Random rand = new Random();
-            int nb = rand.nextInt(3 - 1 + 1) + 1;
-            int x = rand.nextInt(environnement.getX() + 1) + 1;
-            int y = rand.nextInt(environnement.getY() + 1) + 1;
-
-            if (nb == 1){
-                Tourelle t1 = new TourelleMitrailleuse(x*16,y*16,environnement);
-                environnement.ajouterTourelle(t1);
-                tours.add(t1);
-            }
-            else if (nb == 2){
-                Tourelle t1 = new TourelleRepousse(x*16,y*16,environnement);
-                environnement.ajouterTourelle(t1);
-                tours.add(t1);
-            }
-            else {
-                Tourelle t1 = new TourelleGèle(x*16,y*16,environnement);
-                environnement.ajouterTourelle(t1);
-                tours.add(t1);
-            }
-        }
-        return tourelle;
-    }
+//        public Tourelle créerTourelle(int nbTourelle){
+//        Tourelle tourelle = null;
+//        for (int i = 0 ; i <= nbTourelle ; i++){
+//            Random rand = new Random();
+//            int nb = rand.nextInt(3 - 1 + 1) + 1;
+//            int x = rand.nextInt(environnement.getX() + 1) + 1;
+//            int y = rand.nextInt(environnement.getY() + 1) + 1;
+//
+//            if (nb == 1){
+//                Tourelle t1 = new TourelleMitrailleuse(x*16,y*16,environnement);
+//                environnement.ajouterTourelle(t1);
+//                tours.add(t1);
+//            }
+//            else if (nb == 2){
+//                Tourelle t1 = new TourelleRepousse(x*16,y*16,environnement);
+//                environnement.ajouterTourelle(t1);
+//                tours.add(t1);
+//            }
+//            else {
+//                Tourelle t1 = new TourelleGèle(x*16,y*16,environnement);
+//                environnement.ajouterTourelle(t1);
+//                tours.add(t1);
+//            }
+//        }
+//        return tourelle;
+//    }
 
 
     public void reglerTaille(){
@@ -224,8 +223,8 @@ public class Controleur implements Initializable {
                 (ev -> {
                     if (temps % 10 == 0){
                         Sommet sommet = chemin.get(i.getAndIncrement());
-                        System.out.println("cha164ngement dans controleur");
-                        Acteur zombie = créerZombie(1);
+                        System.out.println("changement dans controleur");
+                        Acteur zombie = créerZombie();
                         zombies.add(zombie);
                         environnement.ajouterActeur(zombie);
 //                        zombie.setX(sommet.getX() * 16);
