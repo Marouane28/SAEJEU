@@ -6,30 +6,16 @@ import javafx.beans.property.SimpleDoubleProperty;
 public abstract class Acteur {
 
     private DoubleProperty x, y;
-    private DoubleProperty v; // vitesse de deplacement
     protected Environnement environnement;
     private int pv;
     private boolean gele;
 
-    public Acteur(int x, int y, int v, Environnement env, int pv) {
+    public Acteur(int x, int y,Environnement env, int pv) {
         this.pv = pv;
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
-        this.v = new SimpleDoubleProperty(v);
         this.environnement = env;
     }
-    public DoubleProperty vitesseProperty() {
-        return v;
-    }
-
-    public final double getVitesse(){
-        return this.vitesseProperty().getValue();
-    }
-
-    public final void setVitesse(double n){
-        this.vitesseProperty().setValue(n);
-    }
-
 
     public DoubleProperty xProperty() {
         return x;

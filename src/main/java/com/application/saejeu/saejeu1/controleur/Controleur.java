@@ -17,8 +17,6 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import com.application.saejeu.saejeu1.modele.*;
 import com.application.saejeu.saejeu1.vue.VueEnnemi;
@@ -80,13 +78,7 @@ public class Controleur implements Initializable {
         Tourelle t = new TourelleMitrailleuse(20*16,15*16,environnement);
         environnement.ajouterTourelle(t);
         tours.add(t);
-        for (Tourelle tour : tours) {
-            for (Acteur zombie : zombies){
-                if (zombie.estVivant()) {
-                    tour.setCible(zombie);
-                }
-            }
-        }
+
         vueTourelle = new VueTourelle(panneauDeJeu, t);
 
 
@@ -209,6 +201,8 @@ public class Controleur implements Initializable {
         }
     }
 
+
+
     private void initAnimation() {
         gameLoop = new Timeline();
         temps = 0;
@@ -240,23 +234,12 @@ public class Controleur implements Initializable {
                             zombie.setX(sommet.getX() * 16);
                             zombie.setY(sommet.getY() * 16);
                             for (Tourelle tour : tours){
+                                tour.setCible(zombie);
                                 tour.attaquer();
                             }
-
-                            if (!zombie.estVivant()) {
-
-                                for (ImageView imageView : vueEnnemi.getImageViews()) {
-                                    if (imageView.translateXProperty().isBound() && imageView.translateXProperty().get() == zombie.getX() &&
-                                            imageView.translateYProperty().isBound() && imageView.translateYProperty().get() == zombie.getY()) {
-                                        vueEnnemi.removeImageView(imageView);
-                                        System.out.println(" Un zombie est mort ! ");
-                                        break;
-                                    }
-                                }
-
-//                                gameLoop.stop();
-                            }
-
+                           if (!zombie.estVivant()){
+                               vueEnnemi.supprimerZombieMort(zombie);
+                           }
 
                             //System.out.println(sommet);
                             if (sommet.getY() == cible.getY() && sommet.getX() == cible.getX()) {

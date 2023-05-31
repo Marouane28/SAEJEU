@@ -60,6 +60,17 @@ public class VueEnnemi {
         }
     }
 
+    public void supprimerZombieMort(Acteur zombie){
+        for (ImageView imageView : getImageViews()) {
+            if (imageView.translateXProperty().isBound() && imageView.translateXProperty().get() == zombie.getX() &&
+                    imageView.translateYProperty().isBound() && imageView.translateYProperty().get() == zombie.getY()) {
+                removeImageView(imageView);
+                System.out.println(" Un zombie est mort ! ");
+                break;
+            }
+        }
+    }
+
     public ArrayList<ImageView> getImageViews() {
         return imageViews;
     }
