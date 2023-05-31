@@ -15,6 +15,8 @@ public class Environnement {
     private ObservableList<Sommet> obstacles;
     private ObservableList<Tourelle> tourelles;
     private final int OBSTACLE_TILE = 400;
+    private BFS bfs;
+    ArrayList<Sommet> chemin;
 
     public Environnement(int x , int y) throws IOException {
         this.x = x;
@@ -27,6 +29,9 @@ public class Environnement {
 
         readMap();
         construit();
+        bfs= new BFS(this,getSommet(0,20));
+        chemin=bfs.cheminVersSource(getSommet(89,34));
+
     }
 
     public void readMap() throws IOException {
@@ -173,5 +178,38 @@ public class Environnement {
             }
         return true;
     }
+
+    public ArrayList<Sommet> getChemin() {
+        return chemin;
+    }
+
+    public Acteur créerZombie(){
+        Acteur zombie;
+        Random rand = new Random();
+        int nb = rand.nextInt(3 - 1 + 1) + 1;
+
+        if (nb == 1) {
+            Acteur z1 = new ZombieRapide(this);
+            getActeurs().add(z1);
+            ajouterActeur(z1);
+            zombie = z1;
+        }
+
+        else if (nb == 2){
+            Acteur z2 = new ZombieLent(this);
+            getActeurs().add(z2);
+            ajouterActeur(z2);
+            zombie = z2;
+        }
+
+        else {
+            Acteur z2 = new ZombieGeant(this);
+            getActeurs().add(z2);
+            ajouterActeur(z2);
+            zombie = z2;
+        }
+        return zombie;
+    }
+
 
 }

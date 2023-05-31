@@ -32,7 +32,7 @@ public class VueEnnemi {
 
     public void imageZombie(){
         if (acteur instanceof ZombieRapide){
-            URL urlImageEnn = Main.class.getResource("zombie.png");
+            URL urlImageEnn = Main.class.getResource("zombieRapide.png");
             Image imageEnn = new Image(String.valueOf(urlImageEnn));
             ImageView iv2 = new ImageView(imageEnn);
             iv2.translateXProperty().bind(acteur.xProperty());
@@ -41,7 +41,7 @@ public class VueEnnemi {
             this.imageViews.add(iv2);
         }
         else if (acteur instanceof ZombieLent){
-            URL urlImageEnn = Main.class.getResource("zombie.png");
+            URL urlImageEnn = Main.class.getResource("zombieLent.png");
             Image imageEnn = new Image(String.valueOf(urlImageEnn));
             ImageView iv2 = new ImageView(imageEnn);
             iv2.translateXProperty().bind(acteur.xProperty());
@@ -50,7 +50,7 @@ public class VueEnnemi {
             this.imageViews.add(iv2);
         }
         else {
-            URL urlImageEnn = Main.class.getResource("zombie.png");
+            URL urlImageEnn = Main.class.getResource("zombieGeant.png");
             Image imageEnn = new Image(String.valueOf(urlImageEnn));
             ImageView iv2 = new ImageView(imageEnn);
             iv2.translateXProperty().bind(acteur.xProperty());

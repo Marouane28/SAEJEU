@@ -6,9 +6,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 public abstract class Acteur {
 
     private DoubleProperty x, y;
-    protected Environnement environnement;
+    private Environnement environnement;
     private int pv;
     private boolean gele;
+    private int index=0;
 
     public Acteur(int x, int y,Environnement env, int pv) {
         this.pv = pv;
@@ -64,6 +65,15 @@ public abstract class Acteur {
 
     public void setGele(boolean gele) {
         this.gele = gele;
+    }
+
+    public void deplacement(){
+        if( index< this.environnement.getChemin().size()-1){
+            index++;
+            setX(environnement.getChemin().get(index).getX()*16);
+            setY(environnement.getChemin().get(index).getY()*16);
+        }
+
     }
 
 }

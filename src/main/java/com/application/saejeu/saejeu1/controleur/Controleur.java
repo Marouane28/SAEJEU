@@ -47,9 +47,6 @@ public class Controleur implements Initializable {
     ListChangeListener<Acteur> listenerActeur;
     ListChangeListener<Tourelle> listenerTourelle;
 
-    Sommet source, cible;
-
-    ArrayList<Sommet> chemin;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,7 +66,7 @@ public class Controleur implements Initializable {
 
         reglerTaille();
 
-        Acteur z = créerZombie();
+        Acteur z = environnement.créerZombie();
         vueEnnemi = new VueEnnemi(panneauDeJeu, z);
 
 //        Tourelle t = créerTourelle(2);
@@ -81,8 +78,6 @@ public class Controleur implements Initializable {
 
         vueTourelle = new VueTourelle(panneauDeJeu, t);
 
-
-        bfs();
         listenerActeur = new ListObsActeur(panneauDeJeu);
         listenerTourelle = new ListObsTourelle(panneauDeJeu);
         environnement.getActeurs().addListener(listenerActeur);
@@ -100,60 +95,6 @@ public class Controleur implements Initializable {
         tilePane.setOnMousePressed(mouseEvent -> {
             System.out.println("x " + mouseEvent.getX() + " Y " + mouseEvent.getY() + " id " + environnement.getTileMap()[(int) mouseEvent.getX() / 16][(int) mouseEvent.getY() / 16]);
         });
-    }
-    public void bfs(){
-        BFS bfs;
-        source = environnement.getSommet(0, 20);
-
-        System.out.println("source sommet " + source);
-
-        System.out.println("poid de sommet source " + source.getPoids());
-
-
-        cible = environnement.getSommet(89, 34);
-//        Circle circle = new Circle(89 * 16, 34 * 16, 10, Color.BLACK);
-//        panneauDeJeu.getChildren().add(circle);
-
-        System.out.println("sommet cible poid " + cible.getPoids());
-
-        bfs = new BFS(environnement, source);
-
-        this.chemin = bfs.cheminVersSource(cible);
-
-        System.out.println("longeur chemin " + chemin);
-
-//        for (Sommet s : chemin) {
-//            PaneauDeJeu.getChildren().add(new Circle(s.getX() * 16, s.getY() * 16, 5, Color.RED));
-//        }
-    }
-
-    public Acteur créerZombie(){
-        Acteur zombie;
-            Random rand = new Random();
-            int nb = rand.nextInt(3 - 1 + 1) + 1;
-
-            if (nb == 1) {
-                Acteur z1 = new ZombieRapide(environnement);
-                zombies.add(z1);
-                environnement.ajouterActeur(z1);
-                zombie = z1;
-            }
-
-            else if (nb == 2){
-                Acteur z2 = new ZombieLent(environnement);
-                zombies.add(z2);
-                environnement.ajouterActeur(z2);
-                zombie = z2;
-            }
-
-            else {
-                Acteur z2 = new ZombieGeant(environnement);
-                zombies.add(z2);
-                environnement.ajouterActeur(z2);
-                zombie = z2;
-            }
-
-        return zombie;
     }
 
 //        public Tourelle créerTourelle(int nbTourelle){
@@ -207,32 +148,21 @@ public class Controleur implements Initializable {
         gameLoop = new Timeline();
         temps = 0;
         gameLoop.setCycleCount(Timeline.INDEFINITE);
-        AtomicInteger i = new AtomicInteger();
-//        AtomicInteger k = new AtomicInteger();
-
 
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.17),
-
                 (ev -> {
                     if (temps % 10 == 0){
-                        Sommet sommet = chemin.get(i.getAndIncrement());
                         System.out.println("changement dans controleur");
-                        Acteur zombie = créerZombie();
+                        Acteur zombie = environnement.créerZombie();
                         zombies.add(zombie);
                         environnement.ajouterActeur(zombie);
-//                        zombie.setX(sommet.getX() * 16);
-//                        zombie.setY(sommet.getY() * 16);
                     }
-                    if (temps == 10000) {
-                        gameLoop.stop();
-                    } else if (temps % 2 == 0) {
+                    else if (temps % 2 == 0) {
                         System.out.println("un tour");
 
                         for (Acteur zombie : zombies) {
-                            Sommet sommet = chemin.get(i.getAndIncrement());
-                            zombie.setX(sommet.getX() * 16);
-                            zombie.setY(sommet.getY() * 16);
+                            zombie.deplacement();
                             for (Tourelle tour : tours){
                                 tour.setCible(zombie);
                                 tour.attaquer();
@@ -242,13 +172,12 @@ public class Controleur implements Initializable {
                            }
 
                             //System.out.println(sommet);
-                            if (sommet.getY() == cible.getY() && sommet.getX() == cible.getX()) {
+                            if (zombie.getY() == 34 && zombie.getX() == 89) {
                                 System.out.println("Vous avez perdu !");
                                 gameLoop.stop();
                             }
                         }
                     }
-
 
                     temps++;
                 })
