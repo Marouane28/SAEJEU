@@ -69,7 +69,7 @@ public class Controleur implements Initializable {
 
         reglerTaille();
 
-        Acteur z = créerZombie();
+        Acteur z = environnement.créerZombie();
         vueEnnemi = new VueEnnemi(panneauDeJeu, z);
 
 //        Tourelle t = créerTourelle(2);
@@ -127,34 +127,7 @@ public class Controleur implements Initializable {
 //        }
     }
 
-    public Acteur créerZombie(){
-        Acteur zombie;
-            Random rand = new Random();
-            int nb = rand.nextInt(3 - 1 + 1) + 1;
 
-            if (nb == 1) {
-                Acteur z1 = new ZombieRapide(environnement);
-                zombies.add(z1);
-                environnement.ajouterActeur(z1);
-                zombie = z1;
-            }
-
-            else if (nb == 2){
-                Acteur z2 = new ZombieLent(environnement);
-                zombies.add(z2);
-                environnement.ajouterActeur(z2);
-                zombie = z2;
-            }
-
-            else {
-                Acteur z2 = new ZombieGeant(environnement);
-                zombies.add(z2);
-                environnement.ajouterActeur(z2);
-                zombie = z2;
-            }
-
-        return zombie;
-    }
 
 //        public Tourelle créerTourelle(int nbTourelle){
 //        Tourelle tourelle = null;
@@ -218,7 +191,7 @@ public class Controleur implements Initializable {
                     if (temps % 10 == 0){
                         Sommet sommet = chemin.get(i.getAndIncrement());
                         System.out.println("changement dans controleur");
-                        Acteur zombie = créerZombie();
+                        Acteur zombie = environnement.créerZombie();
                         zombies.add(zombie);
                         environnement.ajouterActeur(zombie);
 //                        zombie.setX(sommet.getX() * 16);
