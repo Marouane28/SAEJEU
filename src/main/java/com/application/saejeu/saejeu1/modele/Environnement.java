@@ -10,18 +10,18 @@ import java.util.*;
 public class Environnement {
     private int x,y;
     private int[][] tileMap;
-    private ArrayList<Acteur> acteurs;
+    private ObservableList<Acteur> acteurs;
     private Map<Sommet, Set<Sommet>> listeAdj;
     private ObservableList<Sommet> obstacles;
-    private ArrayList<Tourelle> tourelles;
+    private ObservableList<Tourelle> tourelles;
     private final int OBSTACLE_TILE = 400;
 
     public Environnement(int x , int y) throws IOException {
         this.x = x;
         this.y = y;
         this.tileMap = new int[x][y];
-        this.acteurs = new ArrayList<>();
-        this.tourelles=new ArrayList<>();
+        this.acteurs = FXCollections.observableArrayList();
+        this.tourelles=FXCollections.observableArrayList();
         this.listeAdj = new HashMap();
         this.obstacles = FXCollections.observableArrayList();
 
@@ -150,7 +150,7 @@ public class Environnement {
         this.y = y;
     }
 
-    public ArrayList<Acteur> getActeurs() {
+    public ObservableList<Acteur> getActeurs() {
         return acteurs;
     }
 
@@ -158,7 +158,7 @@ public class Environnement {
         this.acteurs.add(a);
     }
 
-    public ArrayList<Tourelle> getTourelles() {
+    public ObservableList<Tourelle> getTourelles() {
         return tourelles;
     }
 

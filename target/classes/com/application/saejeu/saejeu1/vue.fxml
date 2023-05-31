@@ -15,7 +15,7 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0"
             xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.saejeu.saejeu1.controleur.Controleur">
 
-    <Pane fx:id="PaneauDeJeu" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+    <Pane fx:id="panneauDeJeu" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <TilePane fx:id="tilePane" style="-fx-background-color: #9b340f" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumns="90"></TilePane>
     </Pane>
 

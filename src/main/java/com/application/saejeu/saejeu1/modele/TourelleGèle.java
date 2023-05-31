@@ -3,8 +3,8 @@ package com.application.saejeu.saejeu1.modele;
 public class TourelleGèle extends Tourelle {
 
 
-    public TourelleGèle(int x, int y, int portee, int pv, int degat, Environnement env) {
-        super(x, y, portee, pv, degat, env);
+    public TourelleGèle(int x, int y, Environnement env) {
+        super(x, y, 5*16, 20, 5, env);
     }
 
     public TourelleGèle(){
