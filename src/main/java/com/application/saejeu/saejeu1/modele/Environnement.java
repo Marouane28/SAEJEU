@@ -1,4 +1,4 @@
-package modele;
+package com.application.saejeu.saejeu1.modele;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +30,7 @@ public class Environnement {
     }
 
     public void readMap() throws IOException {
-        File file = new File("/home/etudiants/info/mirhbira/prive/saeJeu1/src/main/resources/vraietilemap");
+        File file = new File(getClass().getResource("vraietilemap").getFile());
         BufferedReader terrain = new BufferedReader(new FileReader(file));
         String ligne;
         String[] tout_ligne;

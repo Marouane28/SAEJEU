@@ -1,10 +1,10 @@
-package vue;
+package com.application.saejeu.saejeu1.vue;
 
 import com.application.saejeu.saejeu1.Main;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import modele.Acteur;
+import com.application.saejeu.saejeu1.modele.Acteur;
 
 import java.net.URL;
 import java.util.ArrayList;

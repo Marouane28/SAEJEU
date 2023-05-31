@@ -1,8 +1,5 @@
-package controleur;
+package com.application.saejeu.saejeu1.controleur;
 import javafx.animation.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -19,10 +16,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-import modele.*;
-import vue.VueEnnemi;
-import vue.VueTerrain;
-import vue.VueTourelle;
+import com.application.saejeu.saejeu1.modele.*;
+import com.application.saejeu.saejeu1.vue.VueEnnemi;
+import com.application.saejeu.saejeu1.vue.VueTerrain;
+import com.application.saejeu.saejeu1.vue.VueTourelle;
 
 public class Controleur implements Initializable {
 
@@ -40,9 +37,9 @@ public class Controleur implements Initializable {
     private TourelleGèle tourelleGèle;
     private TourelleRepousse tourelleRepousse;
 
-    private VueTourelle vueTourelle; // vue tourelle
-    private VueTerrain vueTerrain; // vue terrain
-    private VueEnnemi vueEnnemi; // vue ennemi
+    private VueTourelle vueTourelle; // com.application.saejeu.saejeu1.vue tourelle
+    private VueTerrain vueTerrain; // com.application.saejeu.saejeu1.vue terrain
+    private VueEnnemi vueEnnemi; // com.application.saejeu.saejeu1.vue ennemi
     private Environnement environnement;
 
 

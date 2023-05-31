@@ -1,10 +1,10 @@
-package vue;
+package com.application.saejeu.saejeu1.vue;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
-import modele.Environnement;
+import com.application.saejeu.saejeu1.modele.Environnement;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,7 +29,7 @@ public class VueTerrain {
 
         FileInputStream fichierTileSet = null;
         try {
-            fichierTileSet = new FileInputStream("/home/etudiants/info/mirhbira/prive/saeJeu1/src/main/resources/tileset1.jpg" );
+            fichierTileSet = new FileInputStream(getClass().getResource("tileset1.jpg" ).getFile());
         } catch (Exception e) {
             e.printStackTrace();
         }
