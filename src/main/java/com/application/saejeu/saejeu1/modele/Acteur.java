@@ -9,15 +9,27 @@ public abstract class Acteur {
     private Environnement environnement;
     private int pv;
     private boolean gele;
-    private int index=0;
+    private int index;
+    private int cyclesRestants;
+    private String nomImage;
 
-    public Acteur(int x, int y,Environnement env, int pv) {
+
+    public Acteur(int x, int y,Environnement env, int pv,String nomImage) {
         this.pv = pv;
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
         this.environnement = env;
+        cyclesRestants = 0;
+        this.nomImage=nomImage;
+        this.index=0;
+    }
+    public String getNomImage() {
+        return nomImage;
     }
 
+    public void setIndex(int index) {
+        this.index = index;
+    }
     public DoubleProperty xProperty() {
         return x;
     }
@@ -73,8 +85,26 @@ public abstract class Acteur {
             setX(environnement.getChemin().get(index).getX()*16);
             setY(environnement.getChemin().get(index).getY()*16);
         }
+    }
+    public int getCyclesRestants() {
+        return cyclesRestants;
+    }
+
+    public void decrementerCyclesRestants() {
+        if (cyclesRestants > 0) {
+            cyclesRestants--;
+        }
+    }
+    public void geler(int cycles) {
+        cyclesRestants = cycles;
 
     }
+
+    public void respawn() {
+       setIndex(0);
+    }
+
+
 
 }
 

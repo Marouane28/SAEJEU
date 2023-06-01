@@ -13,32 +13,32 @@ public class VueTerrain {
 
     private Image imgTilep;
     private ImageView imgV;
-
     private Environnement terrain;
-
     private TilePane tilePane;
+    private String nomFichier;
 
-    public VueTerrain(Environnement t, TilePane tileP) throws FileNotFoundException {
-        this.terrain = t;
+    public VueTerrain(Environnement environnement, TilePane tileP, String nomFichier) throws FileNotFoundException {
+        this.terrain = environnement;
         this.tilePane = tileP;
+        this.nomFichier = nomFichier;
+
         iniTerrain();
     }
-
 
     void iniTerrain() {
 
         FileInputStream fichierTileSet = null;
         try {
-            fichierTileSet = new FileInputStream(getClass().getResource("tileset1.jpg" ).getFile());
+            fichierTileSet = new FileInputStream(getClass().getResource("tileset1.jpg").getFile());
         } catch (Exception e) {
             e.printStackTrace();
         }
         this.imgTilep = new Image(fichierTileSet);
-        for (int i = 0; i < terrain.getTileMap().length; i++) {
-            for (int j = 0; j < terrain.getTileMap()[i].length; j++) {
-                imgV = new ImageView(this.imgTilep);
-                ajouterTile(imgV, this.terrain.getTileMap()[j][i]);
-
+        for (int i = 0; i < 90; i++) {
+            for (int j = 0; j < 90; j++) {
+                int id = this.terrain.getTileMap().getMapDeJeu()[j][i];
+                ImageView imgV = new ImageView(this.imgTilep);
+                ajouterTile(imgV, id);
             }
         }
     }

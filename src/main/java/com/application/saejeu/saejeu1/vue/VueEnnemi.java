@@ -10,6 +10,7 @@ import com.application.saejeu.saejeu1.modele.Acteur;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class VueEnnemi {
 
@@ -22,57 +23,38 @@ public class VueEnnemi {
         this.acteur = acteur;
         this.imageViews = new ArrayList<>();
 
-  imageZombie();
+        imageZombie();
     }
 
-    public void removeImageView(ImageView imageView) {
-        panneauJeu.getChildren().remove(imageView);
-        imageViews.remove(imageView);
+    public void imageZombie() {
+            URL urlImageEnn = Main.class.getResource(acteur.getNomImage());
+            Image imageEnn = new Image(String.valueOf(urlImageEnn));
+            ImageView imageView = new ImageView(imageEnn);
+            imageView.translateXProperty().bind(acteur.xProperty());
+            imageView.translateYProperty().bind(acteur.yProperty());
+            this.panneauJeu.getChildren().add(imageView);
+            this.imageViews.add(imageView);
     }
 
-    public void imageZombie(){
-        if (acteur instanceof ZombieRapide){
-            URL urlImageEnn = Main.class.getResource("zombieRapide.png");
-            Image imageEnn = new Image(String.valueOf(urlImageEnn));
-            ImageView iv2 = new ImageView(imageEnn);
-            iv2.translateXProperty().bind(acteur.xProperty());
-            iv2.translateYProperty().bind(acteur.yProperty());
-            this.panneauJeu.getChildren().add(iv2);
-            this.imageViews.add(iv2);
-        }
-        else if (acteur instanceof ZombieLent){
-            URL urlImageEnn = Main.class.getResource("zombieLent.png");
-            Image imageEnn = new Image(String.valueOf(urlImageEnn));
-            ImageView iv2 = new ImageView(imageEnn);
-            iv2.translateXProperty().bind(acteur.xProperty());
-            iv2.translateYProperty().bind(acteur.yProperty());
-            this.panneauJeu.getChildren().add(iv2);
-            this.imageViews.add(iv2);
-        }
-        else {
-            URL urlImageEnn = Main.class.getResource("zombieGeant.png");
-            Image imageEnn = new Image(String.valueOf(urlImageEnn));
-            ImageView iv2 = new ImageView(imageEnn);
-            iv2.translateXProperty().bind(acteur.xProperty());
-            iv2.translateYProperty().bind(acteur.yProperty());
-            this.panneauJeu.getChildren().add(iv2);
-            this.imageViews.add(iv2);
-        }
-    }
-
-    public void supprimerZombieMort(Acteur zombie){
-        for (ImageView imageView : getImageViews()) {
-            if (imageView.translateXProperty().isBound() && imageView.translateXProperty().get() == zombie.getX() &&
-                    imageView.translateYProperty().isBound() && imageView.translateYProperty().get() == zombie.getY()) {
-                removeImageView(imageView);
-                System.out.println(" Un zombie est mort ! ");
+    public void retirerImageEnnemi(Acteur ennemi) {
+        ImageView imageViewToRemove = null;
+        for (ImageView imageView : imageViews) {
+            if (imageView.getTranslateX() == ennemi.getX() && imageView.getTranslateY() == ennemi.getY()) {
+                imageViewToRemove = imageView;
                 break;
             }
         }
+
+        if (imageViewToRemove != null) {
+            panneauJeu.getChildren().remove(imageViewToRemove);
+            imageViews.remove(imageViewToRemove);
+        }
     }
 
-    public ArrayList<ImageView> getImageViews() {
-        return imageViews;
+    public Acteur getActeur() {
+        return acteur;
     }
+
+
+
 }
-

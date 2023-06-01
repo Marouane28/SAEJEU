@@ -7,22 +7,28 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Tourelle {
     private IntegerProperty x, y;
+
     private int portee;
     private int pv;
     private int degat;
     protected Environnement environnement;
     protected Acteur cible; // Référence à l'ennemi actuellement ciblé
 
-    public Tourelle(int x, int y, int portee, int pv, int degat, Environnement env) {
+    private String nomImage;
+
+
+
+    public Tourelle(int x, int y, int portee, int pv, int degat, Environnement env,String nomImage) {
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.portee = portee;
         this.pv = pv;
         this.degat = degat;
         this.environnement = env;
+        this.nomImage=nomImage;
     }
-    public Tourelle(){
-
+    public String getNomImage() {
+        return nomImage;
     }
 
     public IntegerProperty xProperty() {
@@ -53,6 +59,9 @@ public abstract class Tourelle {
         this.portee = portee;
     }
 
+    public int getPortee() {
+        return portee;
+    }
     public int getPv() {
         return pv;
     }
@@ -78,7 +87,7 @@ public abstract class Tourelle {
     public abstract void attaquer();
 
     // Méthode pour vérifier si l'ennemi est à portée de la tourelle
-    protected boolean estEnPortee(Acteur ennemi) {
+    public boolean estEnPortee(Acteur ennemi) {
         double distance = Math.sqrt(Math.pow(ennemi.getX() - getX(), 2) + Math.pow(ennemi.getY() - getY(), 2));
         return distance <= portee;
     }

@@ -12,11 +12,50 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.control.Button?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0"
             xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.saejeu.saejeu1.controleur.Controleur">
 
     <Pane fx:id="panneauDeJeu" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <TilePane fx:id="tilePane" style="-fx-background-color: #9b340f" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumns="90"></TilePane>
+        <TilePane fx:id="tilePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumns="90"/>
+        <Button fx:id="buttonM" onAction="#addMitrailleuse" layoutX="1213.0" layoutY="00.0">
+            <graphic>
+                <ImageView fitHeight="50.0" fitWidth="50.0">
+                    <image>
+                        <Image url="@mitrailleuse.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="buttonR" onAction="#addRepousse" layoutX="1145.0" layoutY="00.0">
+            <graphic>
+                <ImageView fitHeight="50.0" fitWidth="50.0">
+                    <image>
+                        <Image url="@tourelleRepousse.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="buttonG" onAction="#addGel" layoutX="1077.0" layoutY="00.0">
+            <graphic>
+                <ImageView fitHeight="50.0" fitWidth="50.0">
+                    <image>
+                        <Image url="@tourelle-gele.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
     </Pane>
+    <right>
+        <VBox prefWidth="160.0" style="-fx-background-color:#ECE3E2;">
+
+            <HBox>
+                <TextField fx:id="textFieldX" text="0.00"></TextField>
+                <TextField fx:id="textFieldY" text="0.00"></TextField>
+            </HBox>
+
+        </VBox>
+    </right>
 
 </BorderPane>

@@ -3,8 +3,11 @@ import javafx.animation.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -29,106 +32,138 @@ public class Controleur implements Initializable {
     private TilePane tilePane; // le terrain
     @FXML
     private Pane panneauDeJeu;
-    private ObservableList<Acteur> zombies; // définit un ennemi
-    private ObservableList<Tourelle> tours; // définit une tour
 
     // permet de definir l'animation
     private Timeline gameLoop;
     private int temps;
-    private TourelleMitrailleuse tourelleMitrailleuse;
-    private TourelleGèle tourelleGèle;
-    private TourelleRepousse tourelleRepousse;
-
-    private VueTourelle vueTourelle; // com.application.saejeu.saejeu1.vue tourelle
-    private VueTerrain vueTerrain; // com.application.saejeu.saejeu1.vue terrain
-    private VueEnnemi vueEnnemi; // com.application.saejeu.saejeu1.vue ennemi
     private Environnement environnement;
-
     ListChangeListener<Acteur> listenerActeur;
     ListChangeListener<Tourelle> listenerTourelle;
+    @FXML
+    private TextField textFieldX,textFieldY;
+    private TileMap tileMap;
+    private VueTerrain vueTerrain;
 
+    private VueTourelle vueTourelle;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        zombies = FXCollections.observableArrayList();
-        tours = FXCollections.observableArrayList();
-        try {
-            environnement = new Environnement(90, 90);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            environnement.readMap();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        gameLaunche();
         reglerTaille();
-
-        Acteur z = environnement.créerZombie();
-        vueEnnemi = new VueEnnemi(panneauDeJeu, z);
-
-//        Tourelle t = créerTourelle(2);
-//        vueTourelle = new VueTourelle(panneauDeJeu,t);
-
-        Tourelle t = new TourelleMitrailleuse(20*16,15*16,environnement);
-        environnement.ajouterTourelle(t);
-        tours.add(t);
-
-        vueTourelle = new VueTourelle(panneauDeJeu, t);
 
         listenerActeur = new ListObsActeur(panneauDeJeu);
         listenerTourelle = new ListObsTourelle(panneauDeJeu);
         environnement.getActeurs().addListener(listenerActeur);
         environnement.getTourelles().addListener(listenerTourelle);
-        coordoneeGetCoordSouris();
 
-        gameLaunche();
-
+        coordonnéeGetCoordSouris();
         initAnimation();
         // Démarrer l'animation
         gameLoop.play();
     }
 
-    public void coordoneeGetCoordSouris() {
+    public void coordonnéeGetCoordSouris() {
         tilePane.setOnMousePressed(mouseEvent -> {
-            System.out.println("x " + mouseEvent.getX() + " Y " + mouseEvent.getY() + " id " + environnement.getTileMap()[(int) mouseEvent.getX() / 16][(int) mouseEvent.getY() / 16]);
+            //System.out.println("x " + mouseEvent.getX() + " Y " + mouseEvent.getY() + " id " + environnement.getTileMap()[(int) mouseEvent.getX() / 16][(int) mouseEvent.getY() / 16]);
+            this.textFieldX.setText(String.valueOf(mouseEvent.getX()));
+            this.textFieldY.setText(String.valueOf(mouseEvent.getY()));
         });
     }
+    public void addGel(ActionEvent action) {
 
-//        public Tourelle créerTourelle(int nbTourelle){
-//        Tourelle tourelle = null;
-//        for (int i = 0 ; i <= nbTourelle ; i++){
-//            Random rand = new Random();
-//            int nb = rand.nextInt(3 - 1 + 1) + 1;
-//            int x = rand.nextInt(environnement.getX() + 1) + 1;
-//            int y = rand.nextInt(environnement.getY() + 1) + 1;
-//
-//            if (nb == 1){
-//                Tourelle t1 = new TourelleMitrailleuse(x*16,y*16,environnement);
-//                environnement.ajouterTourelle(t1);
-//                tours.add(t1);
-//            }
-//            else if (nb == 2){
-//                Tourelle t1 = new TourelleRepousse(x*16,y*16,environnement);
-//                environnement.ajouterTourelle(t1);
-//                tours.add(t1);
-//            }
-//            else {
-//                Tourelle t1 = new TourelleGèle(x*16,y*16,environnement);
-//                environnement.ajouterTourelle(t1);
-//                tours.add(t1);
-//            }
-//        }
-//        return tourelle;
-//    }
+        double x = Double.parseDouble(this.textFieldX.getText());
+        double y = Double.parseDouble(this.textFieldY.getText());
 
+        double posXModulo16 = x - (x % this.tileMap.getTileSize());
+        double posYModulo16 = y - (y % this.tileMap.getTileSize());
+
+        int caseX = (int) (posXModulo16) / this.tileMap.getTileSize();
+        int caseY = (int) (posYModulo16) / this.tileMap.getTileSize();
+
+        boolean tourelleIci = false;
+        for (int i = 0; i < this.environnement.getTourelles().size(); i++) {
+
+            if (this.environnement.getTourelles().get(i).getX() == (posXModulo16) && this.environnement.getTourelles().get(i).getY() == (posYModulo16)) {
+
+                tourelleIci = true;
+            }
+        }
+        Tourelle t;
+        if (!tourelleIci) {
+
+            if (!this.tileMap.isNotObstacle(caseX, caseY)) {
+
+                t = new TourelleGèle((int) posXModulo16, (int) posYModulo16, this.environnement);
+                this.environnement.ajouterTourelle(t);
+                this.vueTourelle = new VueTourelle(this.panneauDeJeu, t);
+                System.out.println(this.environnement.getTourelles().toString());
+            }
+        }
+    }
+    public void addRepousse(ActionEvent action) {
+
+        double x = Double.parseDouble(this.textFieldX.getText());
+        double y = Double.parseDouble(this.textFieldY.getText());
+
+        double posXModulo16 = x - (x % this.tileMap.getTileSize());
+        double posYModulo16 = y - (y % this.tileMap.getTileSize());
+
+        int caseX = (int) (posXModulo16) / this.tileMap.getTileSize();
+        int caseY = (int) (posYModulo16) / this.tileMap.getTileSize();
+
+        boolean tourelleIci = false;
+        for (int i = 0; i < this.environnement.getTourelles().size(); i++) {
+
+            if (this.environnement.getTourelles().get(i).getX() == (posXModulo16) && this.environnement.getTourelles().get(i).getY() == (posYModulo16)) {
+
+                tourelleIci = true;
+            }
+        }
+        Tourelle t;
+        if (!tourelleIci) {
+
+            if (!this.tileMap.isNotObstacle(caseX, caseY)) {
+
+                t = new TourelleRepousse((int) posXModulo16, (int) posYModulo16, this.environnement);
+                this.environnement.ajouterTourelle(t);
+                this.vueTourelle = new VueTourelle(this.panneauDeJeu, t);
+                System.out.println(this.environnement.getTourelles().toString());
+            }
+        }
+    }
+    public void addMitrailleuse(ActionEvent action) {
+
+        double x = Double.parseDouble(this.textFieldX.getText());
+        double y = Double.parseDouble(this.textFieldY.getText());
+
+        double posXModulo16 = x - (x % this.tileMap.getTileSize());
+        double posYModulo16 = y - (y % this.tileMap.getTileSize());
+
+        int caseX = (int) (posXModulo16) / this.tileMap.getTileSize();
+        int caseY = (int) (posYModulo16) / this.tileMap.getTileSize();
+
+        boolean tourelleIci = false;
+        for (int i = 0; i < this.environnement.getTourelles().size(); i++) {
+
+            if (this.environnement.getTourelles().get(i).getX() == (posXModulo16) && this.environnement.getTourelles().get(i).getY() == (posYModulo16)) {
+
+                tourelleIci = true;
+            }
+        }
+        Tourelle t;
+        if (!tourelleIci) {
+
+            if (!this.tileMap.isNotObstacle(caseX, caseY)) {
+
+                t = new TourelleMitrailleuse((int) posXModulo16, (int) posYModulo16, this.environnement);
+                this.environnement.ajouterTourelle(t);
+                this.vueTourelle = new VueTourelle(this.panneauDeJeu, t);
+                System.out.println(this.environnement.getTourelles().toString());
+            }
+        }
+    }
 
     public void reglerTaille(){
-        this.tilePane.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
-        this.tilePane.setMaxSize(environnement.getX() * 16, environnement.getY() * 16);
-        this.tilePane.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
         this.panneauDeJeu.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
         this.panneauDeJeu.setMaxSize(environnement.getX() * 16, environnement.getY() * 16);
         this.panneauDeJeu.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
@@ -136,13 +171,13 @@ public class Controleur implements Initializable {
 
     public void gameLaunche() {
         try {
-            this.vueTerrain = new VueTerrain(environnement, tilePane);
-        } catch (FileNotFoundException e) {
+            this.tileMap = new TileMap(",","vraietilemap");
+            this.environnement=new Environnement(this.tileMap);
+            this.vueTerrain = new VueTerrain(this.environnement, this.tilePane,"tileset1.jpg");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 
     private void initAnimation() {
         gameLoop = new Timeline();
@@ -153,26 +188,32 @@ public class Controleur implements Initializable {
                 Duration.seconds(0.17),
                 (ev -> {
                     if (temps % 10 == 0){
-                        System.out.println("changement dans controleur");
-                        Acteur zombie = environnement.créerZombie();
-                        zombies.add(zombie);
-                        environnement.ajouterActeur(zombie);
+                        System.out.println("Ajout zombie");
+                        environnement.créerZombie();
+
                     }
                     else if (temps % 2 == 0) {
                         System.out.println("un tour");
-
-                        for (Acteur zombie : zombies) {
-                            zombie.deplacement();
-                            for (Tourelle tour : tours){
+                        ArrayList<Acteur> acteursCopy = new ArrayList<>(environnement.getActeurs());
+                        for (Acteur zombie : acteursCopy) {
+                            // Vérifier si l'ennemi est gelé
+                            if (zombie.getCyclesRestants() == 0) {
+                                zombie.deplacement();
+                            } else {
+                                zombie.decrementerCyclesRestants();
+                            }
+                            for (Tourelle tour : this.environnement.getTourelles()){
                                 tour.setCible(zombie);
                                 tour.attaquer();
+                                System.out.println(zombie.estVivant());
                             }
-                           if (!zombie.estVivant()){
-                               vueEnnemi.supprimerZombieMort(zombie);
-                           }
+
+                            if (!zombie.estVivant()) {
+                               environnement.getActeurs().remove(zombie);
+                            }
 
                             //System.out.println(sommet);
-                            if (zombie.getY() == 34 && zombie.getX() == 89) {
+                            if (zombie.getY() == 34*16 && zombie.getX() == 89*16) {
                                 System.out.println("Vous avez perdu !");
                                 gameLoop.stop();
                             }

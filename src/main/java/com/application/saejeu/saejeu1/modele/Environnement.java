@@ -9,68 +9,42 @@ import java.util.*;
 
 public class Environnement {
     private int x,y;
-    private int[][] tileMap;
+    private TileMap tileMap;
     private ObservableList<Acteur> acteurs;
     private Map<Sommet, Set<Sommet>> listeAdj;
     private ObservableList<Sommet> obstacles;
     private ObservableList<Tourelle> tourelles;
     private final int OBSTACLE_TILE = 400;
+
     private BFS bfs;
     ArrayList<Sommet> chemin;
 
-    public Environnement(int x , int y) throws IOException {
-        this.x = x;
-        this.y = y;
-        this.tileMap = new int[x][y];
+    public Environnement(TileMap tileMap) throws IOException {
+        this.tileMap = tileMap;
+        this.x = this.tileMap.getX() * this.tileMap.getTileSize();
+        this.y = this.tileMap.getY() * this.tileMap.getTileSize();
         this.acteurs = FXCollections.observableArrayList();
         this.tourelles=FXCollections.observableArrayList();
         this.listeAdj = new HashMap();
         this.obstacles = FXCollections.observableArrayList();
 
-        readMap();
         construit();
         bfs= new BFS(this,getSommet(0,20));
         chemin=bfs.cheminVersSource(getSommet(89,34));
 
     }
 
-    public void readMap() throws IOException {
-        File file = new File(getClass().getResource("vraietilemap").getFile());
-        BufferedReader terrain = new BufferedReader(new FileReader(file));
-        String ligne;
-        String[] tout_ligne;
-
-        try {
-            int x = 0;
-            while ((ligne = terrain.readLine()) != null) {
-                tout_ligne = ligne.split(",");
-                for (int y = 0; y < tout_ligne.length; y++) {
-                    if (!tout_ligne[y].trim().isEmpty()) {
-                        this.tileMap[y][x] = Integer.parseInt(tout_ligne[y].trim());
-                    }
-                }
-                x++;
-            }
-        } catch (NumberFormatException | IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            terrain.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public BFS getBfs() {
+        return bfs;
     }
 
     public void construit() {
         int i;
         int j;
-        for(i = 0; i < this.x; ++i) {
-            for(j = 0; j < this.y; ++j) {
+        for(i = 0; i < this.getTileMap().getMapDeJeu().length; ++i) {
+            for(j = 0; j < this.getTileMap().getMapDeJeu()[i].length; ++j) {
 
-                if (tileMap[i][j] == 400) {
+                if (this.tileMap.getMapDeJeu()[i][j] == 400) {
                     Sommet s = new Sommet(i, j,400);
                     //System.out.println("dans case 400 ");
                     this.listeAdj.put(s,new HashSet());
@@ -84,8 +58,8 @@ public class Environnement {
         for (Sommet key : this.listeAdj.keySet()) {
             //System.out.println(" key dans coustruit " + key);
         }
-        for(i = 0; i < this.x; ++i) {
-            for(j = 0; j < this.y; ++j) {
+        for(i = 0; i < this.getTileMap().getMapDeJeu().length; ++i) {
+            for(j = 0; j < this.getTileMap().getMapDeJeu()[i].length; ++j) {
                 Sommet s = this.getSommet(i, j);
                 if (this.dansGrille(i - 1, j)) {
                     ((Set)this.listeAdj.get(s)).add(this.getSommet(i - 1, j));
@@ -126,16 +100,15 @@ public class Environnement {
 
     public Set<Sommet> adjacents(Sommet s) {
         if (this.estDeconnecte(s)) {
-            return new HashSet<>();
+            return Collections.emptySet();
         } else {
-            Set<Sommet> adjacents = new HashSet<>(this.listeAdj.get(s));//il prends tous les sommets adjacents de sommet s
-            adjacents.removeIf(adjacent -> adjacent.getPoids() != s.getPoids());//il suprime tous les sommet que les poids ne sont pas égale
-            //System.out.println(" "+adjacents);
+            Set<Sommet> adjacents = listeAdj.getOrDefault(s, new HashSet<>());
+            adjacents.removeIf(adjacent -> adjacent != null && adjacent.getPoids() != s.getPoids());
             return adjacents;
         }
     }
 
-    public int[][] getTileMap() {
+    public TileMap getTileMap() {
         return this.tileMap;
     }
 
@@ -170,10 +143,26 @@ public class Environnement {
     public void ajouterTourelle(Tourelle tourelle){
         this.tourelles.add(tourelle);
     }
+    public Acteur créerZombie() {
+        Random rand = new Random();
+        int nb = rand.nextInt(3 - 1 + 1) + 1;
+        Acteur zombie = null;
+
+        if (nb == 1) {
+            zombie = new ZombieRapide(this);
+        } else if (nb == 2) {
+            zombie = new ZombieLent(this);
+        } else {
+            zombie = new ZombieGeant(this);
+        }
+
+        ajouterActeur(zombie);
+
+        return zombie;
+    }
 
     public boolean isNotObstacle(int x, int y) {
-            if (this.getTileMap()[x][y] == this.OBSTACLE_TILE) {
-
+            if (this.getTileMap().getMapDeJeu()[x][y] == this.OBSTACLE_TILE) {
                 return false;
             }
         return true;
@@ -183,33 +172,7 @@ public class Environnement {
         return chemin;
     }
 
-    public Acteur créerZombie(){
-        Acteur zombie;
-        Random rand = new Random();
-        int nb = rand.nextInt(3 - 1 + 1) + 1;
 
-        if (nb == 1) {
-            Acteur z1 = new ZombieRapide(this);
-            getActeurs().add(z1);
-            ajouterActeur(z1);
-            zombie = z1;
-        }
-
-        else if (nb == 2){
-            Acteur z2 = new ZombieLent(this);
-            getActeurs().add(z2);
-            ajouterActeur(z2);
-            zombie = z2;
-        }
-
-        else {
-            Acteur z2 = new ZombieGeant(this);
-            getActeurs().add(z2);
-            ajouterActeur(z2);
-            zombie = z2;
-        }
-        return zombie;
-    }
 
 
 }

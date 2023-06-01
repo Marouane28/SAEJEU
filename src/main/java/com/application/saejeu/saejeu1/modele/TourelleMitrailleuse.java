@@ -3,12 +3,9 @@ package com.application.saejeu.saejeu1.modele;
 public class TourelleMitrailleuse extends Tourelle {
 
     public TourelleMitrailleuse(int x, int y, Environnement env) {
-        super(x, y, 50*16, 50, 300, env);
+        super(x, y, 5*16, 50, 10, env,"mitrailleuse.png");
     }
 
-    public TourelleMitrailleuse() {
-        // Initialisation sans paramètres
-    }
 
     @Override
     public void attaquer() {

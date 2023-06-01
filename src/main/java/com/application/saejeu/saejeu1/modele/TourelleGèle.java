@@ -1,27 +1,29 @@
 package com.application.saejeu.saejeu1.modele;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TourelleGèle extends Tourelle {
+
+    private static final int CYCLES = 10;
+    private List<Acteur> ennemisGelés;
 
 
     public TourelleGèle(int x, int y, Environnement env) {
-        super(x, y, 5*16, 20, 5, env);
-    }
-
-    public TourelleGèle(){
+        super(x, y, 5*16, 20, 0, env,"tourelle-gele.png");
+        ennemisGelés = new ArrayList<>();
 
     }
+
     @Override
     public void attaquer() {
-        if (cible != null && estEnPortee(cible)) {
-            // Ralentir le zombie en réduisant sa vitesse de déplacement
-            cible.setGele(true);
-            // Effectuer l'attaque sur l'ennemi ciblé
+        if (cible != null && estEnPortee(cible) && !ennemisGelés.contains(cible)) {
+            cible.geler(CYCLES);
             cible.decrementerPv(getDegat());
-            System.out.println("Tourelle Gèle l'ennemi !");
+            ennemisGelés.add(cible);
+            System.out.println("Tourelle gèle attaque l'ennemi !");
         } else {
-            // L'ennemi n'est plus à portée ou aucun ennemi n'est ciblé
-            cible.setGele(false);
-            System.out.println("Aucune cible valide pour la tourelle Gèle !");
+            System.out.println("Aucune cible valide pour la tourelle gèle !");
         }
     }
 
