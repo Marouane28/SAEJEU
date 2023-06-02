@@ -73,16 +73,14 @@ public class VueTourelle {
         ImageView imageViewToRemove = null;
         for (ImageView imageView : imageViews) {
             if (imageView.getTranslateX() == tourelle.getX() && imageView.getTranslateY() == tourelle.getY()) {
-                System.out.println(tourelle.getNomImage());
                 imageViewToRemove = imageView;
                 break;
             }
         }
-
         if (imageViewToRemove != null) {
             panneauJeu.getChildren().remove(imageViewToRemove);
-            imageViews.remove(imageViewToRemove);
             retirerRayonPortee();
+            imageViews.remove(imageViewToRemove);
         }
     }
 

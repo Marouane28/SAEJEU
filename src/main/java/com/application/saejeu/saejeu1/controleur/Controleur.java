@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -95,8 +96,6 @@ public class Controleur implements Initializable {
 
                 t = new TourelleGèle((int) posXModulo16, (int) posYModulo16, this.environnement);
                 this.environnement.ajouterTourelle(t);
-                this.vueTourelle = new VueTourelle(this.panneauDeJeu, t);
-                System.out.println(this.environnement.getTourelles().toString());
             }
         }
     }
@@ -126,8 +125,6 @@ public class Controleur implements Initializable {
 
                 t = new TourelleRepousse((int) posXModulo16, (int) posYModulo16, this.environnement);
                 this.environnement.ajouterTourelle(t);
-                this.vueTourelle = new VueTourelle(this.panneauDeJeu, t);
-                System.out.println(this.environnement.getTourelles().toString());
             }
         }
     }
@@ -157,8 +154,6 @@ public class Controleur implements Initializable {
 
                 t = new TourelleMitrailleuse((int) posXModulo16, (int) posYModulo16, this.environnement);
                 this.environnement.ajouterTourelle(t);
-                this.vueTourelle = new VueTourelle(this.panneauDeJeu, t);
-                System.out.println(this.environnement.getTourelles().toString());
             }
         }
     }
@@ -202,12 +197,17 @@ public class Controleur implements Initializable {
                             } else {
                                 zombie.decrementerCyclesRestants();
                             }
-                            for (Tourelle tour : this.environnement.getTourelles()){
+                            ArrayList<Tourelle> tourCopy = new ArrayList<>(environnement.getTourelles());
+                            for (Tourelle tour : tourCopy) {
                                 tour.setCible(zombie);
                                 tour.attaquer();
-                                System.out.println(zombie.estVivant());
+                                System.out.println("pv :"+tour.getPv());
+                                //vérifie si la tourelle ne marche plus
+                                if (!tour.estEnMarche()) {
+                                    environnement.getTourelles().remove(tour);
+                                }
                             }
-
+                            //verifie si le zombie est mort
                             if (!zombie.estVivant()) {
                                environnement.getActeurs().remove(zombie);
                             }

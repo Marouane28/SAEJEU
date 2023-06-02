@@ -43,17 +43,13 @@ public class ListObsTourelle implements ListChangeListener<Tourelle> {
 
     private void retirerVueTourelle(Tourelle tourelle) {
         VueTourelle vueTourelleToRemove = null;
-
         for (VueTourelle vueTourelle : vuesTourelles) {
             if (vueTourelle.getTourelle() == tourelle) {
-
                 vueTourelleToRemove = vueTourelle;
                 break;
             }
         }
-
         if (vueTourelleToRemove != null) {
-
             vueTourelleToRemove.retirerImageTourelle(tourelle);
             vuesTourelles.remove(vueTourelleToRemove);
         }
