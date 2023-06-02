@@ -55,10 +55,6 @@ public abstract class Tourelle {
         this.yProperty().setValue(n);
     }
 
-    public void setPortee(int portee) {
-        this.portee = portee;
-    }
-
     public int getPortee() {
         return portee;
     }
@@ -66,9 +62,6 @@ public abstract class Tourelle {
         return pv;
     }
 
-    public void setPv(int pv) {
-        this.pv = pv;
-    }
 
     public int getDegat() {
         return degat;
@@ -91,4 +84,12 @@ public abstract class Tourelle {
         double distance = Math.sqrt(Math.pow(ennemi.getX() - getX(), 2) + Math.pow(ennemi.getY() - getY(), 2));
         return distance <= portee;
     }
+
+    public void decrementerPv(int valeur) {
+        pv -= valeur;
+    }
+    public boolean estEnMarche() {
+        return pv > 0;
+    }
+
 }

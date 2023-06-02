@@ -7,7 +7,7 @@ public class TourelleRepousse extends Tourelle {
 
     private List<Acteur> acteursRepousses;
     public TourelleRepousse(int x, int y, Environnement env) {
-        super(x, y, 5*16, 20, 0, env,"tourelleRepousse.png");
+        super(x, y, 5*16, 60, 0, env,"tourelleRepousse.png");
         acteursRepousses = new ArrayList<>();
 
     }
@@ -17,6 +17,7 @@ public class TourelleRepousse extends Tourelle {
         if (cible != null && estEnPortee(cible) && !acteursRepousses.contains(cible)) {
             // Effectuer l'attaque sur l'ennemi ciblé
             cible.decrementerPv(getDegat());
+            decrementerPv(5);
             System.out.println("Tourelle repousse attaque l'ennemi !");
 
             // Repousser l'ennemi
