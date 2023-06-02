@@ -19,7 +19,7 @@
 
     <Pane fx:id="panneauDeJeu" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <TilePane fx:id="tilePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumns="90"/>
-        <Button fx:id="buttonM" onAction="#addMitrailleuse" layoutX="1213.0" layoutY="00.0">
+        <Button fx:id="buttonM" onAction="#ajouterTourelleM" layoutX="1213.0" layoutY="00.0">
             <graphic>
                 <ImageView fitHeight="50.0" fitWidth="50.0">
                     <image>
@@ -28,7 +28,7 @@
                 </ImageView>
             </graphic>
         </Button>
-        <Button fx:id="buttonR" onAction="#addRepousse" layoutX="1145.0" layoutY="00.0">
+        <Button fx:id="buttonR" onAction="#ajouterTourelleR" layoutX="1145.0" layoutY="00.0">
             <graphic>
                 <ImageView fitHeight="50.0" fitWidth="50.0">
                     <image>
@@ -37,7 +37,7 @@
                 </ImageView>
             </graphic>
         </Button>
-        <Button fx:id="buttonG" onAction="#addGel" layoutX="1077.0" layoutY="00.0">
+        <Button fx:id="buttonG" onAction="#ajouterTourelleG" layoutX="1077.0" layoutY="00.0">
             <graphic>
                 <ImageView fitHeight="50.0" fitWidth="50.0">
                     <image>
@@ -47,15 +47,4 @@
             </graphic>
         </Button>
     </Pane>
-    <right>
-        <VBox prefWidth="160.0" style="-fx-background-color:#ECE3E2;">
-
-            <HBox>
-                <TextField fx:id="textFieldX" text="0.00"></TextField>
-                <TextField fx:id="textFieldY" text="0.00"></TextField>
-            </HBox>
-
-        </VBox>
-    </right>
-
 </BorderPane>

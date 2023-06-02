@@ -6,8 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="SAEJEU" />
         <module name="saeJeu1" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SAEJEU" target="18" />
+    </bytecodeTargetLevel>
   </component>
 </project>
