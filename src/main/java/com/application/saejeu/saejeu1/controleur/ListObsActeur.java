@@ -27,7 +27,6 @@ public class ListObsActeur implements ListChangeListener<Acteur> {
             }
             if (change.wasRemoved()) {
                 for (Acteur acteur : change.getRemoved()) {
-                    System.out.println("list obs doit etre retireeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
                     retirerVueEnnemi(acteur);
                 }
             }
