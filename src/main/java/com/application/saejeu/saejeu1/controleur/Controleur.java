@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -33,14 +34,21 @@ public class Controleur implements Initializable {
     private TilePane tilePane; // le terrain
     @FXML
     private Pane panneauDeJeu;
-
+    @FXML
+    private Label labelVies;
+    @FXML
+    private Label labelManche;
+    @FXML
+    private Label labelZombie;
     // permet de definir l'animation
     private Timeline gameLoop;
     private int temps;
     private Environnement environnement;
+    private Manche manche;
     private ListChangeListener<Acteur> listenerActeur;
     private ListChangeListener<Tourelle> listenerTourelle;
     private TileMap tileMap;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,9 +60,26 @@ public class Controleur implements Initializable {
         environnement.getActeurs().addListener(listenerActeur);
         environnement.getTourelles().addListener(listenerTourelle);
 
+        manche = new Manche(); // Création de l'instance de la classe Manche
+        mettreAJourAffichageVies(environnement.getVies());
+        mettreAJourAffichageManche(manche.getNumeroManche());
+        mettreAJourAffichageZombies(environnement.getActeurs().size());
+
         initAnimation();
         // Démarrer l'animation
         gameLoop.play();
+    }
+
+    private void mettreAJourAffichageZombies(int zombies) {
+        labelZombie.setText(Integer.toString(zombies));
+    }
+
+    private void mettreAJourAffichageVies(int vies) {
+        labelVies.setText(Integer.toString(vies));
+    }
+
+    private void mettreAJourAffichageManche(int numeroManche) {
+        labelManche.setText(Integer.toString(numeroManche));
     }
 
     @FXML
@@ -94,6 +119,7 @@ public class Controleur implements Initializable {
             panneauDeJeu.setOnMouseClicked(null);
         });
     }
+
     @FXML
     private void ajouterTourelleR() {
         // Ici, vous pouvez implémenter la logique pour ajouter une tourelle
@@ -131,6 +157,7 @@ public class Controleur implements Initializable {
             panneauDeJeu.setOnMouseClicked(null);
         });
     }
+
     @FXML
     private void ajouterTourelleM() {
         // Ici, vous pouvez implémenter la logique pour ajouter une tourelle
@@ -170,7 +197,7 @@ public class Controleur implements Initializable {
         });
     }
 
-    public void réglerTaille(){
+    public void réglerTaille() {
         this.panneauDeJeu.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
         this.panneauDeJeu.setMaxSize(environnement.getX() * 16, environnement.getY() * 16);
         this.panneauDeJeu.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
@@ -178,11 +205,95 @@ public class Controleur implements Initializable {
 
     public void gameLaunch() {
         try {
-            this.tileMap = new TileMap(",","vraietilemap");
-            this.environnement=new Environnement(this.tileMap);
-            VueTerrain vueTerrain = new VueTerrain(this.environnement, this.tilePane,"tileset1.jpg");
+            this.tileMap = new TileMap(",", "vraietilemap");
+            this.environnement = new Environnement(this.tileMap);
+            VueTerrain vueTerrain = new VueTerrain(this.environnement, this.tilePane, "tileset1.jpg");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // l'ajout d'un zombie
+    private void ajouterZombie() {
+        System.out.println("Ajout zombie");
+        environnement.créerZombie();
+        manche.setCompteurZombie();
+    }
+
+    //le centre de controle pour les tours
+    private void effectuerTour() {
+        mettreAJourAffichageZombies(environnement.getActeurs().size());
+        System.out.println("un tour");
+        ArrayList<Acteur> acteursCopy = new ArrayList<>(environnement.getActeurs());
+        for (Acteur zombie : acteursCopy) {
+            if (zombie.getCyclesRestants() == 0) {
+                zombie.deplacement();
+            } else {
+                zombie.decrementerCyclesRestants();
+            }
+
+            effectuerTourTourelles(zombie);
+
+            if (!zombie.estVivant()) {
+                environnement.getActeurs().remove(zombie);
+            }
+
+            if (environnement.getActeurs().isEmpty()) {
+                terminerManche();
+            }
+
+            if (zombie.getY() == 34 * 16 && zombie.getX() == 89 * 16) {
+                gérerCollision(zombie);
+            }
+        }
+    }
+
+    //permet au tourelles d'attaquer l'ennemi et de faire la suppresion de la tourelle quand elle ne marche plus
+    private void effectuerTourTourelles(Acteur zombie) {
+        ArrayList<Tourelle> tourCopy = new ArrayList<>(environnement.getTourelles());
+        for (Tourelle tour : tourCopy) {
+            tour.setCible(zombie);
+            tour.attaquer();
+
+            if (!tour.estEnMarche()) {
+                environnement.getTourelles().remove(tour);
+            }
+        }
+    }
+
+    private void terminerManche() {
+        System.out.println("Tous les zombies ont été éliminés !");
+        if (manche.getNumeroManche() <= 10) {
+            System.out.println("Début de la prochaine manche...");
+            manche.demarrerManche(environnement);
+            mettreAJourAffichageManche(manche.getNumeroManche());
+            manche.setCompteurZombie0();
+        } else {
+            System.out.println("Vous avez terminé toutes les manches !");
+            gameLoop.stop();
+        }
+    }
+
+    //gerer la perte de vie quand le zombie atteint la cible
+    private void gérerCollision(Acteur zombie) {
+        environnement.decrementerVies();
+        environnement.getActeurs().remove(zombie);
+        int viesRestantes = environnement.getVies();
+        mettreAJourAffichageVies(viesRestantes);
+
+        if (manche.getNumeroManche() <= 10) {
+            System.out.println("Début de la prochaine manche...");
+            manche.demarrerManche(environnement);
+            mettreAJourAffichageManche(manche.getNumeroManche());
+            manche.setCompteurZombie0();
+        } else {
+            System.out.println("Vous avez terminé toutes les manches !");
+            gameLoop.stop();
+        }
+
+        if (viesRestantes <= 0) {
+            System.out.println("Vous avez perdu !");
+            gameLoop.stop();
         }
     }
 
@@ -192,44 +303,12 @@ public class Controleur implements Initializable {
         gameLoop.setCycleCount(Timeline.INDEFINITE);
 
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.30),
+                Duration.seconds(0.08),
                 (ev -> {
-                    if (temps % 10 == 0){
-                        System.out.println("Ajout zombie");
-                        environnement.créerZombie();
-
-                    }
-                    else if (temps % 2 == 0) {
-                        System.out.println("un tour");
-                        ArrayList<Acteur> acteursCopy = new ArrayList<>(environnement.getActeurs());
-                        for (Acteur zombie : acteursCopy) {
-                            // Vérifier si l'ennemi est gelé
-                            if (zombie.getCyclesRestants() == 0) {
-                                zombie.deplacement();
-                            } else {
-                                zombie.decrementerCyclesRestants();
-                            }
-                            ArrayList<Tourelle> tourCopy = new ArrayList<>(environnement.getTourelles());
-                            for (Tourelle tour : tourCopy) {
-                                tour.setCible(zombie);
-                                tour.attaquer();
-                                System.out.println("pv :"+tour.getPv());
-                                //vérifie si la tourelle ne marche plus
-                                if (!tour.estEnMarche()) {
-                                    environnement.getTourelles().remove(tour);
-                                }
-                            }
-                            //verifie si le zombie est mort
-                            if (!zombie.estVivant()) {
-                               environnement.getActeurs().remove(zombie);
-                            }
-
-                            //System.out.println(sommet);
-                            if (zombie.getY() == 34*16 && zombie.getX() == 89*16) {
-                                System.out.println("Vous avez perdu !");
-                                gameLoop.stop();
-                            }
-                        }
+                    if (temps % 10 == 0 && manche.getNombreZombies() != manche.getCompteurZombie()) {
+                        ajouterZombie();
+                    } else if (temps % 2 == 0) {
+                        effectuerTour();
                     }
 
                     temps++;
@@ -237,5 +316,4 @@ public class Controleur implements Initializable {
         );
         gameLoop.getKeyFrames().add(kf);
     }
-
 }

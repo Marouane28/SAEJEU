@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import com.application.saejeu.saejeu1.modele.Acteur;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,12 +20,18 @@ public class VueEnnemi {
     private Pane panneauJeu;
     private Acteur acteur;
 
+    private Rectangle barreVie;
+    private final double barreVieWidth = 20; // Largeur de la barre de vie
+
+    private final double barreVieHeight = 5; // Hauteur de la barre de vie
+
     public VueEnnemi(Pane panneauJeu, Acteur acteur) {
         this.panneauJeu = panneauJeu;
         this.acteur = acteur;
         this.imageViews = new ArrayList<>();
-
         imageZombie();
+        initialiserBarreVie(); // Ajouter l'initialisation de la barre de vie
+
     }
 
     public void imageZombie() {
@@ -48,11 +56,40 @@ public class VueEnnemi {
         if (imageViewToRemove != null) {
             panneauJeu.getChildren().remove(imageViewToRemove);
             imageViews.remove(imageViewToRemove);
+            retirerBarreVie();
         }
     }
 
     public Acteur getActeur() {
         return acteur;
+    }
+
+    public void actualiserBarreEtat() {
+        double pourcentageVie = (double) acteur.getPv() / 60; // Calculer le pourcentage de vie restante
+
+        if (pourcentageVie > 0.5) {
+            barreVie.setFill(Color.GREEN); // Plus de 50% de vie, couleur verte
+        } else if (pourcentageVie > 0.2) {
+            barreVie.setFill(Color.ORANGE); // Entre 20% et 50% de vie, couleur orange
+        } else {
+            barreVie.setFill(Color.RED); // Moins de 20% de vie, couleur rouge
+        }
+
+        double nouvelleLongueur = barreVieWidth * pourcentageVie;
+        barreVie.setWidth(nouvelleLongueur);
+    }
+    private void initialiserBarreVie() {
+        barreVie = new Rectangle(barreVieWidth, barreVieHeight);
+        barreVie.setFill(Color.GREEN); // Couleur initiale de la barre de vie
+        barreVie.setStroke(Color.BLACK);
+        barreVie.setStrokeWidth(1.0);
+        barreVie.translateXProperty().bind(acteur.xProperty().subtract(5)); // Décalage de 5 pixels vers la gauche
+        barreVie.translateYProperty().bind(acteur.yProperty().subtract(10)); // Ajuster la position verticale de la barre de vie
+        panneauJeu.getChildren().add(barreVie);
+    }
+
+    public void retirerBarreVie() {
+        panneauJeu.getChildren().remove(barreVie);
     }
 
 

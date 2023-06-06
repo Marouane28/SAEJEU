@@ -1,5 +1,6 @@
 package com.application.saejeu.saejeu1.modele;
 
+import com.application.saejeu.saejeu1.vue.VueTourelle;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -13,8 +14,8 @@ public abstract class Tourelle {
     private int degat;
     protected Environnement environnement;
     protected Acteur cible; // Référence à l'ennemi actuellement ciblé
-
     private String nomImage;
+    private VueTourelle vueTourelle;
 
 
 
@@ -84,9 +85,13 @@ public abstract class Tourelle {
         double distance = Math.sqrt(Math.pow(ennemi.getX() - getX(), 2) + Math.pow(ennemi.getY() - getY(), 2));
         return distance <= portee;
     }
+    public void setVueTourelle(VueTourelle vueTourelle) {
+        this.vueTourelle = vueTourelle;
+    }
 
     public void decrementerPv(int valeur) {
         pv -= valeur;
+        vueTourelle.actualiserBarreEtat();
     }
     public boolean estEnMarche() {
         return pv > 0;

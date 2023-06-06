@@ -39,6 +39,8 @@ public class ListObsTourelle implements ListChangeListener<Tourelle> {
     private void ajouterVueTourelle(Tourelle tourelle) {
         VueTourelle vueTourelle = new VueTourelle(panneauJeu, tourelle);
         vuesTourelles.add(vueTourelle);
+        tourelle.setVueTourelle(vueTourelle);
+
     }
 
     private void retirerVueTourelle(Tourelle tourelle) {

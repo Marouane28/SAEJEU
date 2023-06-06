@@ -46,5 +46,19 @@
                 </ImageView>
             </graphic>
         </Button>
+
+
+        <HBox alignment="CENTER" style="-fx-padding: 10px; -fx-background-color: #222222;">
+            <Label text="Vies: " style="-fx-font-size: 16px; -fx-text-fill: white;" />
+            <Label fx:id="labelVies" style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Label text="   Manche: " style="-fx-font-size: 16px; -fx-text-fill: white;" />
+            <Label fx:id="labelManche" style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Label text="   Zombie: " style="-fx-font-size: 16px; -fx-text-fill: white;" />
+            <Label fx:id="labelZombie" style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+
+
+
     </Pane>
+
 </BorderPane>

@@ -2,6 +2,8 @@ package com.application.saejeu.saejeu1.modele;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.*;
 import java.util.*;
@@ -19,6 +21,9 @@ public class Environnement {
     private BFS bfs;
     ArrayList<Sommet> chemin;
 
+    private int vies;
+
+
     public Environnement(TileMap tileMap) throws IOException {
         this.tileMap = tileMap;
         this.x = this.tileMap.getX() * this.tileMap.getTileSize();
@@ -31,6 +36,8 @@ public class Environnement {
         construit();
         bfs= new BFS(this,getSommet(0,20));
         chemin=bfs.cheminVersSource(getSommet(89,34));
+        vies = 3; // Initialisez avec 3 vies
+
 
     }
 
@@ -132,6 +139,12 @@ public class Environnement {
         return acteurs;
     }
 
+    public int getVies() {
+        return vies;
+    }
+    public void decrementerVies() {
+        vies--;
+    }
     public void ajouterActeur(Acteur a) {
         this.acteurs.add(a);
     }
@@ -171,6 +184,10 @@ public class Environnement {
     public ArrayList<Sommet> getChemin() {
         return chemin;
     }
+
+
+
+
 
 
 

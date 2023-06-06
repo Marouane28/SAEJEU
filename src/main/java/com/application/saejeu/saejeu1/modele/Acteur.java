@@ -1,5 +1,7 @@
 package com.application.saejeu.saejeu1.modele;
 
+import com.application.saejeu.saejeu1.vue.VueEnnemi;
+import com.application.saejeu.saejeu1.vue.VueTourelle;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -12,7 +14,7 @@ public abstract class Acteur {
     private int index;
     private int cyclesRestants;
     private String nomImage;
-
+    private VueEnnemi vueEnnemi;
 
     public Acteur(int x, int y,Environnement env, int pv,String nomImage) {
         this.pv = pv;
@@ -62,8 +64,16 @@ public abstract class Acteur {
         this.pv = 0;
     }
 
-    public void decrementerPv(int n) {
-        this.pv -= n;
+    public void setVueEnnemi(VueEnnemi vueEnnemi) {
+        this.vueEnnemi = vueEnnemi;
+    }
+
+    public void decrementerPv(int valeur) {
+        pv -= valeur;
+        vueEnnemi.actualiserBarreEtat();
+    }
+    public int getPv() {
+        return pv;
     }
 
     @Override

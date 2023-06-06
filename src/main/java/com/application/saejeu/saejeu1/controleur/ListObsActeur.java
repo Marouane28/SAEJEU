@@ -36,6 +36,7 @@ public class ListObsActeur implements ListChangeListener<Acteur> {
     private void ajouterVueEnnemi(Acteur acteur) {
         VueEnnemi vueEnnemi = new VueEnnemi(panneauJeu, acteur);
         vuesEnnemis.add(vueEnnemi);
+        acteur.setVueEnnemi(vueEnnemi);
     }
 
     private void retirerVueEnnemi(Acteur acteur) {
