@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -41,6 +42,8 @@ public class Controleur implements Initializable {
     private ListChangeListener<Acteur> listenerActeur;
     private ListChangeListener<Tourelle> listenerTourelle;
     private TileMap tileMap;
+    @FXML
+    private Label labelPieces, labelM, labelG, labelR;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -59,9 +62,10 @@ public class Controleur implements Initializable {
 
     @FXML
     private void ajouterTourelleG() {
+
         // Ici, vous pouvez implémenter la logique pour ajouter une tourelle
         // lorsque le bouton est cliqué
-        // Par exemple, vous pouvez activer l'écouteur de clic sur la zone de jeu
+        // Par exemple, vous pouvez activer l'écouteur de clic sur la zone de jeu.
         panneauDeJeu.setOnMouseClicked(mouseEvent -> {
             // Obtenir les coordonnées de la souris
             int mouseX = (int) mouseEvent.getX() - ((int) mouseEvent.getX() % this.tileMap.getTileSize());
@@ -79,19 +83,14 @@ public class Controleur implements Initializable {
                 }
             }
             // Si condition remplie
-            if (!tourelleIci) {
-
-                if (!this.tileMap.isNotObstacle(caseX, caseY)) {
-
-                    // Créer une nouvelle tourelle à la position de la souris si condition remplie
-                    Tourelle nouvelleTourelle = new TourelleGèle(mouseX, mouseY, this.environnement);
-                    // Ajouter la tourelle à votre environnement ou à une liste de tourelles
-                    environnement.ajouterTourelle(nouvelleTourelle);
-                }
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= this.changerStringLabelEnInt(String.valueOf(this.labelG))) {
+                // Créer une nouvelle tourelle à la position de la souris si condition remplie
+                Tourelle nouvelleTourelle = new TourelleGèle(mouseX, mouseY, this.environnement);
+                // Ajouter la tourelle à votre environnement ou à une liste de tourelles
+                this.environnement.ajouterTourelle(nouvelleTourelle);
+                this.environnement.gagnerUnCertainNombreDePièce(-nouvelleTourelle.getCoût());
             }
-            // Désactiver l'écouteur de clic sur la zone de jeu pour éviter
-            // d'ajouter plusieurs tourelles en un seul clic
-            panneauDeJeu.setOnMouseClicked(null);
+            this.panneauDeJeu.setOnMouseClicked(null);
         });
     }
     @FXML
@@ -116,19 +115,14 @@ public class Controleur implements Initializable {
                 }
             }
             // Si condition remplie
-            if (!tourelleIci) {
-
-                if (!this.tileMap.isNotObstacle(caseX, caseY)) {
-                    // Créer une nouvelle tourelle à la position de la souris si condition remplie
-                    Tourelle nouvelleTourelle = new TourelleRepousse(mouseX, mouseY, this.environnement);
-                    // Ajouter la tourelle à votre environnement ou à une liste de tourelles
-                    environnement.ajouterTourelle(nouvelleTourelle);
-                }
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= this.changerStringLabelEnInt(String.valueOf(this.labelR))) {
+                // Créer une nouvelle tourelle à la position de la souris si condition remplie
+                Tourelle nouvelleTourelle = new TourelleRepousse(mouseX, mouseY, this.environnement);
+                // Ajouter la tourelle à votre environnement ou à une liste de tourelles
+                this.environnement.ajouterTourelle(nouvelleTourelle);
+                this.environnement.gagnerUnCertainNombreDePièce(-nouvelleTourelle.getCoût());
             }
-
-            // Désactiver l'écouteur de clic sur la zone de jeu pour éviter
-            // d'ajouter plusieurs tourelles en un seul clic
-            panneauDeJeu.setOnMouseClicked(null);
+            this.panneauDeJeu.setOnMouseClicked(null);
         });
     }
     @FXML
@@ -153,20 +147,14 @@ public class Controleur implements Initializable {
                 }
             }
             // Si condition remplie
-            if (!tourelleIci) {
-
-                if (!this.tileMap.isNotObstacle(caseX, caseY)) {
-
-                    // Créer une nouvelle tourelle à la position de la souris si condition remplie
-                    Tourelle nouvelleTourelle = new TourelleMitrailleuse(mouseX, mouseY, this.environnement);
-                    // Ajouter la tourelle à votre environnement ou à une liste de tourelles
-                    environnement.ajouterTourelle(nouvelleTourelle);
-                }
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= this.changerStringLabelEnInt(String.valueOf(this.labelM))) {
+                // Créer une nouvelle tourelle à la position de la souris si condition remplie
+                Tourelle nouvelleTourelle = new TourelleMitrailleuse(mouseX, mouseY, this.environnement);
+                // Ajouter la tourelle à votre environnement ou à une liste de tourelles
+                this.environnement.ajouterTourelle(nouvelleTourelle);
+                this.environnement.gagnerUnCertainNombreDePièce(-nouvelleTourelle.getCoût());
             }
-
-            // Désactiver l'écouteur de clic sur la zone de jeu pour éviter
-            // d'ajouter plusieurs tourelles en un seul clic
-            panneauDeJeu.setOnMouseClicked(null);
+            this.panneauDeJeu.setOnMouseClicked(null);
         });
     }
 
@@ -197,6 +185,9 @@ public class Controleur implements Initializable {
                     if (temps % 10 == 0){
                         System.out.println("Ajout zombie");
                         environnement.créerZombie();
+                        this.environnement.gagnerUnCertainNombreDePièce(100);
+                        this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
+
 
                     }
                     else if (temps % 2 == 0) {
@@ -236,6 +227,11 @@ public class Controleur implements Initializable {
                 })
         );
         gameLoop.getKeyFrames().add(kf);
+    }
+    private int changerStringLabelEnInt (String input) {
+
+        String numberString = input.replaceAll("[^0-9]", ""); // Supprime tous les caractères non numériques
+        return Integer.parseInt(numberString);
     }
 
 }

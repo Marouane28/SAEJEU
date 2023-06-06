@@ -13,12 +13,12 @@ public abstract class Tourelle {
     private int degat;
     protected Environnement environnement;
     protected Acteur cible; // Référence à l'ennemi actuellement ciblé
-
+    private int coût;
     private String nomImage;
 
 
 
-    public Tourelle(int x, int y, int portee, int pv, int degat, Environnement env,String nomImage) {
+    public Tourelle(int x, int y, int portee, int pv, int degat, Environnement env,String nomImage, int coût) {
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.portee = portee;
@@ -26,6 +26,12 @@ public abstract class Tourelle {
         this.degat = degat;
         this.environnement = env;
         this.nomImage=nomImage;
+        this.coût = coût;
+    }
+
+    public int getCoût() {
+
+        return this.coût;
     }
     public String getNomImage() {
         return nomImage;

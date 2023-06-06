@@ -1,5 +1,7 @@
 package com.application.saejeu.saejeu1.modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,7 +17,7 @@ public class Environnement {
     private ObservableList<Sommet> obstacles;
     private ObservableList<Tourelle> tourelles;
     private final int OBSTACLE_TILE = 400;
-
+    private IntegerProperty pièces;
     private BFS bfs;
     ArrayList<Sommet> chemin;
 
@@ -27,11 +29,34 @@ public class Environnement {
         this.tourelles=FXCollections.observableArrayList();
         this.listeAdj = new HashMap();
         this.obstacles = FXCollections.observableArrayList();
+        this.pièces = new SimpleIntegerProperty(0);
 
         construit();
         bfs= new BFS(this,getSommet(0,20));
         chemin=bfs.cheminVersSource(getSommet(89,34));
 
+    }
+    public IntegerProperty getPropertyPièces() {
+
+        return this.pièces;
+    }
+    public int getPièces() {
+
+        return this.getPropertyPièces().getValue();
+    }
+
+    public void setPièces(int i) {
+
+        this.pièces.set(i);
+    }
+    public void gagnerUnePièce() {
+
+        this.pièces.set(this.getPièces() + 1);
+    }
+
+    public void gagnerUnCertainNombreDePièce(int i) {
+
+        this.pièces.set(this.getPièces() + i);
     }
 
     public BFS getBfs() {

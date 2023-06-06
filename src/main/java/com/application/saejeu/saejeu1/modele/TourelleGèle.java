@@ -10,7 +10,7 @@ public class TourelleGèle extends Tourelle {
 
 
     public TourelleGèle(int x, int y, Environnement env) {
-        super(x, y, 5*16, 60, 0, env,"tourelle-gele.png");
+        super(x, y, 5*16, 60, 0, env,"tourelle-gele.png", 200);
         ennemisGelés = new ArrayList<>();
 
     }
@@ -24,6 +24,9 @@ public class TourelleGèle extends Tourelle {
             decrementerPv(5); // Décrémenter les points de vie de la tourelle
 
             System.out.println("Tourelle gèle attaque l'ennemi !");
+
+            this.environnement.setPièces(this.environnement.getPièces() + 1);
+            System.out.println("viens de gagner une pièce par attaque d'une tourelle gèle");
         } else {
             System.out.println("Aucune cible valide pour la tourelle gèle !");
         }
