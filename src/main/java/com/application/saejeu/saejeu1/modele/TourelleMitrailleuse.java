@@ -7,15 +7,16 @@ public class TourelleMitrailleuse extends Tourelle {
     }
 
 
+
     @Override
     public void attaquer() {
         if (cible != null && estEnPortee(cible)) {
-            // Effectuer l'attaque sur l'ennemi ciblé
-            cible.decrementerPv(getDegat());
-            decrementerPv(2);
+            // Vérifier si une cible est définie et si elle est dans la portée de la tourelle
+            cible.decrementerPv(getDegat()); // Réduire les points de vie de la cible
+            decrementerPv(2); // Réduire les points de vie de la tourelle
             System.out.println("Tourelle mitrailleuse attaque l'ennemi !");
         } else {
-            // L'ennemi n'est plus à portée ou aucun ennemi n'est ciblé
+            // Aucune cible valide pour la tourelle mitrailleuse
             System.out.println("Aucune cible valide pour la tourelle mitrailleuse !");
         }
     }

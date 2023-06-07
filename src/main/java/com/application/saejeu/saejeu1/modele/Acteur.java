@@ -7,114 +7,115 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Acteur {
 
-    private DoubleProperty x, y;
-    private Environnement environnement;
-    private int pv;
-    private boolean gele;
-    private int index;
-    private int cyclesRestants;
-    private String nomImage;
-    private VueEnnemi vueEnnemi;
+    private DoubleProperty x, y; // Les coordonnées (x, y) de l'acteur
+    private Environnement environnement; // L'environnement dans lequel l'acteur évolue
+    private int pv; // Les points de vie de l'acteur
+    private boolean gele; // Indique si l'acteur est gelé ou non
+    private int index; // L'index utilisé pour le déplacement sur le chemin
+    private int cyclesRestants; // Le nombre de cycles restants pour un état particulier de l'acteur
+    private String nomImage; // Le nom de l'image associée à l'acteur
+    private VueEnnemi vueEnnemi; // La vue associée à l'acteur
 
-    public Acteur(int x, int y,Environnement env, int pv,String nomImage) {
-        this.pv = pv;
-        this.x = new SimpleDoubleProperty(x);
-        this.y = new SimpleDoubleProperty(y);
-        this.environnement = env;
-        cyclesRestants = 0;
-        this.nomImage=nomImage;
-        this.index=0;
+    public Acteur(int x, int y, Environnement env, int pv, String nomImage) {
+        this.pv = pv; // Initialisation des points de vie de l'acteur
+        this.x = new SimpleDoubleProperty(x); // Initialisation de la propriété x de l'acteur
+        this.y = new SimpleDoubleProperty(y); // Initialisation de la propriété y de l'acteur
+        this.environnement = env; // Initialisation de l'environnement dans lequel l'acteur évolue
+        cyclesRestants = 0; // Initialisation du nombre de cycles restants
+        this.nomImage = nomImage; // Initialisation du nom de l'image associée à l'acteur
+        this.index = 0; // Initialisation de l'index utilisé pour le déplacement sur le chemin
     }
+
     public String getNomImage() {
-        return nomImage;
+        return nomImage; // Renvoie le nom de l'image associée à l'acteur
     }
 
     public void setIndex(int index) {
-        this.index = index;
+        this.index = index; // Définit l'index de l'acteur
     }
+
     public DoubleProperty xProperty() {
-        return x;
+        return x; // Renvoie la propriété x de l'acteur
     }
 
     public DoubleProperty yProperty() {
-        return y;
+        return y; // Renvoie la propriété y de l'acteur
     }
 
     public final double getX() {
-        return this.xProperty().getValue();
+        return this.xProperty().getValue(); // Renvoie la valeur de la propriété x de l'acteur
     }
 
     public final void setX(double n) {
-        this.xProperty().setValue(n);
+        this.xProperty().setValue(n); // Définit la valeur de la propriété x de l'acteur
     }
 
     public final double getY() {
-        return this.yProperty().getValue();
+        return this.yProperty().getValue(); // Renvoie la valeur de la propriété y de l'acteur
     }
 
     public final void setY(double n) {
-        this.yProperty().setValue(n);
+        this.yProperty().setValue(n); // Définit la valeur de la propriété y de l'acteur
     }
 
     public boolean estVivant() {
-        return this.pv > 0;
+        return this.pv > 0; // Vérifie si l'acteur est vivant en comparant ses points de vie à 0
     }
 
     public void meurt() {
-        this.pv = 0;
+        this.pv = 0; // Définit les points de vie de l'acteur à 0 pour le faire mourir
     }
 
     public void setVueEnnemi(VueEnnemi vueEnnemi) {
-        this.vueEnnemi = vueEnnemi;
+        this.vueEnnemi = vueEnnemi; // Définit la vue associée à l'acteur
     }
 
     public void decrementerPv(int valeur) {
-        pv -= valeur;
-        vueEnnemi.actualiserBarreEtat();
+        pv -= valeur; // Décrémente les points de vie de l'acteur d'une certaine valeur
+        vueEnnemi.actualiserBarreEtat(); // Actualise la barre d'état de l'acteur dans la vue
     }
+
     public int getPv() {
-        return pv;
+        return pv; // Renvoie les points de vie de l'acteur
     }
 
     @Override
     public String toString() {
-        return "x = " + x + ", y = " + y;
+        return "x = " + x + ", y = " + y; // Renvoie une représentation en chaîne de caractères des coordonnées (x, y) de l'acteur
     }
 
     public boolean estGele() {
-        return gele;
+        return gele; // Vérifie si l'acteur est gelé ou non
     }
 
     public void setGele(boolean gele) {
-        this.gele = gele;
+        this.gele = gele; // Définit l'état gelé de l'acteur
     }
 
-    public void deplacement(){
-        if( index< this.environnement.getChemin().size()-1){
-            index++;
-            setX(environnement.getChemin().get(index).getX()*16);
-            setY(environnement.getChemin().get(index).getY()*16);
+    public void deplacement() {
+        if (index < this.environnement.getChemin().size() - 1) {
+            index++; // Incrémente l'index pour passer à l'étape suivante du chemin
+            setX(environnement.getChemin().get(index).getX() * 16); // Définit la nouvelle position en x de l'acteur en fonction du chemin
+            setY(environnement.getChemin().get(index).getY() * 16); // Définit la nouvelle position en y de l'acteur en fonction du chemin
         }
     }
+
     public int getCyclesRestants() {
-        return cyclesRestants;
+        return cyclesRestants; // Renvoie le nombre de cycles restants pour un état particulier de l'acteur
     }
 
     public void decrementerCyclesRestants() {
         if (cyclesRestants > 0) {
-            cyclesRestants--;
+            cyclesRestants--; // Décrémente le nombre de cycles restants
         }
     }
-    public void geler(int cycles) {
-        cyclesRestants = cycles;
 
+    public void geler(int cycles) {
+        cyclesRestants = cycles; // Définit le nombre de cycles restants pour l'état gelé de l'acteur
     }
 
     public void respawn() {
-       setIndex(0);
+        setIndex(0); // Réinitialise l'index de l'acteur pour le faire réapparaître
     }
-
-
-
 }
 
