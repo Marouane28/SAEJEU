@@ -55,6 +55,7 @@ public class Controleur implements Initializable {
     private TileMap tileMap;
     @FXML
     private Label labelPieces, labelM, labelG, labelR;
+    private final int nb_manche = 10; // permet de définir le nombre de manches
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -291,7 +292,7 @@ public class Controleur implements Initializable {
     }
     private void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
-        if (manche.getNumeroManche() < 10) {
+        if (manche.getNumeroManche() < nb_manche) {
             System.out.println("Début de la prochaine manche..."); // Affiche un message indiquant le début de la prochaine manche
             manche.demarrerManche(environnement); // Démarre la prochaine manche en utilisant l'environnement actuel
             mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
@@ -310,7 +311,7 @@ public class Controleur implements Initializable {
         int viesRestantes = environnement.getVies(); // Obtient le nombre de vies restantes
         mettreAJourAffichageVies(viesRestantes); // Met à jour l'affichage du nombre de vies restantes
 
-        if (manche.getNumeroManche() < 10 && viesRestantes != 0 && environnement.getActeurs().isEmpty()) {
+        if (manche.getNumeroManche() < nb_manche && viesRestantes != 0 && environnement.getActeurs().isEmpty()) {
             System.out.println("Début de la prochaine manche..."); // Affiche un message indiquant le début de la prochaine manche
             manche.demarrerManche(environnement); // Démarre la prochaine manche en utilisant l'environnement actuel
             mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
