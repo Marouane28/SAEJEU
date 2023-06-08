@@ -7,7 +7,7 @@ public class TourelleRepousse extends Tourelle {
 
     private List<Acteur> acteursRepousses;
     public TourelleRepousse(int x, int y, Environnement env) {
-        super(x, y, 5*16, 60, 0, env,"tourelleRepousse.png",350);
+        super(x, y, 5*16, 60, 5, env,"tourelleRepousse.png",300);
         acteursRepousses = new ArrayList<>(); // Initialisation de la liste des acteurs repoussés
     }
 
@@ -22,7 +22,7 @@ public class TourelleRepousse extends Tourelle {
             // Repousser l'ennemi en le faisant réapparaître
             cible.respawn();
             acteursRepousses.add(cible); // Ajouter la cible à la liste des acteurs repoussés
-            this.environnement.setPièces(this.environnement.getPièces() + 2);
+            this.environnement.setPièces(this.environnement.getPièces() + 50);
             System.out.println("viens de gagner deux pièce par attaque d'une tourelle repousse");
 
         } else {

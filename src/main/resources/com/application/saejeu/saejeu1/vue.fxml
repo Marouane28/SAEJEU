@@ -37,7 +37,7 @@
                 </StackPane>
             </graphic>
         </Button>
-        <Label fx:id="labelM" text="500" layoutX="1327.0" layoutY="50.0" style="-fx-font-weight: bold; -fx-text-fill:  #130429;"></Label>
+        <Label fx:id="labelM" text="400" layoutX="1327.0" layoutY="50.0" style="-fx-font-weight: bold; -fx-text-fill:  #130429;"></Label>
 
         <Button fx:id="buttonR" onAction="#ajouterTourelleR" layoutX="1245.0" layoutY="00.0" prefHeight="70.0">
             <graphic>
@@ -57,7 +57,7 @@
                 </StackPane>
             </graphic>
         </Button>
-        <Label fx:id="labelR" text="350" layoutX="1259.0" layoutY="50.0" style="-fx-font-weight: bold; -fx-text-fill:  #130429;"></Label>
+        <Label fx:id="labelR" text="300" layoutX="1259.0" layoutY="50.0" style="-fx-font-weight: bold; -fx-text-fill:  #130429;"></Label>
 
         <Button fx:id="buttonG" onAction="#ajouterTourelleG" layoutX="1177.0" layoutY="00.0" prefHeight="70.0">
             <graphic>
@@ -79,17 +79,6 @@
         </Button>
         <Label fx:id="labelG" text="200" layoutX="1191.0" layoutY="50.0" style="-fx-font-weight: bold; -fx-text-fill:  #130429;"></Label>
 
-        <Button disable="true" style="-fx-opacity: 1.0; -fx-font-weight: bold; -fx-text-fill: #130429; -fx-font-size: 30px;" prefHeight="70.0">
-            <graphic>
-                <StackPane>
-                    <HBox alignment="CENTER">
-                        <Label fx:id="labelPieces" text="1110"></Label>
-                    </HBox>
-                </StackPane>
-            </graphic>
-        </Button>
-
-
         <HBox alignment="CENTER" style="-fx-padding: 10px; -fx-background-color: #222222;">
             <Label text="Vies: " style="-fx-font-size: 16px; -fx-text-fill: white;" />
             <Label fx:id="labelVies" style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" />
@@ -97,6 +86,8 @@
             <Label fx:id="labelManche" style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" />
             <Label text="   Zombie: " style="-fx-font-size: 16px; -fx-text-fill: white;" />
             <Label fx:id="labelZombie" style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Label text="   Pieces: " style="-fx-font-size: 16px; -fx-text-fill: white;"></Label>
+            <Label fx:id="labelPieces" style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" />
         </HBox>
 
 

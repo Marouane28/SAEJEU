@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -183,7 +184,6 @@ public class Controleur implements Initializable {
             this.panneauDeJeu.setOnMouseClicked(null);
         });
     }
-
     public void réglerTaille() {
         // Définit la taille minimale du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
@@ -194,8 +194,6 @@ public class Controleur implements Initializable {
         // Définit la taille préférée du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
     }
-
-
     public void gameLaunch() {
         try {
             // Crée une nouvelle instance de TileMap en utilisant la virgule (",") comme délimiteur et le nom "vraietilemap"
@@ -210,14 +208,12 @@ public class Controleur implements Initializable {
             e.printStackTrace();
         }
     }
-
     // l'ajout d'un zombie
     private void ajouterZombie() {
         System.out.println("Ajout zombie"); // Affiche un message indiquant l'ajout d'un zombie
         environnement.créerZombie(); // Appelle la méthode créerZombie() de l'environnement pour créer un nouveau zombie
         manche.setCompteurZombie(); // Met à jour le compteur de zombies de la manche
     }
-
     // Le centre de contrôle pour les tours
     private void effectuerTour() {
         mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
@@ -245,7 +241,6 @@ public class Controleur implements Initializable {
             }
         }
     }
-
     // Permet aux tourelles d'attaquer l'ennemi et de supprimer la tourelle quand elle ne fonctionne plus
     private void effectuerTourTourelles(Acteur zombie) {
         ArrayList<Tourelle> tourCopy = new ArrayList<>(environnement.getTourelles()); // Crée une copie de la liste des tourelles dans l'environnement
@@ -258,7 +253,6 @@ public class Controleur implements Initializable {
             }
         }
     }
-
     private void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
         if (manche.getNumeroManche() <= 10) {
@@ -266,12 +260,12 @@ public class Controleur implements Initializable {
             manche.demarrerManche(environnement); // Démarre la prochaine manche en utilisant l'environnement actuel
             mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
             manche.setCompteurZombie0(); // Réinitialise le compteur de zombies de la manche à zéro
+            this.environnement.gagnerUnCertainNombreDePièce(100); // gagner 100 pièces à la fin de chaque manche
         } else {
             System.out.println("Vous avez terminé toutes les manches !"); // Affiche un message indiquant que toutes les manches ont été terminées
             gameLoop.stop(); // Arrête la boucle de jeu
         }
     }
-
     // Gère la perte de vie lorsque le zombie atteint la cible
     private void gérerCollision(Acteur zombie) {
         environnement.decrementerVies(); // Décrémente le nombre de vies de l'environnement
@@ -305,6 +299,7 @@ public class Controleur implements Initializable {
                 (ev -> {
                     if (temps % 10 == 0 && manche.getNombreZombies() != manche.getCompteurZombie()) {
                         ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
+                        this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
                     } else if (temps % 2 == 0) {
                         effectuerTour(); // Effectue un tour toutes les 2 unités de temps
                     }
@@ -316,7 +311,6 @@ public class Controleur implements Initializable {
     }
 
     private int changerStringLabelEnInt (String input) {
-
         String numberString = input.replaceAll("[^0-9]", ""); // Supprime tous les caractères non numériques
         return Integer.parseInt(numberString);
     }
