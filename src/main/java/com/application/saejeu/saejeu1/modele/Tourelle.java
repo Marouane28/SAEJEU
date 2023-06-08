@@ -16,8 +16,9 @@ public abstract class Tourelle {
     protected Acteur cible; // Référence à l'ennemi actuellement ciblé
     private String nomImage; // Nom du fichier d'image associé à la tourelle
     private VueTourelle vueTourelle; // Référence à la vue de la tourelle
+    private int coût;
 
-    public Tourelle(int x, int y, int portee, int pv, int degat, Environnement env, String nomImage) {
+    public Tourelle(int x, int y, int portee, int pv, int degat, Environnement env,String nomImage, int coût) {
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.portee = portee;
@@ -25,6 +26,12 @@ public abstract class Tourelle {
         this.degat = degat;
         this.environnement = env;
         this.nomImage = nomImage;
+        this.coût = coût;
+    }
+
+    public int getCoût() {
+
+        return this.coût;
     }
 
     // Méthode pour obtenir le nom du fichier d'image associé à la tourelle

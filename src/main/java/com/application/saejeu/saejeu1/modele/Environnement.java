@@ -1,5 +1,9 @@
 package com.application.saejeu.saejeu1.modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
@@ -17,6 +21,7 @@ public class Environnement {
     private ObservableList<Sommet> obstacles; // Liste des sommets représentant les obstacles
     private ObservableList<Tourelle> tourelles; // Liste des tourelles présentes dans l'environnement
     private final int OBSTACLE_TILE = 400; // Tuile utilisée pour représenter un obstacle
+    private IntegerProperty pièces;
 
     private BFS bfs; // Algorithme BFS pour la recherche de chemin
     ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
@@ -31,11 +36,35 @@ public class Environnement {
         this.tourelles = FXCollections.observableArrayList(); // Initialise la liste des tourelles
         this.listeAdj = new HashMap(); // Initialise la liste d'adjacence
         this.obstacles = FXCollections.observableArrayList(); // Initialise la liste des obstacles
+        this.pièces = new SimpleIntegerProperty(0);
 
         construit(); // Construit la liste d'adjacence
         bfs = new BFS(this, getSommet(0, 20)); // Initialise l'algorithme BFS avec un sommet source
         chemin = bfs.cheminVersSource(getSommet(89, 34)); // Trouve le chemin vers un sommet cible
         vies = 3; // Initialise le nombre de vies à 3
+    }
+
+    public IntegerProperty getPropertyPièces() {
+
+        return this.pièces;
+    }
+    public int getPièces() {
+
+        return this.getPropertyPièces().getValue();
+    }
+
+    public void setPièces(int i) {
+
+        this.pièces.set(i);
+    }
+    public void gagnerUnePièce() {
+
+        this.pièces.set(this.getPièces() + 1);
+    }
+
+    public void gagnerUnCertainNombreDePièce(int i) {
+
+        this.pièces.set(this.getPièces() + i);
     }
 
     public BFS getBfs() {
@@ -84,6 +113,7 @@ public class Environnement {
                 }
             }
         }
+
     }
 
     public boolean dansGrille(int x, int y) {

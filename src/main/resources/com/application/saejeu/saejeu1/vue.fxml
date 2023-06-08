@@ -19,31 +19,73 @@
 
     <Pane fx:id="panneauDeJeu" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <TilePane fx:id="tilePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumns="90"/>
-        <Button fx:id="buttonM" onAction="#ajouterTourelleM" layoutX="1213.0" layoutY="00.0">
+        <Button fx:id="buttonM" onAction="#ajouterTourelleM" layoutX="1313.0" layoutY="00.0" prefHeight="70.0">
             <graphic>
-                <ImageView fitHeight="50.0" fitWidth="50.0">
-                    <image>
-                        <Image url="@mitrailleuse.png"/>
-                    </image>
-                </ImageView>
+                <StackPane alignment="TOP_CENTER">
+                    <ImageView fitHeight="50.0" fitWidth="50.0">
+                        <image>
+                            <Image url="@mitrailleuse.png"/>
+                        </image>
+                    </ImageView>
+                    <AnchorPane>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                            <image>
+                                <Image url="@image-pieces.png"/>
+                            </image>
+                        </ImageView>
+                    </AnchorPane>
+                </StackPane>
             </graphic>
         </Button>
-        <Button fx:id="buttonR" onAction="#ajouterTourelleR" layoutX="1145.0" layoutY="00.0">
+        <Label fx:id="labelM" text="500" layoutX="1327.0" layoutY="50.0" style="-fx-font-weight: bold; -fx-text-fill:  #130429;"></Label>
+
+        <Button fx:id="buttonR" onAction="#ajouterTourelleR" layoutX="1245.0" layoutY="00.0" prefHeight="70.0">
             <graphic>
-                <ImageView fitHeight="50.0" fitWidth="50.0">
-                    <image>
-                        <Image url="@tourelleRepousse.png"/>
-                    </image>
-                </ImageView>
+                <StackPane alignment="TOP_CENTER">
+                    <ImageView fitHeight="50.0" fitWidth="50.0">
+                        <image>
+                            <Image url="@tourelleRepousse.png"/>
+                        </image>
+                    </ImageView>
+                    <AnchorPane>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                            <image>
+                                <Image url="@image-pieces.png"/>
+                            </image>
+                        </ImageView>
+                    </AnchorPane>
+                </StackPane>
             </graphic>
         </Button>
-        <Button fx:id="buttonG" onAction="#ajouterTourelleG" layoutX="1077.0" layoutY="00.0">
+        <Label fx:id="labelR" text="350" layoutX="1259.0" layoutY="50.0" style="-fx-font-weight: bold; -fx-text-fill:  #130429;"></Label>
+
+        <Button fx:id="buttonG" onAction="#ajouterTourelleG" layoutX="1177.0" layoutY="00.0" prefHeight="70.0">
             <graphic>
-                <ImageView fitHeight="50.0" fitWidth="50.0">
-                    <image>
-                        <Image url="@tourelle-gele.png"/>
-                    </image>
-                </ImageView>
+                <StackPane alignment="TOP_CENTER">
+                    <ImageView fitHeight="50.0" fitWidth="50.0">
+                        <image>
+                            <Image url="@tourelle-gele.png"/>
+                        </image>
+                    </ImageView>
+                    <AnchorPane>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                            <image>
+                                <Image url="@image-pieces.png"/>
+                            </image>
+                        </ImageView>
+                    </AnchorPane>
+                </StackPane>
+            </graphic>
+        </Button>
+        <Label fx:id="labelG" text="200" layoutX="1191.0" layoutY="50.0" style="-fx-font-weight: bold; -fx-text-fill:  #130429;"></Label>
+
+        <Button disable="true" style="-fx-opacity: 1.0; -fx-font-weight: bold; -fx-text-fill: #130429; -fx-font-size: 30px;" prefHeight="70.0">
+            <graphic>
+                <StackPane>
+                    <HBox alignment="CENTER">
+                        <Label fx:id="labelPieces" text="1110"></Label>
+                    </HBox>
+                </StackPane>
             </graphic>
         </Button>
 
