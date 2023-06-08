@@ -1,32 +1,24 @@
 package com.application.saejeu.saejeu1.controleur;
 import javafx.animation.*;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import com.application.saejeu.saejeu1.modele.*;
-import com.application.saejeu.saejeu1.vue.VueEnnemi;
 import com.application.saejeu.saejeu1.vue.VueTerrain;
-import com.application.saejeu.saejeu1.vue.VueTourelle;
 
 public class Controleur implements Initializable {
 
@@ -180,7 +172,7 @@ public class Controleur implements Initializable {
         gameLoop.setCycleCount(Timeline.INDEFINITE);
 
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.30),
+                Duration.seconds(0.10),
                 (ev -> {
                     if (temps % 10 == 0){
                         System.out.println("Ajout zombie");

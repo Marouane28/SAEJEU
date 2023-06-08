@@ -19,7 +19,8 @@ public class Environnement {
     private final int OBSTACLE_TILE = 400;
     private IntegerProperty pièces;
     private BFS bfs;
-    ArrayList<Sommet> chemin;
+    private ArrayList<Sommet> chemin;
+    private Tourelle tourelle;
 
     public Environnement(TileMap tileMap) throws IOException {
         this.tileMap = tileMap;
@@ -36,6 +37,7 @@ public class Environnement {
         chemin=bfs.cheminVersSource(getSommet(89,34));
 
     }
+
     public IntegerProperty getPropertyPièces() {
 
         return this.pièces;

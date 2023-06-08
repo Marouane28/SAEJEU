@@ -3,6 +3,7 @@ package com.application.saejeu.saejeu1;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -13,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vue.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1440, 800);
+        Scene scene = new Scene(fxmlLoader.load(), 1440, 816);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Tower Defense");
         primaryStage.setScene(scene);
