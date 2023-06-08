@@ -7,6 +7,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -208,6 +211,39 @@ public class Controleur implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void afficherGameOverScene() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        URL resource = getClass().getResource("/com/application/saejeu/saejeu1/finJeu.fxml");
+        Parent root = null;
+        try {
+            root = fxmlLoader.load(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return; // Arrêter la méthode si une exception se produit lors du chargement du fichier FXML
+        }
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) panneauDeJeu).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void afficherWinJeuScene() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/application/saejeu/saejeu1/winJeu.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return; // Arrêter la méthode si une exception se produit lors du chargement du fichier FXML
+        }
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) panneauDeJeu).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+
     // l'ajout d'un zombie
     private void ajouterZombie() {
         System.out.println("Ajout zombie"); // Affiche un message indiquant l'ajout d'un zombie
@@ -255,7 +291,7 @@ public class Controleur implements Initializable {
     }
     private void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
-        if (manche.getNumeroManche() <= 10) {
+        if (manche.getNumeroManche() < 10) {
             System.out.println("Début de la prochaine manche..."); // Affiche un message indiquant le début de la prochaine manche
             manche.demarrerManche(environnement); // Démarre la prochaine manche en utilisant l'environnement actuel
             mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
@@ -264,6 +300,7 @@ public class Controleur implements Initializable {
         } else {
             System.out.println("Vous avez terminé toutes les manches !"); // Affiche un message indiquant que toutes les manches ont été terminées
             gameLoop.stop(); // Arrête la boucle de jeu
+            afficherWinJeuScene();
         }
     }
     // Gère la perte de vie lorsque le zombie atteint la cible
@@ -273,19 +310,17 @@ public class Controleur implements Initializable {
         int viesRestantes = environnement.getVies(); // Obtient le nombre de vies restantes
         mettreAJourAffichageVies(viesRestantes); // Met à jour l'affichage du nombre de vies restantes
 
-        if (manche.getNumeroManche() <= 10) {
+        if (manche.getNumeroManche() < 10 && viesRestantes != 0 && environnement.getActeurs().isEmpty()) {
             System.out.println("Début de la prochaine manche..."); // Affiche un message indiquant le début de la prochaine manche
             manche.demarrerManche(environnement); // Démarre la prochaine manche en utilisant l'environnement actuel
             mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
             manche.setCompteurZombie0(); // Réinitialise le compteur de zombies de la manche à zéro
-        } else {
-            System.out.println("Vous avez terminé toutes les manches !"); // Affiche un message indiquant que toutes les manches ont été terminées
-            gameLoop.stop(); // Arrête la boucle de jeu
+            this.environnement.gagnerUnCertainNombreDePièce(100); // gagner 100 pièces à la fin de chaque manche
         }
-
-        if (viesRestantes <= 0) {
-            System.out.println("Vous avez perdu !"); // Affiche un message indiquant que le joueur a perdu
+        else if( viesRestantes <= 0){
+            System.out.println("Vous avez perdu !");
             gameLoop.stop(); // Arrête la boucle de jeu
+            afficherGameOverScene();
         }
     }
 
