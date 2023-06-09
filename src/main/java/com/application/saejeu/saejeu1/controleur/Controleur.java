@@ -83,34 +83,17 @@ public class Controleur implements Initializable {
         // Démarre l'animation
         gameLoop.play();
     }
+    @FXML
+    public void abandonnerJeu(ActionEvent actionEvent) {
 
-
-    private void mettreAJourAffichageZombies(int zombies) {
-
-        IntegerProperty zProperty = new SimpleIntegerProperty();
-        zProperty.set(zombies);
-        this.labelZombie.textProperty().bind(zProperty.asString());
+        afficherGameOverScene();
     }
-    private void mettreAJourAffichageVies(int vies) {
-
-        IntegerProperty vProperty = new SimpleIntegerProperty();
-        vProperty.set(vies);
-        this.labelVies.textProperty().bind(vProperty.asString());
-    }
-    private void mettreAJourAffichageManche(int numeroManche) {
-
-        IntegerProperty mProperty = new SimpleIntegerProperty();
-        mProperty.set(numeroManche);
-        this.labelManche.textProperty().bind(mProperty.asString());
-    }
-
     @FXML
     public void pauseJeu(ActionEvent event) {
         estEnPause = true;
         System.out.println("Vous avez mit pause !");
         gameLoop.pause();
     }
-
     @FXML
     public void reprendreJeu(ActionEvent event) {
         estEnPause = false;
@@ -238,13 +221,11 @@ public class Controleur implements Initializable {
             VueTerrain vueTerrain = new VueTerrain(this.environnement, this.tilePane, "tileset1.jpg");
         } catch (IOException e) {
             e.printStackTrace();
-
+        }
         mettreAJourAffichageVies(environnement.getVies()); // Met à jour l'affichage du nombre de vies
         mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
         mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
-        }
     }
-
     public void afficherGameOverScene() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL resource = getClass().getResource("/com/application/saejeu/saejeu1/finJeu.fxml");
@@ -260,7 +241,6 @@ public class Controleur implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
     public void afficherWinJeuScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/application/saejeu/saejeu1/winJeu.fxml"));
         Parent root = null;
@@ -275,8 +255,6 @@ public class Controleur implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-
     // l'ajout d'un zombie
     private void ajouterZombie() {
         System.out.println("Ajout zombie"); // Affiche un message indiquant l'ajout d'un zombie
@@ -353,14 +331,10 @@ public class Controleur implements Initializable {
         else if( viesRestantes <= 0){
             System.out.println("Vous avez perdu !");
             gameLoop.stop(); // Arrête la boucle de jeu
+            afficherGameOverScene();
         }
 
-        if (viesRestantes <= 0) {
-            System.out.println("Vous avez perdu !"); // Affiche un message indiquant que le joueur a perdu
-            gameLoop.stop(); // Arrête la boucle de jeu
-        }
     }
-
     private void initAnimation() {
         gameLoop = new Timeline();
         temps = 0;
@@ -381,29 +355,26 @@ public class Controleur implements Initializable {
         );
         gameLoop.getKeyFrames().add(kf);
     }
-
     private int changerStringLabelEnInt (String input) {
         String numberString = input.replaceAll("[^0-9]", ""); // Supprime tous les caractères non numériques
         return Integer.parseInt(numberString);
     }
-    public void gameOver() throws IOException {
+    private void mettreAJourAffichageZombies(int zombies) {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("gameoverway.fxml"));
-        Parent root = fxmlLoader.load();
-
-        Scene scene = this.labelVies.getScene();
-        scene.setRoot(root);
-        scene.getWindow().setHeight(700);
-        scene.getWindow().setWidth(1300);
+        IntegerProperty zProperty = new SimpleIntegerProperty();
+        zProperty.set(zombies);
+        this.labelZombie.textProperty().bind(zProperty.asString());
     }
-    public void win() throws IOException {
+    private void mettreAJourAffichageVies(int vies) {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("winway.fxml"));
-        Parent root = fxmlLoader.load();
+        IntegerProperty vProperty = new SimpleIntegerProperty();
+        vProperty.set(vies);
+        this.labelVies.textProperty().bind(vProperty.asString());
+    }
+    private void mettreAJourAffichageManche(int numeroManche) {
 
-        Scene scene = this.labelVies.getScene();
-        scene.setRoot(root);
-        scene.getWindow().setHeight(700);
-        scene.getWindow().setWidth(1300);
+        IntegerProperty mProperty = new SimpleIntegerProperty();
+        mProperty.set(numeroManche);
+        this.labelManche.textProperty().bind(mProperty.asString());
     }
 }
