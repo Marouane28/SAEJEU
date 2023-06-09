@@ -12,6 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="SAEJEU" target="18" />
+      <module name="saeJeu1" target="18" />
     </bytecodeTargetLevel>
   </component>
 </project>
