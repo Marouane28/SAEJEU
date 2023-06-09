@@ -55,7 +55,9 @@ public class Controleur implements Initializable {
     private TileMap tileMap;
     @FXML
     private Label labelPieces, labelM, labelG, labelR;
-    private final int nb_manche = 10; // permet de définir le nombre de manches
+    private final int nb_manche = 1; // permet de définir le nombre de manches
+    private boolean estEnPause = false; // gerer les pauses
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,6 +93,19 @@ public class Controleur implements Initializable {
         labelManche.setText(Integer.toString(numeroManche));
     }
 
+    @FXML
+    public void pauseJeu(ActionEvent event) {
+        estEnPause = true;
+        System.out.println("Vous avez mit pause !");
+        gameLoop.pause();
+    }
+
+    @FXML
+    public void reprendreJeu(ActionEvent event) {
+        estEnPause = false;
+        System.out.println("Vous avez repris !");
+        gameLoop.play();
+    }
     @FXML
     private void ajouterTourelleG() {
 
@@ -350,5 +365,6 @@ public class Controleur implements Initializable {
         String numberString = input.replaceAll("[^0-9]", ""); // Supprime tous les caractères non numériques
         return Integer.parseInt(numberString);
     }
+
 
 }

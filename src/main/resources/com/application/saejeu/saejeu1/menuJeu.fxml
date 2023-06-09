@@ -32,4 +32,9 @@
             </effect>
         </Button>
     </VBox>
+     <Button layoutX="657.0" layoutY="523.0" onAction="#quitterApplication" style="-fx-font-size: 20px; -fx-text-fill: white; -fx-background-color: red;" text="Quitter">
+         <effect>
+             <DropShadow color="black" radius="5.0" spread="0.2" />
+         </effect>
+     </Button>
 </Pane>
