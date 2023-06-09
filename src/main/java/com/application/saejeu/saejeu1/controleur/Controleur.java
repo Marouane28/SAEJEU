@@ -333,6 +333,11 @@ public class Controleur implements Initializable {
             gameLoop.stop(); // Arrête la boucle de jeu
             afficherGameOverScene();
         }
+        if(viesRestantes==1 && nb_manche== manche.getNumeroManche() || viesRestantes==2 && nb_manche== manche.getNumeroManche()  ){
+            System.out.println("Vous avez gagnez !");
+            gameLoop.stop(); // Arrête la boucle de jeu
+            afficherWinJeuScene();
+        }
 
     }
     private void initAnimation() {

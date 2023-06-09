@@ -41,7 +41,7 @@ public class Environnement {
         this.tourelles = FXCollections.observableArrayList(); // Initialise la liste des tourelles
         this.listeAdj = new HashMap(); // Initialise la liste d'adjacence
         this.obstacles = FXCollections.observableArrayList(); // Initialise la liste des obstacles
-        this.pièces = new SimpleIntegerProperty((250));
+        this.pièces = new SimpleIntegerProperty((20000));
 
         construit(); // Construit la liste d'adjacence
         bfs = new BFS(this, getSommet(0, 20)); // Initialise l'algorithme BFS avec un sommet source
