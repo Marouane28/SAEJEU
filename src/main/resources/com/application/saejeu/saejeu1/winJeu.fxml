@@ -21,4 +21,9 @@
             <DropShadow color="black" radius="5.0" spread="0.2" />
         </effect>
     </Button>
+    <Button layoutX="675.0" layoutY="592.0" onAction="#quitterApplication" style="-fx-font-size: 20px; -fx-text-fill: white; -fx-background-color: red;" text="Quitter">
+        <effect>
+            <DropShadow color="black" radius="5.0" spread="0.2" />
+        </effect>
+    </Button>
 </Pane>

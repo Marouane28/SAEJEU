@@ -1,5 +1,6 @@
 package com.application.saejeu.saejeu1.controleur;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +16,6 @@ import java.net.URL;
 
 public class MenuControleur {
 
-    @FXML
-    private Button demarrerPartie;
-
     // quand le bouton est cliqué lancement du jeu
     @FXML
     private void demarrerPartie(ActionEvent event) throws IOException {
@@ -30,5 +28,10 @@ public class MenuControleur {
         primaryStage.setTitle("Zombie Survival : La Dernière Lueur d'Espoir");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    @FXML
+    public void quitterApplication(ActionEvent event) {
+        Platform.exit();
+        System.exit(0);
     }
 }
