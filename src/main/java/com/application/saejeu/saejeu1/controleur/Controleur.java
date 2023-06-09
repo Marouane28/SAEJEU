@@ -259,7 +259,8 @@ public class Controleur implements Initializable {
         for (Acteur zombie : acteursCopy) {
             if (zombie.getCyclesRestants() == 0) {
                 zombie.deplacement(); // Effectue le déplacement du zombie s'il n'a plus de cycles restants
-            } else {
+            }
+            else {
                 zombie.decrementerCyclesRestants(); // Décrémente le nombre de cycles restants du zombie
             }
 
