@@ -90,8 +90,6 @@
             <Label fx:id="labelPieces" style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" />
         </HBox>
 
-
-
     </Pane>
 
 </BorderPane>

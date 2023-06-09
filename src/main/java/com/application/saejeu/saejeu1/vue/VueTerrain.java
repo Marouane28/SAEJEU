@@ -28,14 +28,14 @@ public class VueTerrain {
     void iniTerrain() {
         FileInputStream fichierTileSet = null;
         try {
-            fichierTileSet = new FileInputStream(getClass().getResource("tileset1.jpg").getFile());
+            fichierTileSet = new FileInputStream(getClass().getResource(this.nomFichier).getFile());
         } catch (Exception e) {
             e.printStackTrace();
         }
         this.imgTilep = new Image(fichierTileSet); // Chargement de l'image du tileset
 
-        for (int i = 0; i < 90; i++) {
-            for (int j = 0; j < 90; j++) {
+        for (int i = 0; i < this.terrain.getY() / this.terrain.getTileMap().getTileSize(); i++) {
+            for (int j = 0; j < this.terrain.getX() / this.terrain.getTileMap().getTileSize(); j++) {
                 int id = this.terrain.getTileMap().getMapDeJeu()[j][i]; // Récupération de l'ID de la tuile à afficher
                 ImageView imgV = new ImageView(this.imgTilep); // Création d'une nouvelle ImageView pour la tuile
                 ajouterTile(imgV, id); // Ajout de la tuile à l'ImageView

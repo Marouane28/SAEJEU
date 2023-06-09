@@ -32,5 +32,4 @@ public class MenuControleur {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 }

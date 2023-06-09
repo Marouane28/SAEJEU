@@ -63,7 +63,6 @@ public class TileMap {
     public void setMapDeJeu(int[][] tab) {
         this.mapDeJeu = tab; // Assignation d'un nouveau tableau représentant la carte du jeu
     }
-
     public int getTileSize() {
         return this.SIZE_TILE; // Renvoie la taille d'une tuile en pixels
     }

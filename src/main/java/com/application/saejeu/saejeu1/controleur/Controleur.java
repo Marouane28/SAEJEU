@@ -1,34 +1,26 @@
 package com.application.saejeu.saejeu1.controleur;
+import com.application.saejeu.saejeu1.Main;
 import javafx.animation.*;
-import javafx.collections.FXCollections;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import com.application.saejeu.saejeu1.modele.*;
-import com.application.saejeu.saejeu1.vue.VueEnnemi;
 import com.application.saejeu.saejeu1.vue.VueTerrain;
-import com.application.saejeu.saejeu1.vue.VueTourelle;
 
 public class Controleur implements Initializable {
 
@@ -52,10 +44,14 @@ public class Controleur implements Initializable {
     private TileMap tileMap;
     @FXML
     private Label labelPieces, labelM, labelG, labelR;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        gameLaunch(); // Lance le jeu en initialisant la carte et l'environnement
+
+        try {
+            gameLaunch(); // Lance le jeu en initialisant la carte et l'environnement
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         réglerTaille(); // Ajuste la taille du panneau de jeu en fonction de la taille de l'environnement
 
         // Crée des écouteurs de changement pour les listes d'acteurs et de tourelles de l'environnement
@@ -73,20 +69,24 @@ public class Controleur implements Initializable {
         // Démarre l'animation
         gameLoop.play();
     }
-
-
     private void mettreAJourAffichageZombies(int zombies) {
-        labelZombie.setText(Integer.toString(zombies));
-    }
 
+        IntegerProperty zProperty = new SimpleIntegerProperty();
+        zProperty.set(zombies);
+        this.labelZombie.textProperty().bind(zProperty.asString());
+    }
     private void mettreAJourAffichageVies(int vies) {
-        labelVies.setText(Integer.toString(vies));
-    }
 
+        IntegerProperty vProperty = new SimpleIntegerProperty();
+        vProperty.set(vies);
+        this.labelVies.textProperty().bind(vProperty.asString());
+    }
     private void mettreAJourAffichageManche(int numeroManche) {
-        labelManche.setText(Integer.toString(numeroManche));
-    }
 
+        IntegerProperty mProperty = new SimpleIntegerProperty();
+        mProperty.set(numeroManche);
+        this.labelManche.textProperty().bind(mProperty.asString());
+    }
     @FXML
     private void ajouterTourelleG() {
 
@@ -194,7 +194,9 @@ public class Controleur implements Initializable {
         // Définit la taille préférée du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
     }
-    public void gameLaunch() {
+    public void gameLaunch() throws IOException {
+
+        manche = new Manche(); // Crée une nouvelle instance de la classe Manche
         try {
             // Crée une nouvelle instance de TileMap en utilisant la virgule (",") comme délimiteur et le nom "vraietilemap"
             this.tileMap = new TileMap(",", "vraietilemap");
@@ -206,6 +208,10 @@ public class Controleur implements Initializable {
             VueTerrain vueTerrain = new VueTerrain(this.environnement, this.tilePane, "tileset1.jpg");
         } catch (IOException e) {
             e.printStackTrace();
+
+        mettreAJourAffichageVies(environnement.getVies()); // Met à jour l'affichage du nombre de vies
+        mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
+        mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
         }
     }
     // l'ajout d'un zombie
@@ -215,7 +221,7 @@ public class Controleur implements Initializable {
         manche.setCompteurZombie(); // Met à jour le compteur de zombies de la manche
     }
     // Le centre de contrôle pour les tours
-    private void effectuerTour() {
+    private void effectuerTour() throws IOException {
         mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
         System.out.println("un tour"); // Affiche un message indiquant le début d'un tour
         ArrayList<Acteur> acteursCopy = new ArrayList<>(environnement.getActeurs()); // Crée une copie de la liste des acteurs dans l'environnement
@@ -253,7 +259,7 @@ public class Controleur implements Initializable {
             }
         }
     }
-    private void terminerManche() {
+    private void terminerManche() throws IOException {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
         if (manche.getNumeroManche() <= 10) {
             System.out.println("Début de la prochaine manche..."); // Affiche un message indiquant le début de la prochaine manche
@@ -264,10 +270,11 @@ public class Controleur implements Initializable {
         } else {
             System.out.println("Vous avez terminé toutes les manches !"); // Affiche un message indiquant que toutes les manches ont été terminées
             gameLoop.stop(); // Arrête la boucle de jeu
+            win();
         }
     }
     // Gère la perte de vie lorsque le zombie atteint la cible
-    private void gérerCollision(Acteur zombie) {
+    private void gérerCollision(Acteur zombie) throws IOException {
         environnement.decrementerVies(); // Décrémente le nombre de vies de l'environnement
         environnement.getActeurs().remove(zombie); // Supprime le zombie de la liste des acteurs
         int viesRestantes = environnement.getVies(); // Obtient le nombre de vies restantes
@@ -278,17 +285,19 @@ public class Controleur implements Initializable {
             manche.demarrerManche(environnement); // Démarre la prochaine manche en utilisant l'environnement actuel
             mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
             manche.setCompteurZombie0(); // Réinitialise le compteur de zombies de la manche à zéro
-        } else {
+        }
+        else {
             System.out.println("Vous avez terminé toutes les manches !"); // Affiche un message indiquant que toutes les manches ont été terminées
             gameLoop.stop(); // Arrête la boucle de jeu
+            win();
         }
 
         if (viesRestantes <= 0) {
             System.out.println("Vous avez perdu !"); // Affiche un message indiquant que le joueur a perdu
             gameLoop.stop(); // Arrête la boucle de jeu
+            this.gameOver();
         }
     }
-
     private void initAnimation() {
         gameLoop = new Timeline();
         temps = 0;
@@ -301,7 +310,11 @@ public class Controleur implements Initializable {
                         ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
                         this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
                     } else if (temps % 2 == 0) {
-                        effectuerTour(); // Effectue un tour toutes les 2 unités de temps
+                        try {
+                            effectuerTour(); // Effectue un tour toutes les 2 unités de temps
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
 
                     temps++;
@@ -309,10 +322,28 @@ public class Controleur implements Initializable {
         );
         gameLoop.getKeyFrames().add(kf);
     }
-
     private int changerStringLabelEnInt (String input) {
         String numberString = input.replaceAll("[^0-9]", ""); // Supprime tous les caractères non numériques
         return Integer.parseInt(numberString);
     }
+    public void gameOver() throws IOException {
 
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("gameoverway.fxml"));
+        Parent root = fxmlLoader.load();
+
+        Scene scene = this.labelVies.getScene();
+        scene.setRoot(root);
+        scene.getWindow().setHeight(700);
+        scene.getWindow().setWidth(1300);
+    }
+    public void win() throws IOException {
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("winway.fxml"));
+        Parent root = fxmlLoader.load();
+
+        Scene scene = this.labelVies.getScene();
+        scene.setRoot(root);
+        scene.getWindow().setHeight(700);
+        scene.getWindow().setWidth(1300);
+    }
 }
