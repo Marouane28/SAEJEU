@@ -65,7 +65,6 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         try {
             gameLaunch(); // Lance le jeu en initialisant la carte et l'environnement
         } catch (IOException e) {
@@ -85,8 +84,8 @@ public class Controleur implements Initializable {
     }
     @FXML
     public void abandonnerJeu(ActionEvent actionEvent) {
-
         afficherGameOverScene();
+        gameLoop.stop();
     }
     @FXML
     public void pauseJeu(ActionEvent event) {
@@ -255,131 +254,51 @@ public class Controleur implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    // l'ajout d'un zombie
-    private void ajouterZombie() {
-        System.out.println("Ajout zombie"); // Affiche un message indiquant l'ajout d'un zombie
-        environnement.créerZombie(); // Appelle la méthode créerZombie() de l'environnement pour créer un nouveau zombie
-        manche.setCompteurZombie(); // Met à jour le compteur de zombies de la manche
+    public void mettreAJourAffichageZombies(int zombies) {
+
+        IntegerProperty zProperty = new SimpleIntegerProperty();
+        zProperty.set(zombies);
+        this.labelZombie.textProperty().bind(zProperty.asString());
     }
-    // Le centre de contrôle pour les tours
-    private void effectuerTour() {
-        mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
-        System.out.println("un tour"); // Affiche un message indiquant le début d'un tour
-        ArrayList<Acteur> acteursCopy = new ArrayList<>(environnement.getActeurs()); // Crée une copie de la liste des acteurs dans l'environnement
-        for (Acteur zombie : acteursCopy) {
-            if (zombie.getCyclesRestants() == 0) {
-                zombie.deplacement(); // Effectue le déplacement du zombie s'il n'a plus de cycles restants
-            } else {
-                zombie.decrementerCyclesRestants(); // Décrémente le nombre de cycles restants du zombie
-            }
+    public void mettreAJourAffichageVies(int vies) {
 
-            effectuerTourTourelles(zombie); // Appelle la méthode effectuerTourTourelles() pour gérer les actions des tourelles pendant le tour
-
-            if (!zombie.estVivant()) {
-                environnement.getActeurs().remove(zombie); // Supprime le zombie de la liste des acteurs s'il n'est plus vivant
-            }
-
-            if (environnement.getActeurs().isEmpty()) {
-                terminerManche(); // Termine la manche si tous les zombies ont été éliminés
-            }
-
-            if (zombie.getY() == 34 * 16 && zombie.getX() == 89 * 16) {
-                gérerCollision(zombie); // Gère la collision lorsque le zombie atteint sa cible
-            }
-        }
+        IntegerProperty vProperty = new SimpleIntegerProperty();
+        vProperty.set(vies);
+        this.labelVies.textProperty().bind(vProperty.asString());
     }
-    // Permet aux tourelles d'attaquer l'ennemi et de supprimer la tourelle quand elle ne fonctionne plus
-    private void effectuerTourTourelles(Acteur zombie) {
-        ArrayList<Tourelle> tourCopy = new ArrayList<>(environnement.getTourelles()); // Crée une copie de la liste des tourelles dans l'environnement
-        for (Tourelle tour : tourCopy) {
-            tour.setCible(zombie); // Définit le zombie comme cible de la tourelle
-            tour.attaquer(); // Fait attaquer la tourelle
+    public void mettreAJourAffichageManche(int numeroManche) {
 
-            if (!tour.estEnMarche()) {
-                environnement.getTourelles().remove(tour); // Supprime la tourelle de la liste des tourelles si elle n'est plus en marche
-            }
-        }
+        IntegerProperty mProperty = new SimpleIntegerProperty();
+        mProperty.set(numeroManche);
+        this.labelManche.textProperty().bind(mProperty.asString());
     }
-    private void terminerManche() {
-        System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
-        if (manche.getNumeroManche() < nb_manche) {
-            System.out.println("Début de la prochaine manche..."); // Affiche un message indiquant le début de la prochaine manche
-            manche.demarrerManche(environnement); // Démarre la prochaine manche en utilisant l'environnement actuel
-            mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
-            manche.setCompteurZombie0(); // Réinitialise le compteur de zombies de la manche à zéro
-            this.environnement.gagnerUnCertainNombreDePièce(100); // gagner 100 pièces à la fin de chaque manche
-        } else {
-            System.out.println("Vous avez terminé toutes les manches !"); // Affiche un message indiquant que toutes les manches ont été terminées
-            gameLoop.stop(); // Arrête la boucle de jeu
-            afficherWinJeuScene();
-        }
+    private int changerStringLabelEnInt (String input) {
+        String numberString = input.replaceAll("[^0-9]", ""); // Supprime tous les caractères non numériques
+        return Integer.parseInt(numberString);
     }
-    // Gère la perte de vie lorsque le zombie atteint la cible
-    private void gérerCollision(Acteur zombie) {
-        environnement.decrementerVies(); // Décrémente le nombre de vies de l'environnement
-        environnement.getActeurs().remove(zombie); // Supprime le zombie de la liste des acteurs
-        int viesRestantes = environnement.getVies(); // Obtient le nombre de vies restantes
-        mettreAJourAffichageVies(viesRestantes); // Met à jour l'affichage du nombre de vies restantes
 
-        if (manche.getNumeroManche() < nb_manche && viesRestantes != 0 && environnement.getActeurs().isEmpty()) {
-            System.out.println("Début de la prochaine manche..."); // Affiche un message indiquant le début de la prochaine manche
-            manche.demarrerManche(environnement); // Démarre la prochaine manche en utilisant l'environnement actuel
-            mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
-            manche.setCompteurZombie0(); // Réinitialise le compteur de zombies de la manche à zéro
-            this.environnement.gagnerUnCertainNombreDePièce(100); // gagner 100 pièces à la fin de chaque manche
-        }
-        else if( viesRestantes <= 0){
-            System.out.println("Vous avez perdu !");
-            gameLoop.stop(); // Arrête la boucle de jeu
-            afficherGameOverScene();
-        }
-        if(viesRestantes==1 && nb_manche== manche.getNumeroManche() || viesRestantes==2 && nb_manche== manche.getNumeroManche()  ){
-            System.out.println("Vous avez gagnez !");
-            gameLoop.stop(); // Arrête la boucle de jeu
-            afficherWinJeuScene();
-        }
-
-    }
-    private void initAnimation() {
+    private Timeline initAnimation() {
         gameLoop = new Timeline();
         temps = 0;
         gameLoop.setCycleCount(Timeline.INDEFINITE);
+        TourManager tourManager = new TourManager(environnement, manche, nb_manche, this, gameLoop);
 
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.08),
                 (ev -> {
                     if (temps % 10 == 0 && manche.getNombreZombies() != manche.getCompteurZombie()) {
-                        ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
+                        tourManager.ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
                         this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
                     } else if (temps % 2 == 0) {
-                        effectuerTour(); // Effectue un tour toutes les 2 unités de temps
+                        tourManager.effectuerTour(); // Effectue un tour toutes les 2 unités de temps
                     }
 
                     temps++;
                 })
         );
         gameLoop.getKeyFrames().add(kf);
-    }
-    private int changerStringLabelEnInt (String input) {
-        String numberString = input.replaceAll("[^0-9]", ""); // Supprime tous les caractères non numériques
-        return Integer.parseInt(numberString);
-    }
-    private void mettreAJourAffichageZombies(int zombies) {
 
-        IntegerProperty zProperty = new SimpleIntegerProperty();
-        zProperty.set(zombies);
-        this.labelZombie.textProperty().bind(zProperty.asString());
+        return gameLoop;
     }
-    private void mettreAJourAffichageVies(int vies) {
 
-        IntegerProperty vProperty = new SimpleIntegerProperty();
-        vProperty.set(vies);
-        this.labelVies.textProperty().bind(vProperty.asString());
-    }
-    private void mettreAJourAffichageManche(int numeroManche) {
-
-        IntegerProperty mProperty = new SimpleIntegerProperty();
-        mProperty.set(numeroManche);
-        this.labelManche.textProperty().bind(mProperty.asString());
-    }
 }
