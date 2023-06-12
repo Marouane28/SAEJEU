@@ -54,7 +54,7 @@ public class Controleur implements Initializable {
     private TileMap tileMap;
     @FXML
     private Label labelPieces, labelM, labelG, labelR;
-    private final int nb_manche = 10; // permet de définir le nombre de manches
+    private final int nb_manche = 10*; // permet de définir le nombre de manches
     private boolean estEnPause = false; // gerer les pauses
 
 
@@ -237,15 +237,9 @@ public class Controleur implements Initializable {
         // Arreter la musique en cours (si elle est en cours de lecture)
         Main.stopMusicFond();
         // Lancer la musique de la défaite
-        try {
-            Main.PlayMusicDefaite("/com/application/saejeu/saejeu1/musique/gameover.wav");
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
+        URL urlImageVaiL = Main.class.getResource("sonGameOver.wav");
+        String s = urlImageVaiL.getPath();
+        Main.PlayMusicDefaite(s);
     }
     public void afficherWinJeuScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/application/saejeu/saejeu1/winJeu.fxml"));
@@ -263,15 +257,9 @@ public class Controleur implements Initializable {
         // Arreter la musique en cours (si elle est en cours de lecture)
         Main.stopMusicFond();
         // Lancer la musique de victoire
-        try {
-            Main.PlayMusicVictoire("/com/application/saejeu/saejeu1/musique/victoire.wav");
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
+        URL urlImageVaiL = Main.class.getResource("sondVictoire.wav");
+        String s = urlImageVaiL.getPath();
+        Main.PlayMusicVictoire(s);
     }
     public void mettreAJourAffichageZombies(int zombies) {
         IntegerProperty zProperty = new SimpleIntegerProperty();
@@ -308,15 +296,9 @@ public class Controleur implements Initializable {
                     } else if (temps % 2 == 0) {
                         if(Main.verifSon()==false){
                             // Lancer la musique du jeu si le son n'est plus lancé
-                            try {
-                                Main.PlayMusicFond("/com/application/saejeu/saejeu1/musique/jeu.wav");
-                            } catch (UnsupportedAudioFileException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } catch (LineUnavailableException e) {
-                                e.printStackTrace();
-                            }
+                            URL urlImageVaiL = Main.class.getResource("sondFond.wav");
+                            String s = urlImageVaiL.getPath();
+                            Main.PlayMusicFond(s);
                         }
                         tourManager.effectuerTour(); // Effectue un tour toutes les 2 unités de temps
                     }

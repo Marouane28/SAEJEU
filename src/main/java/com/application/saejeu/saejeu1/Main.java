@@ -2,13 +2,13 @@ package com.application.saejeu.saejeu1;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
 import javax.sound.sampled.*;
 import java.io.*;
+import java.net.URL;
 
 
 public class Main extends Application {
@@ -29,33 +29,35 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        // Lancement de la musique de fond du jeu
-        PlayMusicFond("/com/application/saejeu/saejeu1/musique/jeu.wav");
-        // Lancement de l'application JavaFX
+    public static void main(String[] args){
+        URL urlImageVaiL = Main.class.getResource("sondFond.wav");
+        String s = urlImageVaiL.getPath();
+        PlayMusicFond(s);
         launch();
     }
-
-    public static void PlayMusicFond(String location) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        try (InputStream inputStream = Main.class.getResourceAsStream(location)) {
-            if (inputStream == null) {
-                throw new FileNotFoundException("Le fichier audio n'a pas pu être trouvé : " + location);
-            }
-            // Lecture des données audio du fichier en tant que tableau de bytes
-            byte[] audioData = inputStream.readAllBytes();
-            // Création d'un flux d'entrée à partir du tableau de bytes
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(audioData);
-            // Création du flux audio à partir du flux d'entrée
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(byteArrayInputStream);
-            // Obtention des informations sur le format audio
-            DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
-            // Création du clip audio
-            clipFond = (Clip) AudioSystem.getLine(info);
-            // Ouverture du clip avec le flux audio
-            clipFond.open(audioInputStream);
-            // Démarrage de la lecture du clip
-            clipFond.start();
+    public static void PlayMusicFond(String location){
+        AudioInputStream audioInputStream = null;
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(new File(location));
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
+        try {
+            clipFond = (Clip) AudioSystem.getLine(info);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            clipFond.open(audioInputStream);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        clipFond.start();
     }
 
     public static boolean verifSon() {
@@ -74,26 +76,29 @@ public class Main extends Application {
         }
     }
 
-    public static void PlayMusicVictoire(String location) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        try (InputStream inputStream = Main.class.getResourceAsStream(location)) {
-            if (inputStream == null) {
-                throw new FileNotFoundException("Le fichier audio n'a pas pu être trouvé : " + location);
-            }
-            // Lecture des données audio du fichier en tant que tableau de bytes
-            byte[] audioData = inputStream.readAllBytes();
-            // Création d'un flux d'entrée à partir du tableau de bytes
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(audioData);
-            // Création du flux audio à partir du flux d'entrée
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(byteArrayInputStream);
-            // Obtention des informations sur le format audio
-            DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
-            // Création du clip audio
-            clipVictoire = (Clip) AudioSystem.getLine(info);
-            // Ouverture du clip avec le flux audio
-            clipVictoire.open(audioInputStream);
-            // Démarrage de la lecture du clip
-            clipVictoire.start();
+    public static void PlayMusicVictoire(String location){
+        AudioInputStream audioInputStream = null;
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(new File(location));
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
+        try {
+            clipVictoire = (Clip) AudioSystem.getLine(info);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            clipVictoire.open(audioInputStream);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        clipVictoire.start();
     }
 
     public static void stopMusicVictoire() {
@@ -104,26 +109,29 @@ public class Main extends Application {
         }
     }
 
-    public static void PlayMusicDefaite(String location) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        try (InputStream inputStream = Main.class.getResourceAsStream(location)) {
-            if (inputStream == null) {
-                throw new FileNotFoundException("Le fichier audio n'a pas pu être trouvé : " + location);
-            }
-            // Lecture des données audio du fichier en tant que tableau de bytes
-            byte[] audioData = inputStream.readAllBytes();
-            // Création d'un flux d'entrée à partir du tableau de bytes
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(audioData);
-            // Création du flux audio à partir du flux d'entrée
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(byteArrayInputStream);
-            // Obtention des informations sur le format audio
-            DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
-            // Création du clip audio
-            clipDefaite = (Clip) AudioSystem.getLine(info);
-            // Ouverture du clip avec le flux audio
-            clipDefaite.open(audioInputStream);
-            // Démarrage de la lecture du clip
-            clipDefaite.start();
+    public static void PlayMusicDefaite(String location){
+        AudioInputStream audioInputStream = null;
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(new File(location));
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
+        try {
+            clipDefaite = (Clip) AudioSystem.getLine(info);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            clipDefaite.open(audioInputStream);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        clipDefaite.start();
     }
 
     public static void stopMusicDefaite() {

@@ -8,12 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.net.URL;
 
@@ -32,17 +28,10 @@ public class GameoverControleur {
         primaryStage.setScene(scene);
         primaryStage.show();
         // Arreter la musique en cours (si elle est en cours de lecture)
-        Main.stopMusicDefaite();
-        // Lancer la musique du jeu
-        try {
-            Main.PlayMusicFond("/com/application/saejeu/saejeu1/musique/jeu.wav");
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
+        Main.stopMusicVictoire();
+        URL urlImageVaiL = Main.class.getResource("sondFond.wav");
+        String s = urlImageVaiL.getPath();
+        Main.PlayMusicFond(s);
     }
     @FXML
     public void quitterApplication(ActionEvent event) {
