@@ -28,7 +28,7 @@ public class GameoverControleur {
         primaryStage.setScene(scene);
         primaryStage.show();
         // Arreter la musique en cours (si elle est en cours de lecture)
-        Main.stopMusicVictoire();
+        Main.stopMusicDefaite();
         URL urlImageVaiL = Main.class.getResource("sondFond.wav");
         String s = urlImageVaiL.getPath();
         Main.PlayMusicFond(s);
