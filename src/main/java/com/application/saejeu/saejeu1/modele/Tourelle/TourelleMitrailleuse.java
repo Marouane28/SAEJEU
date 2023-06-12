@@ -8,8 +8,6 @@ public class TourelleMitrailleuse extends Tourelle {
         super(x, y, 5*16, 60, 5, env,"mitrailleuse.png", 400);
     }
 
-
-
     @Override
     public void attaquer() {
         if (cible != null && estEnPortee(cible)) {
@@ -25,5 +23,4 @@ public class TourelleMitrailleuse extends Tourelle {
             System.out.println("Aucune cible valide pour la tourelle mitrailleuse !");
         }
     }
-
 }
