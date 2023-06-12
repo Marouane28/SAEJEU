@@ -54,7 +54,7 @@ public class Controleur implements Initializable {
     private TileMap tileMap;
     @FXML
     private Label labelPieces, labelM, labelG, labelR;
-    private final int nb_manche = 10*; // permet de définir le nombre de manches
+    private final int nb_manche = 10; // permet de définir le nombre de manches
     private boolean estEnPause = false; // gerer les pauses
 
 
