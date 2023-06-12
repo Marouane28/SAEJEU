@@ -1,4 +1,5 @@
 package com.application.saejeu.saejeu1.controleur;
+import com.application.saejeu.saejeu1.Main;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import com.application.saejeu.saejeu1.modele.Tourelle.TourelleGèle;
 import com.application.saejeu.saejeu1.modele.Tourelle.TourelleMitrailleuse;
@@ -27,6 +28,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import com.application.saejeu.saejeu1.modele.*;
 import com.application.saejeu.saejeu1.vue.VueTerrain;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Controleur implements Initializable {
 
@@ -230,6 +234,18 @@ public class Controleur implements Initializable {
         Stage primaryStage = (Stage) ((Node) panneauDeJeu).getScene().getWindow();
         primaryStage.setScene(scene);
         primaryStage.show();
+        // Arreter la musique en cours (si elle est en cours de lecture)
+        Main.stopMusicFond();
+        // Lancer la musique de la défaite
+        try {
+            Main.PlayMusicDefaite("/com/application/saejeu/saejeu1/musique/gameover.wav");
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
     public void afficherWinJeuScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/application/saejeu/saejeu1/winJeu.fxml"));
@@ -244,21 +260,30 @@ public class Controleur implements Initializable {
         Stage primaryStage = (Stage) ((Node) panneauDeJeu).getScene().getWindow();
         primaryStage.setScene(scene);
         primaryStage.show();
+        // Arreter la musique en cours (si elle est en cours de lecture)
+        Main.stopMusicFond();
+        // Lancer la musique de victoire
+        try {
+            Main.PlayMusicVictoire("/com/application/saejeu/saejeu1/musique/victoire.wav");
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
     public void mettreAJourAffichageZombies(int zombies) {
-
         IntegerProperty zProperty = new SimpleIntegerProperty();
         zProperty.set(zombies);
         this.labelZombie.textProperty().bind(zProperty.asString());
     }
     public void mettreAJourAffichageVies(int vies) {
-
         IntegerProperty vProperty = new SimpleIntegerProperty();
         vProperty.set(vies);
         this.labelVies.textProperty().bind(vProperty.asString());
     }
     public void mettreAJourAffichageManche(int numeroManche) {
-
         IntegerProperty mProperty = new SimpleIntegerProperty();
         mProperty.set(numeroManche);
         this.labelManche.textProperty().bind(mProperty.asString());
@@ -268,7 +293,7 @@ public class Controleur implements Initializable {
         return Integer.parseInt(numberString);
     }
 
-    private Timeline initAnimation() {
+    private void initAnimation() {
         gameLoop = new Timeline();
         temps = 0;
         gameLoop.setCycleCount(Timeline.INDEFINITE);
@@ -281,15 +306,23 @@ public class Controleur implements Initializable {
                         tourManager.ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
                         this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
                     } else if (temps % 2 == 0) {
+                        if(Main.verifSon()==false){
+                            // Lancer la musique du jeu si le son n'est plus lancé
+                            try {
+                                Main.PlayMusicFond("/com/application/saejeu/saejeu1/musique/jeu.wav");
+                            } catch (UnsupportedAudioFileException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (LineUnavailableException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         tourManager.effectuerTour(); // Effectue un tour toutes les 2 unités de temps
                     }
-
                     temps++;
                 })
         );
         gameLoop.getKeyFrames().add(kf);
-
-        return gameLoop;
     }
-
 }
