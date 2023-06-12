@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.saejeu.saejeu1.controleur.MenuControleur">
+    <ImageView fitHeight="820.0" fitWidth="1440.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@fond-menu.png" />
+        </image>
+    </ImageView>
+
+
+    <VBox alignment="CENTER" layoutX="406.0" layoutY="324.0" prefHeight="199.0" prefWidth="591.0" spacing="50.0">
+        <Label style="-fx-font-size: 30px; -fx-text-fill: white; -fx-font-family: 'Chiller'; -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, red 0%, orange 50%, red 100%);" text="Zombie Survival: La Dernière Lueur d'Espoir" textAlignment="CENTER">
+            <font>
+                <Font name="Arial Black" size="40.0" />
+            </font>
+            <effect>
+                <DropShadow color="red" radius="10.0" spread="0.2" />
+            </effect>
+        </Label>
+        <Button onAction="#demarrerPartie" style="-fx-font-size: 20px; -fx-text-fill: white; -fx-background-color: red;" text="Lancer">
+            <effect>
+                <DropShadow color="black" radius="5.0" spread="0.2" />
+            </effect>
+        </Button>
+    </VBox>
+     <Button layoutX="657.0" layoutY="523.0" onAction="#quitterApplication" style="-fx-font-size: 20px; -fx-text-fill: white; -fx-background-color: red;" text="Quitter">
+         <effect>
+             <DropShadow color="black" radius="5.0" spread="0.2" />
+         </effect>
+     </Button>
+</Pane>

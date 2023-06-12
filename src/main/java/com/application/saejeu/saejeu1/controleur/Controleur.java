@@ -1,29 +1,32 @@
 package com.application.saejeu.saejeu1.controleur;
+import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
+import com.application.saejeu.saejeu1.modele.Tourelle.TourelleGèle;
+import com.application.saejeu.saejeu1.modele.Tourelle.TourelleMitrailleuse;
+import com.application.saejeu.saejeu1.modele.Tourelle.TourelleRepousse;
+import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.*;
-import javafx.collections.FXCollections;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import com.application.saejeu.saejeu1.modele.*;
-import com.application.saejeu.saejeu1.vue.VueEnnemi;
 import com.application.saejeu.saejeu1.vue.VueTerrain;
-import com.application.saejeu.saejeu1.vue.VueTourelle;
 
 public class Controleur implements Initializable {
 
@@ -31,247 +34,262 @@ public class Controleur implements Initializable {
     private TilePane tilePane; // le terrain
     @FXML
     private Pane panneauDeJeu;
-    private ObservableList<Acteur> zombies; // définit un ennemi
-    private ObservableList<Tourelle> tours; // définit une tour
-
+    @FXML
+    private Label labelVies;
+    @FXML
+    private Label labelManche;
+    @FXML
+    private Label labelZombie;
     // permet de definir l'animation
     private Timeline gameLoop;
     private int temps;
-    private TourelleMitrailleuse tourelleMitrailleuse;
-    private TourelleGèle tourelleGèle;
-    private TourelleRepousse tourelleRepousse;
-
-    private VueTourelle vueTourelle; // com.application.saejeu.saejeu1.vue tourelle
-    private VueTerrain vueTerrain; // com.application.saejeu.saejeu1.vue terrain
-    private VueEnnemi vueEnnemi; // com.application.saejeu.saejeu1.vue ennemi
     private Environnement environnement;
+    private Manche manche;
+    private ListChangeListener<Acteur> listenerActeur;
+    private ListChangeListener<Tourelle> listenerTourelle;
+    private TileMap tileMap;
+    @FXML
+    private Label labelPieces, labelM, labelG, labelR;
+    private final int nb_manche = 10; // permet de définir le nombre de manches
+    private boolean estEnPause = false; // gerer les pauses
 
-    ListChangeListener<Acteur> listenerActeur;
-    ListChangeListener<Tourelle> listenerTourelle;
-
-    Sommet source, cible;
-
-    ArrayList<Sommet> chemin;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        zombies = FXCollections.observableArrayList();
-        tours = FXCollections.observableArrayList();
         try {
-            environnement = new Environnement(90, 90);
+            gameLaunch(); // Lance le jeu en initialisant la carte et l'environnement
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        réglerTaille(); // Ajuste la taille du panneau de jeu en fonction de la taille de l'environnement
 
-        try {
-            environnement.readMap();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        reglerTaille();
-
-        Acteur z = créerZombie(1);
-        vueEnnemi = new VueEnnemi(panneauDeJeu, z);
-
-        Tourelle t = créerTourelle(2);
-        vueTourelle = new VueTourelle(panneauDeJeu,t);
-
-//        Tourelle t = new TourelleMitrailleuse(20*16,15*16,environnement);
-//        environnement.ajouterTourelle(t);
-//        tours.add(t);
-//        for (Tourelle tour : tours) {
-//            for (Acteur zombie : zombies){
-//                if (zombie.estVivant()) {
-//                    tour.setCible(zombie);
-//                }
-//            }
-//        }
-//        vueTourelle = new VueTourelle(panneaudejeu, t);
-
-
-        bfs();
+        // Crée des écouteurs de changement pour les listes d'acteurs et de tourelles de l'environnement
         listenerActeur = new ListObsActeur(panneauDeJeu);
         listenerTourelle = new ListObsTourelle(panneauDeJeu);
         environnement.getActeurs().addListener(listenerActeur);
         environnement.getTourelles().addListener(listenerTourelle);
-        coordoneeGetCoordSouris();
 
-        gameLaunche();
-
-        initAnimation();
-        // Démarrer l'animation
+        initAnimation(); // Initialise l'animation du jeu
+        // Démarre l'animation
         gameLoop.play();
     }
+    @FXML
+    public void abandonnerJeu(ActionEvent actionEvent) {
+        afficherGameOverScene();
+        gameLoop.stop();
+    }
+    @FXML
+    public void pauseJeu(ActionEvent event) {
+        estEnPause = true;
+        System.out.println("Vous avez mit pause !");
+        gameLoop.pause();
+    }
+    @FXML
+    public void reprendreJeu(ActionEvent event) {
+        estEnPause = false;
+        System.out.println("Vous avez repris !");
+        gameLoop.play();
+    }
+    @FXML
+    private void ajouterTourelleG() {
 
-    public void coordoneeGetCoordSouris() {
-        tilePane.setOnMousePressed(mouseEvent -> {
-            System.out.println("x " + mouseEvent.getX() + " Y " + mouseEvent.getY() + " id " + environnement.getTileMap()[(int) mouseEvent.getX() / 16][(int) mouseEvent.getY() / 16]);
+        // Ici, vous pouvez implémenter la logique pour ajouter une tourelle
+        // lorsque le bouton est cliqué
+        // Par exemple, vous pouvez activer l'écouteur de clic sur la zone de jeu.
+        panneauDeJeu.setOnMouseClicked(mouseEvent -> {
+            // Obtenir les coordonnées de la souris
+            int mouseX = (int) mouseEvent.getX() - ((int) mouseEvent.getX() % this.tileMap.getTileSize());
+            int mouseY = (int) mouseEvent.getY() - ((int) mouseEvent.getY() % this.tileMap.getTileSize());
+            // Condition pour ne pas la placer sur le chemin des zombies
+            int caseX = mouseX / this.tileMap.getTileSize();
+            int caseY = mouseY / this.tileMap.getTileSize();
+
+            boolean tourelleIci = false;
+            for (int i = 0; i < this.environnement.getTourelles().size(); i++) {
+
+                if (this.environnement.getTourelles().get(i).getX() == (mouseX) && this.environnement.getTourelles().get(i).getY() == (mouseY)) {
+
+                    tourelleIci = true;
+                }
+            }
+            // Si condition remplie
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= this.changerStringLabelEnInt(String.valueOf(this.labelG))) {
+                // Créer une nouvelle tourelle à la position de la souris si condition remplie
+                Tourelle nouvelleTourelle = new TourelleGèle(mouseX, mouseY, this.environnement);
+                // Ajouter la tourelle à votre environnement ou à une liste de tourelles
+                this.environnement.ajouterTourelle(nouvelleTourelle);
+                this.environnement.gagnerUnCertainNombreDePièce(-nouvelleTourelle.getCoût());
+            }
+            this.panneauDeJeu.setOnMouseClicked(null);
         });
     }
-    public void bfs(){
-        BFS bfs;
-        source = environnement.getSommet(0, 20);
+    @FXML
+    private void ajouterTourelleR() {
+        // Ici, vous pouvez implémenter la logique pour ajouter une tourelle
+        // lorsque le bouton est cliqué
+        // Par exemple, vous pouvez activer l'écouteur de clic sur la zone de jeu
+        panneauDeJeu.setOnMouseClicked(mouseEvent -> {
+            // Obtenir les coordonnées de la souris
+            int mouseX = (int) mouseEvent.getX() - ((int) mouseEvent.getX() % this.tileMap.getTileSize());
+            int mouseY = (int) mouseEvent.getY() - ((int) mouseEvent.getY() % this.tileMap.getTileSize());
+            // Condition pour ne pas la placer sur le chemin des zombies
+            int caseX = mouseX / this.tileMap.getTileSize();
+            int caseY = mouseY / this.tileMap.getTileSize();
 
-        System.out.println("source sommet " + source);
+            boolean tourelleIci = false;
+            for (int i = 0; i < this.environnement.getTourelles().size(); i++) {
 
-        System.out.println("poid de sommet source " + source.getPoids());
+                if (this.environnement.getTourelles().get(i).getX() == (mouseX) && this.environnement.getTourelles().get(i).getY() == (mouseY)) {
 
-
-        cible = environnement.getSommet(89, 34);
-        Circle circle = new Circle(89 * 16, 34 * 16, 10, Color.BLACK);
-        panneauDeJeu.getChildren().add(circle);
-
-        System.out.println("sommet cible poid " + cible.getPoids());
-
-        bfs = new BFS(environnement, source);
-
-        this.chemin = bfs.cheminVersSource(cible);
-
-        System.out.println("longeur chemin " + chemin);
-
-//        for (Sommet s : chemin) {
-//            PaneauDeJeu.getChildren().add(new Circle(s.getX() * 16, s.getY() * 16, 5, Color.RED));
-//        }
+                    tourelleIci = true;
+                }
+            }
+            // Si condition remplie
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= this.changerStringLabelEnInt(String.valueOf(this.labelR))) {
+                // Créer une nouvelle tourelle à la position de la souris si condition remplie
+                Tourelle nouvelleTourelle = new TourelleRepousse(mouseX, mouseY, this.environnement);
+                // Ajouter la tourelle à votre environnement ou à une liste de tourelles
+                this.environnement.ajouterTourelle(nouvelleTourelle);
+                this.environnement.gagnerUnCertainNombreDePièce(-nouvelleTourelle.getCoût());
+            }
+            this.panneauDeJeu.setOnMouseClicked(null);
+        });
     }
+    @FXML
+    private void ajouterTourelleM() {
+        // Ici, vous pouvez implémenter la logique pour ajouter une tourelle
+        // lorsque le bouton est cliqué
+        // Par exemple, vous pouvez activer l'écouteur de clic sur la zone de jeu
+        panneauDeJeu.setOnMouseClicked(mouseEvent -> {
+            // Obtenir les coordonnées de la souris
+            int mouseX = (int) mouseEvent.getX() - ((int) mouseEvent.getX() % this.tileMap.getTileSize());
+            int mouseY = (int) mouseEvent.getY() - ((int) mouseEvent.getY() % this.tileMap.getTileSize());
+            // Condition pour ne pas la placer sur le chemin des zombies
+            int caseX = mouseX / this.tileMap.getTileSize();
+            int caseY = mouseY / this.tileMap.getTileSize();
 
-    public Acteur créerZombie(int nbZombie){
-        Acteur zombie = null;
-        for (int i = 0 ; i < nbZombie ; i++){
-            Random rand = new Random();
-            int nb = rand.nextInt(3 - 1 + 1) + 1;
+            boolean tourelleIci = false;
+            for (int i = 0; i < this.environnement.getTourelles().size(); i++) {
 
-            if (nb == 1) {
-                Acteur z1 = new ZombieRapide(environnement);
-                zombies.add(z1);
-                environnement.ajouterActeur(z1);
-                zombie = z1;
+                if (this.environnement.getTourelles().get(i).getX() == (mouseX) && this.environnement.getTourelles().get(i).getY() == (mouseY)) {
+
+                    tourelleIci = true;
+                }
             }
-
-            else if (nb == 2){
-                Acteur z2 = new ZombieLent(environnement);
-                zombies.add(z2);
-                environnement.ajouterActeur(z2);
-                zombie = z2;
+            // Si condition remplie
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= this.changerStringLabelEnInt(String.valueOf(this.labelM))) {
+                // Créer une nouvelle tourelle à la position de la souris si condition remplie
+                Tourelle nouvelleTourelle = new TourelleMitrailleuse(mouseX, mouseY, this.environnement);
+                // Ajouter la tourelle à votre environnement ou à une liste de tourelles
+                this.environnement.ajouterTourelle(nouvelleTourelle);
+                this.environnement.gagnerUnCertainNombreDePièce(-nouvelleTourelle.getCoût());
             }
-
-            else {
-                Acteur z2 = new ZombieGeant(environnement);
-                zombies.add(z2);
-                environnement.ajouterActeur(z2);
-                zombie = z2;
-            }
-        }
-        return zombie;
+            this.panneauDeJeu.setOnMouseClicked(null);
+        });
     }
-
-        public Tourelle créerTourelle(int nbTourelle){
-        Tourelle tourelle = null;
-        for (int i = 0 ; i < nbTourelle ; i++){
-            Random rand = new Random();
-            int nb = rand.nextInt(3 - 1 + 1) + 1;
-            int x = rand.nextInt(environnement.getX() + 1) + 1;
-            int y = rand.nextInt(environnement.getY() + 1) + 1;
-
-            if (nb == 1){
-                Tourelle t1 = new TourelleMitrailleuse(x*16,y*16,environnement);
-                environnement.ajouterTourelle(t1);
-                tours.add(t1);
-            }
-            else if (nb == 2){
-                Tourelle t1 = new TourelleRepousse(x*16,y*16,environnement);
-                environnement.ajouterTourelle(t1);
-                tours.add(t1);
-            }
-            else {
-                Tourelle t1 = new TourelleGèle(x*16,y*16,environnement);
-                environnement.ajouterTourelle(t1);
-                tours.add(t1);
-            }
-        }
-        return tourelle;
-    }
-
-
-    public void reglerTaille(){
-        this.tilePane.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
-        this.tilePane.setMaxSize(environnement.getX() * 16, environnement.getY() * 16);
-        this.tilePane.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
+    public void réglerTaille() {
+        // Définit la taille minimale du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
+
+        // Définit la taille maximale du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setMaxSize(environnement.getX() * 16, environnement.getY() * 16);
+
+        // Définit la taille préférée du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
     }
+    public void gameLaunch() throws IOException {
 
-    public void gameLaunche() {
+        manche = new Manche(); // Crée une nouvelle instance de la classe Manche
         try {
-            this.vueTerrain = new VueTerrain(environnement, tilePane);
-        } catch (FileNotFoundException e) {
+            // Crée une nouvelle instance de TileMap en utilisant la virgule (",") comme délimiteur et le nom "vraietilemap"
+            this.tileMap = new TileMap(",", "vraietilemap");
+
+            // Crée une nouvelle instance d'Environnement en utilisant le TileMap précédemment créé
+            this.environnement = new Environnement(this.tileMap);
+
+            // Crée une nouvelle instance de VueTerrain en utilisant l'Environnement, le TilePane et le nom du fichier "tileset1.jpg"
+            VueTerrain vueTerrain = new VueTerrain(this.environnement, this.tilePane, "tileset1.jpg");
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        mettreAJourAffichageVies(environnement.getVies()); // Met à jour l'affichage du nombre de vies
+        mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
+        mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
+    }
+    public void afficherGameOverScene() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        URL resource = getClass().getResource("/com/application/saejeu/saejeu1/finJeu.fxml");
+        Parent root = null;
+        try {
+            root = fxmlLoader.load(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return; // Arrêter la méthode si une exception se produit lors du chargement du fichier FXML
+        }
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) panneauDeJeu).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    public void afficherWinJeuScene() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/application/saejeu/saejeu1/winJeu.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return; // Arrêter la méthode si une exception se produit lors du chargement du fichier FXML
+        }
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) panneauDeJeu).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    public void mettreAJourAffichageZombies(int zombies) {
+
+        IntegerProperty zProperty = new SimpleIntegerProperty();
+        zProperty.set(zombies);
+        this.labelZombie.textProperty().bind(zProperty.asString());
+    }
+    public void mettreAJourAffichageVies(int vies) {
+
+        IntegerProperty vProperty = new SimpleIntegerProperty();
+        vProperty.set(vies);
+        this.labelVies.textProperty().bind(vProperty.asString());
+    }
+    public void mettreAJourAffichageManche(int numeroManche) {
+
+        IntegerProperty mProperty = new SimpleIntegerProperty();
+        mProperty.set(numeroManche);
+        this.labelManche.textProperty().bind(mProperty.asString());
+    }
+    private int changerStringLabelEnInt (String input) {
+        String numberString = input.replaceAll("[^0-9]", ""); // Supprime tous les caractères non numériques
+        return Integer.parseInt(numberString);
     }
 
-    private void initAnimation() {
+    private Timeline initAnimation() {
         gameLoop = new Timeline();
         temps = 0;
         gameLoop.setCycleCount(Timeline.INDEFINITE);
-        AtomicInteger i = new AtomicInteger();
-//        AtomicInteger k = new AtomicInteger();
-
+        TourManager tourManager = new TourManager(environnement, manche, nb_manche, this, gameLoop);
 
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.17),
-
+                Duration.seconds(0.08),
                 (ev -> {
-                    if (temps % 10 == 0){
-                        Sommet sommet = chemin.get(i.getAndIncrement());
-                        System.out.println("cha164ngement dans controleur");
-                        Acteur zombie = créerZombie(1);
-                        zombies.add(zombie);
-                        environnement.ajouterActeur(zombie);
-//                        zombie.setX(sommet.getX() * 16);
-//                        zombie.setY(sommet.getY() * 16);
-                    }
-                    if (temps == 10000) {
-                        gameLoop.stop();
+                    if (temps % 10 == 0 && manche.getNombreZombies() != manche.getCompteurZombie()) {
+                        tourManager.ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
+                        this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
                     } else if (temps % 2 == 0) {
-                        System.out.println("un tour");
-
-                        for (Acteur zombie : zombies) {
-                            Sommet sommet = chemin.get(i.getAndIncrement());
-                            zombie.setX(sommet.getX() * 16);
-                            zombie.setY(sommet.getY() * 16);
-                            for (Tourelle tour : tours){
-                                tour.attaquer();
-                            }
-
-                            if (!zombie.estVivant()) {
-
-                                for (ImageView imageView : vueEnnemi.getImageViews()) {
-                                    if (imageView.translateXProperty().isBound() && imageView.translateXProperty().get() == zombie.getX() &&
-                                            imageView.translateYProperty().isBound() && imageView.translateYProperty().get() == zombie.getY()) {
-                                        vueEnnemi.removeImageView(imageView);
-                                        System.out.println(" Un zombie est mort ! ");
-                                        break;
-                                    }
-                                }
-
-//                                gameLoop.stop();
-                            }
-
-
-                            //System.out.println(sommet);
-                            if (sommet.getY() == cible.getY() && sommet.getX() == cible.getX()) {
-                                System.out.println("Vous avez perdu !");
-                                gameLoop.stop();
-                            }
-                        }
+                        tourManager.effectuerTour(); // Effectue un tour toutes les 2 unités de temps
                     }
-
 
                     temps++;
                 })
         );
         gameLoop.getKeyFrames().add(kf);
+
+        return gameLoop;
     }
 
 }

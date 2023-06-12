@@ -13,47 +13,46 @@ public class VueTerrain {
 
     private Image imgTilep;
     private ImageView imgV;
-
     private Environnement terrain;
-
     private TilePane tilePane;
+    private String nomFichier;
 
-    public VueTerrain(Environnement t, TilePane tileP) throws FileNotFoundException {
-        this.terrain = t;
+    public VueTerrain(Environnement environnement, TilePane tileP, String nomFichier) throws FileNotFoundException {
+        this.terrain = environnement;
         this.tilePane = tileP;
-        iniTerrain();
+        this.nomFichier = nomFichier;
+
+        iniTerrain(); // Initialisation du terrain
     }
 
-
     void iniTerrain() {
-
         FileInputStream fichierTileSet = null;
         try {
-            fichierTileSet = new FileInputStream(getClass().getResource("tileset1.jpg" ).getFile());
+            fichierTileSet = new FileInputStream(getClass().getResource(this.nomFichier).getFile());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.imgTilep = new Image(fichierTileSet);
-        for (int i = 0; i < terrain.getTileMap().length; i++) {
-            for (int j = 0; j < terrain.getTileMap()[i].length; j++) {
-                imgV = new ImageView(this.imgTilep);
-                ajouterTile(imgV, this.terrain.getTileMap()[j][i]);
+        this.imgTilep = new Image(fichierTileSet); // Chargement de l'image du tileset
 
+        for (int i = 0; i < this.terrain.getY() / this.terrain.getTileMap().getTileSize(); i++) {
+            for (int j = 0; j < this.terrain.getX() / this.terrain.getTileMap().getTileSize(); j++) {
+                int id = this.terrain.getTileMap().getMapDeJeu()[j][i]; // Récupération de l'ID de la tuile à afficher
+                ImageView imgV = new ImageView(this.imgTilep); // Création d'une nouvelle ImageView pour la tuile
+                ajouterTile(imgV, id); // Ajout de la tuile à l'ImageView
             }
         }
     }
 
-
     public void ajouterTile(ImageView img, int id) {
         int x;
         int y;
-        x = id % ((int) imgTilep.getWidth() / 16);
-        y = id / ((int) imgTilep.getWidth() / 16);
+        x = id % ((int) imgTilep.getWidth() / 16); // Calcul de la position X de la tuile dans le tileset
+        y = id / ((int) imgTilep.getWidth() / 16); // Calcul de la position Y de la tuile dans le tileset
 
-        x = (x * 16);
-        y = (y * 16);
+        x = (x * 16); // Positionnement X de la tuile
+        y = (y * 16); // Positionnement Y de la tuile
 
-        img.setViewport(new Rectangle2D(x, y, 16, 16));
-        this.tilePane.getChildren().add(img);
+        img.setViewport(new Rectangle2D(x, y, 16, 16)); // Définition de la zone de découpage pour afficher la tuile correcte
+        this.tilePane.getChildren().add(img); // Ajout de l'ImageView contenant la tuile au TilePane
     }
 }
