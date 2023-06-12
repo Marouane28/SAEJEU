@@ -1,5 +1,6 @@
-package com.application.saejeu.saejeu1.modele;
+package com.application.saejeu.saejeu1.modele.Zombie;
 
+import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.vue.VueEnnemi;
 import com.application.saejeu.saejeu1.vue.VueTourelle;
 import javafx.beans.property.DoubleProperty;

@@ -1,4 +1,7 @@
-package com.application.saejeu.saejeu1.modele;
+package com.application.saejeu.saejeu1.modele.Tourelle;
+
+import com.application.saejeu.saejeu1.modele.Environnement;
+import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 
 import java.util.ArrayList;
 import java.util.List;

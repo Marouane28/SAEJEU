@@ -1,18 +1,15 @@
 package com.application.saejeu.saejeu1.vue;
 
 import com.application.saejeu.saejeu1.Main;
-import com.application.saejeu.saejeu1.modele.ZombieLent;
-import com.application.saejeu.saejeu1.modele.ZombieRapide;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import com.application.saejeu.saejeu1.modele.Acteur;
+import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class VueEnnemi {
     private ArrayList<ImageView> imageViews; // Liste des ImageView pour afficher les ennemis

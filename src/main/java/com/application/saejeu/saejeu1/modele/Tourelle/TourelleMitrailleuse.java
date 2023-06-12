@@ -1,4 +1,6 @@
-package com.application.saejeu.saejeu1.modele;
+package com.application.saejeu.saejeu1.modele.Tourelle;
+
+import com.application.saejeu.saejeu1.modele.Environnement;
 
 public class TourelleMitrailleuse extends Tourelle {
 

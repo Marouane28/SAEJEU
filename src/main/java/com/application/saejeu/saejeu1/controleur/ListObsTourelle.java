@@ -1,8 +1,6 @@
 package com.application.saejeu.saejeu1.controleur;
 
-import com.application.saejeu.saejeu1.modele.Acteur;
-import com.application.saejeu.saejeu1.modele.Tourelle;
-import com.application.saejeu.saejeu1.vue.VueEnnemi;
+import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import com.application.saejeu.saejeu1.vue.VueTourelle;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;

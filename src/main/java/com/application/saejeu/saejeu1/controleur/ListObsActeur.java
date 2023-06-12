@@ -1,6 +1,6 @@
 package com.application.saejeu.saejeu1.controleur;
 
-import com.application.saejeu.saejeu1.modele.Acteur;
+import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import com.application.saejeu.saejeu1.vue.VueEnnemi;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;

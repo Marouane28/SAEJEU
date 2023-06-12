@@ -1,17 +1,18 @@
-package com.application.saejeu.saejeu1.modele;
+package com.application.saejeu.saejeu1.modele.Zombie;
 
-public class ZombieGeant extends Acteur {
+import com.application.saejeu.saejeu1.modele.Environnement;
+
+public class ZombieLent extends Acteur {
     private int deplacementCounter; // Ajoutez cette variable de compteur de déplacement
 
-    public ZombieGeant(Environnement env) {
-        super(0, 304, env, 50,"zombieGeant.png");
+    public ZombieLent(Environnement env) {
+        super(0, 304, env, 40,"zombieLent.png");
         deplacementCounter = 0; // Initialisez le compteur de déplacement à 0
-
     }
 
     @Override
     public void deplacement() {
-        if (deplacementCounter % 3 == 0) { // Vérifiez si le compteur de déplacement est un multiple de trois
+        if (deplacementCounter % 2 == 0) { // Vérifiez si le compteur de déplacement est un multiple de 2
             // Effectuez le déplacement
             super.deplacement();
         }

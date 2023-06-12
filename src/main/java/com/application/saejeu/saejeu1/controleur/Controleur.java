@@ -1,10 +1,13 @@
 package com.application.saejeu.saejeu1.controleur;
-import com.application.saejeu.saejeu1.Main;
+import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
+import com.application.saejeu.saejeu1.modele.Tourelle.TourelleGèle;
+import com.application.saejeu.saejeu1.modele.Tourelle.TourelleMitrailleuse;
+import com.application.saejeu.saejeu1.modele.Tourelle.TourelleRepousse;
+import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,30 +15,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import com.application.saejeu.saejeu1.modele.*;
-import com.application.saejeu.saejeu1.vue.VueEnnemi;
 import com.application.saejeu.saejeu1.vue.VueTerrain;
-import com.application.saejeu.saejeu1.vue.VueTourelle;
 
 public class Controleur implements Initializable {
 

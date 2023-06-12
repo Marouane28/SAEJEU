@@ -1,18 +1,14 @@
 package com.application.saejeu.saejeu1.modele;
 
-import com.application.saejeu.saejeu1.Main;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
+import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
+import com.application.saejeu.saejeu1.modele.Zombie.ZombieGeant;
+import com.application.saejeu.saejeu1.modele.Zombie.ZombieLent;
+import com.application.saejeu.saejeu1.modele.Zombie.ZombieRapide;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.*;
 import java.util.*;
@@ -26,7 +22,7 @@ public class Environnement {
     private ObservableList<Sommet> obstacles; // Liste des sommets représentant les obstacles
     private ObservableList<Tourelle> tourelles; // Liste des tourelles présentes dans l'environnement
     private final int OBSTACLE_TILE = 400; // Tuile utilisée pour représenter un obstacle
-    private IntegerProperty pièces;
+    private IntegerProperty pièces; // pièces pour le jeu
 
     private BFS bfs; // Algorithme BFS pour la recherche de chemin
     ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
@@ -41,7 +37,7 @@ public class Environnement {
         this.tourelles = FXCollections.observableArrayList(); // Initialise la liste des tourelles
         this.listeAdj = new HashMap(); // Initialise la liste d'adjacence
         this.obstacles = FXCollections.observableArrayList(); // Initialise la liste des obstacles
-        this.pièces = new SimpleIntegerProperty((250));
+        this.pièces = new SimpleIntegerProperty((250)); // Initialise le nombre de pièces pour le début de la partie
 
         construit(); // Construit la liste d'adjacence
         bfs = new BFS(this, getSommet(0, 20)); // Initialise l'algorithme BFS avec un sommet source
@@ -61,10 +57,6 @@ public class Environnement {
     public void setPièces(int i) {
 
         this.pièces.set(i);
-    }
-    public void gagnerUnePièce() {
-
-        this.pièces.set(this.getPièces() + 1);
     }
 
     public void gagnerUnCertainNombreDePièce(int i) {
@@ -161,16 +153,8 @@ public class Environnement {
         return x; // Renvoie la largeur de l'environnement
     }
 
-    public void setX(int x) {
-        this.x = x; // Modifie la largeur de l'environnement
-    }
-
     public int getY() {
         return y; // Renvoie la hauteur de l'environnement
-    }
-
-    public void setY(int y) {
-        this.y = y; // Modifie la hauteur de l'environnement
     }
 
     public ObservableList<Acteur> getActeurs() {
@@ -210,13 +194,6 @@ public class Environnement {
         }
         ajouterActeur(zombie);
         return zombie; // Crée un zombie et l'ajoute à la liste des acteurs
-    }
-
-    public boolean isNotObstacle(int x, int y) {
-        if (this.getTileMap().getMapDeJeu()[x][y] == this.OBSTACLE_TILE) {
-            return false;
-        }
-        return true; // Vérifie si la tuile à la position (x, y) est un obstacle
     }
 
     public ArrayList<Sommet> getChemin() {
