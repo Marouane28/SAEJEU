@@ -63,10 +63,6 @@ public abstract class Acteur {
         return this.pv > 0; // Vérifie si l'acteur est vivant en comparant ses points de vie à 0
     }
 
-    public void meurt() {
-        this.pv = 0; // Définit les points de vie de l'acteur à 0 pour le faire mourir
-    }
-
     public void setVueEnnemi(VueEnnemi vueEnnemi) {
         this.vueEnnemi = vueEnnemi; // Définit la vue associée à l'acteur
     }
@@ -83,14 +79,6 @@ public abstract class Acteur {
     @Override
     public String toString() {
         return "x = " + x + ", y = " + y; // Renvoie une représentation en chaîne de caractères des coordonnées (x, y) de l'acteur
-    }
-
-    public boolean estGele() {
-        return gele; // Vérifie si l'acteur est gelé ou non
-    }
-
-    public void setGele(boolean gele) {
-        this.gele = gele; // Définit l'état gelé de l'acteur
     }
 
     public void deplacement() {

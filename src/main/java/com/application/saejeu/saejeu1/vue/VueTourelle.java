@@ -57,13 +57,9 @@ public class VueTourelle {
         this.imageViews.add(imageView); // Ajout de l'ImageView à la liste des ImageView
 
     }
+
     public void setImageView(ImageView imageView) {
-
         this.imageView = imageView;
-    }
-    public ImageView getImageView() {
-
-        return this.imageView;
     }
 
     // Méthode pour afficher le rayon de portée de la tourelle

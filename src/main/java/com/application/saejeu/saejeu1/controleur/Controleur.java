@@ -36,23 +36,23 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Controleur implements Initializable {
 
     @FXML
-    private TilePane tilePane; // le terrain
+    private TilePane tilePane; // Représente le terrain de jeu (la grille)
     @FXML
-    private Pane panneauDeJeu;
+    private Pane panneauDeJeu; // Représente le panneau de jeu principal
     @FXML
-    private Label labelManche, labelZombie, labelVies, nbTourelles, labelCoutAm;
-    // permet de definir l'animation
-    private Timeline gameLoop;
-    private int temps;
-    private Environnement environnement;
-    private Manche manche;
-    private ListChangeListener<Acteur> listenerActeur;
-    private ListChangeListener<Tourelle> listenerTourelle;
-    private TileMap tileMap;
+    private Label labelManche, labelZombie, labelVies, nbTourelles, labelCoutAm; // Labels pour afficher les informations du jeu
     @FXML
-    private Label labelPieces, labelM, labelG, labelR;
-    private final int nb_manche = 1; // permet de définir le nombre de manches
-    private boolean estEnPause = false; // gerer les pauses
+    private Label labelPieces, labelM, labelG, labelR; // Labels pour afficher les informations de ressources
+    private Timeline gameLoop; // Boucle de jeu pour les mises à jour périodiques
+    private int temps; // Temps écoulé dans le jeu
+    private Environnement environnement; // Référence à l'environnement du jeu
+    private Manche manche; // Référence à la manche en cours
+    private ListChangeListener<Acteur> listenerActeur; // Écouteur de changements pour les acteurs (zombies, tourelles, etc.)
+    private ListChangeListener<Tourelle> listenerTourelle; // Écouteur de changements pour les tourelles
+    private TileMap tileMap; // Représente la carte de tuiles du terrain
+    private final int nb_manche = 10; // Permet de définir le nombre de manches dans le jeu
+    private boolean estEnPause = false; // Indique si le jeu est en pause ou non
+
 
 
     @Override
@@ -93,7 +93,6 @@ public class Controleur implements Initializable {
     }
     @FXML
     private void ajouterTourelleG() {
-
         // Ici, vous pouvez implémenter la logique pour ajouter une tourelle
         // lorsque le bouton est cliqué
         // Par exemple, vous pouvez activer l'écouteur de clic sur la zone de jeu.
@@ -192,10 +191,8 @@ public class Controleur implements Initializable {
     public void réglerTaille() {
         // Définit la taille minimale du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
-
         // Définit la taille maximale du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setMaxSize(environnement.getX() * 16, environnement.getY() * 16);
-
         // Définit la taille préférée du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
     }
@@ -219,10 +216,11 @@ public class Controleur implements Initializable {
         mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
         mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
         mettreAJourAffichagePiece(environnement.getPièces()); // Met à jour l'affichage des pièces
-        mettreAJourAffichagePrixTourelles();
-        mettreAJourAffichageTourelles(this.environnement.getTourelles().size());
-        mettreAJourCoûtAmélioration();
+        mettreAJourAffichagePrixTourelles(); // Appel d'une méthode pour mettre à jour l'affichage des prix des tourelles
+        mettreAJourAffichageTourelles(this.environnement.getTourelles().size()); // Appel d'une méthode pour mettre à jour l'affichage des tourelles en fonction de leur nombre
+        mettreAJourCoûtAmélioration(); // Appel d'une méthode pour mettre à jour le coût d'amélioration
     }
+
     public void afficherGameOverScene() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL resource = getClass().getResource("/com/application/saejeu/saejeu1/finJeu.fxml");
@@ -244,6 +242,7 @@ public class Controleur implements Initializable {
         String s = urlImageVaiL.getPath();
         Main.PlayMusicDefaite(s);
     }
+
     public void afficherWinJeuScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/application/saejeu/saejeu1/winJeu.fxml"));
         Parent root = null;
@@ -264,11 +263,13 @@ public class Controleur implements Initializable {
         String s = urlImageVaiL.getPath();
         Main.PlayMusicVictoire(s);
     }
+
     public void mettreAJourAffichageZombies(int zombies) {
         IntegerProperty zProperty = new SimpleIntegerProperty();
         zProperty.set(zombies);
         this.labelZombie.textProperty().bind(zProperty.asString());
     }
+
     public void mettreAJourAffichagePiece(int pieces) {
         IntegerProperty pProperty = new SimpleIntegerProperty();
         pProperty.set(pieces);
@@ -280,23 +281,24 @@ public class Controleur implements Initializable {
         vProperty.set(vies);
         this.labelVies.textProperty().bind(vProperty.asString());
     }
-    public void mettreAJourCoûtAmélioration() {
 
+    public void mettreAJourCoûtAmélioration() {
         Tourelle m = new TourelleMitrailleuse(0, 0, this.environnement);
         this.labelCoutAm.textProperty().bind(m.getCoûtAmProperty().asString());
     }
-    public void mettreAJourAffichageTourelles(int tourelles) {
 
+    public void mettreAJourAffichageTourelles(int tourelles) {
         IntegerProperty tProperty = new SimpleIntegerProperty(tourelles);
         this.nbTourelles.textProperty().bind(tProperty.asString());
     }
+
     public void mettreAJourAffichageManche(int numeroManche) {
         IntegerProperty mProperty = new SimpleIntegerProperty();
         mProperty.set(numeroManche);
         this.labelManche.textProperty().bind(mProperty.asString());
     }
-    public void mettreAJourAffichagePrixTourelles() {
 
+    public void mettreAJourAffichagePrixTourelles() {
         Tourelle m = new TourelleMitrailleuse(0, 0, this.environnement);
         this.labelM.textProperty().bind(m.getCoûtProperty().asString());
         Tourelle g = new TourelleGèle(0, 0, this.environnement);

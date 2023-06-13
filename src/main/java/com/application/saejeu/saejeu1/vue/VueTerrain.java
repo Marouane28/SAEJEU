@@ -46,13 +46,13 @@ public class VueTerrain {
     public void ajouterTile(ImageView img, int id) {
         int x;
         int y;
-        x = id % ((int) imgTilep.getWidth() / 16); // Calcul de la position X de la tuile dans le tileset
-        y = id / ((int) imgTilep.getWidth() / 16); // Calcul de la position Y de la tuile dans le tileset
+        x = id % ((int) imgTilep.getWidth() / this.terrain.getTileMap().getTileSize()); // Calcul de la position X de la tuile dans le tileset
+        y = id / ((int) imgTilep.getWidth() / this.terrain.getTileMap().getTileSize()); // Calcul de la position Y de la tuile dans le tileset
 
-        x = (x * 16); // Positionnement X de la tuile
-        y = (y * 16); // Positionnement Y de la tuile
+        x = (x * this.terrain.getTileMap().getTileSize()); // Positionnement X de la tuile
+        y = (y * this.terrain.getTileMap().getTileSize()); // Positionnement Y de la tuile
 
-        img.setViewport(new Rectangle2D(x, y, 16, 16)); // Définition de la zone de découpage pour afficher la tuile correcte
+        img.setViewport(new Rectangle2D(x, y, this.terrain.getTileMap().getTileSize(), this.terrain.getTileMap().getTileSize())); // Définition de la zone de découpage pour afficher la tuile correcte
         this.tilePane.getChildren().add(img); // Ajout de l'ImageView contenant la tuile au TilePane
     }
 }
