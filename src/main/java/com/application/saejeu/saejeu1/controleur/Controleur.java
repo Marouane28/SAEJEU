@@ -50,8 +50,6 @@ public class Controleur implements Initializable {
     private final int nb_manche = 10; // Permet de définir le nombre de manches dans le jeu
     private boolean estEnPause = false; // Indique si le jeu est en pause ou non
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
