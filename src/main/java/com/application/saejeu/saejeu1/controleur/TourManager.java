@@ -1,6 +1,8 @@
-package com.application.saejeu.saejeu1.modele;
+package com.application.saejeu.saejeu1.controleur;
 
 import com.application.saejeu.saejeu1.controleur.Controleur;
+import com.application.saejeu.saejeu1.modele.Environnement;
+import com.application.saejeu.saejeu1.modele.Manche;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.Timeline;
@@ -27,8 +29,7 @@ public class TourManager {
     // Le centre de contrôle pour les tours
     public void effectuerTour() {
         controleur.mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
-        controleur.mettreAJourAffichagePiece(environnement.getPièces()); // Met à jour l'affichage des pièces
-        controleur.mettreAJourAffichageTourelles(environnement.getTourelles().size());
+        controleur.mettreAJourAffichageTourelles(environnement.getTourelles().size()); // Met à jour l'affichage du nombre de tourelle
         System.out.println("un tour"); // Affiche un message indiquant le début d'un tour
         ArrayList<Acteur> acteursCopy = new ArrayList<>(environnement.getActeurs()); // Crée une copie de la liste des acteurs dans l'environnement
         for (Acteur zombie : acteursCopy) {
@@ -74,10 +75,9 @@ public class TourManager {
     }
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
-        if (manche.getNumeroManche() < nb_manche) {
+        if (manche.numeroMancheProperty().get() < nb_manche) {
             System.out.println("Début de la prochaine manche..."); // Affiche un message indiquant le début de la prochaine manche
             manche.demarrerManche(environnement); // Démarre la prochaine manche en utilisant l'environnement actuel
-            controleur.mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
             manche.setCompteurZombie0(); // Réinitialise le compteur de zombies de la manche à zéro
             this.environnement.gagnerUnCertainNombreDePièce(100); // gagner 100 pièces à la fin de chaque manche
         } else {
@@ -91,12 +91,10 @@ public class TourManager {
         environnement.décrémenterVies(); // Décrémente le nombre de vies de l'environnement
         environnement.getActeurs().remove(zombie); // Supprime le zombie de la liste des acteurs
         int viesRestantes = environnement.getVies(); // Obtient le nombre de vies restantes
-        controleur.mettreAJourAffichageVies(viesRestantes); // Met à jour l'affichage du nombre de vies restantes
 
-        if (manche.getNumeroManche() < nb_manche && viesRestantes != 0 && environnement.getActeurs().isEmpty()) {
+        if (manche.numeroMancheProperty().get() < nb_manche && viesRestantes != 0 && environnement.getActeurs().isEmpty()) {
             System.out.println("Début de la prochaine manche..."); // Affiche un message indiquant le début de la prochaine manche
             manche.demarrerManche(environnement); // Démarre la prochaine manche en utilisant l'environnement actuel
-            controleur.mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
             manche.setCompteurZombie0(); // Réinitialise le compteur de zombies de la manche à zéro
             this.environnement.gagnerUnCertainNombreDePièce(100); // gagner 100 pièces à la fin de chaque manche
         }
@@ -104,7 +102,7 @@ public class TourManager {
             System.out.println("Vous avez perdu !");
             gameLoop.stop(); // Arrête la boucle de jeu
             controleur.afficherGameOverScene(); // Affiche l'écran de fin de jeu en utilisant le contrôleur
-        } else if (viesRestantes >= 1 && manche.getNumeroManche() == nb_manche && environnement.getActeurs().isEmpty()) {
+        } else if (viesRestantes >= 1 && manche.numeroMancheProperty().get() == nb_manche && environnement.getActeurs().isEmpty()) {
             // Victoire
             System.out.println("Vous avez gagné !");
             gameLoop.stop(); // Arrête la boucle de jeu

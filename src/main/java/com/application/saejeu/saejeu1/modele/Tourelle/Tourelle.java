@@ -38,7 +38,7 @@ public abstract class Tourelle {
             // Vérification si l'environnement a suffisamment de pièces pour l'amélioration
             this.setDégât(getDégât() + 10); // Augmentation du dégât de la tourelle de 10
             this.vueTourelle.retirerRayonPortee(); // Retrait du rayon de portée de la vue de la tourelle
-            this.setPortée(getPortée() + 2*16); // Augmentation de la portée de la tourelle de 5*16 (à définir unité de mesure)
+            this.setPortée(getPortée() + 2*16); // Augmentation de la portée de la tourelle de 2*16 (à définir unité de mesure)
             this.vueTourelle.afficherRayonPorteeAmélioré(); // Affichage du rayon de portée amélioré dans la vue de la tourelle
             this.setPv(getPv() + 30); // Augmentation des points de vie de la tourelle de 30
             this.setEstAméliorée(true); // La tourelle est maintenant améliorée

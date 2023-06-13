@@ -24,7 +24,7 @@ public class Environnement {
     private IntegerProperty pièces; // pièces pour le jeu
     private BFS bfs; // Algorithme BFS pour la recherche de chemin
     private ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
-    private int vies; // Nombre de vies restantes
+    private IntegerProperty vies; // Nombre de vies restantes
 
     public Environnement(TileMap tileMap) throws IOException {
         this.tileMap = tileMap; // Initialise la carte de tuiles
@@ -39,7 +39,7 @@ public class Environnement {
         construit(); // Construit la liste d'adjacence
         bfs = new BFS(this, getSommet(0, 20)); // Initialise l'algorithme BFS avec un sommet source
         chemin = bfs.cheminVersSource(getSommet(89, 34)); // Trouve le chemin vers un sommet cible
-        vies = 3; // Initialise le nombre de vies à 3
+        this.vies = new SimpleIntegerProperty(3); // Initialise le nombre de vies à 3
     }
 
     public IntegerProperty getPropertyPièces() {
@@ -60,10 +60,6 @@ public class Environnement {
     public void gagnerUnCertainNombreDePièce(int i) {
         // Cette méthode permet d'ajouter un certain nombre de pièces à la valeur actuelle de la propriété "pièces".
         this.pièces.set(this.getPièces() + i);
-    }
-
-    public BFS getBfs() {
-        return bfs; // Renvoie l'algorithme BFS utilisé
     }
 
     public void construit() {
@@ -160,11 +156,15 @@ public class Environnement {
     }
 
     public int getVies() {
-        return vies; // Renvoie le nombre de vies restantes
+        return vies.get();
     }
 
     public void décrémenterVies() {
-        vies--; // Décrémente le nombre de vies
+        vies.set(vies.get() - 1);
+    }
+
+    public IntegerProperty viesProperty() {
+        return vies;
     }
 
     public void ajouterActeur(Acteur a) {

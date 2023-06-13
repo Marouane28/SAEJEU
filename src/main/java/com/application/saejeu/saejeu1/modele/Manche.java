@@ -1,24 +1,30 @@
 package com.application.saejeu.saejeu1.modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.util.ArrayList;
 
 public class Manche {
     private int nombreZombies; // Variable pour stocker le nombre de zombies pour chaque manche
-    private int numeroManche; // Variable pour stocker le numéro de la manche
+    IntegerProperty numeroManche; // Variable pour stocker le numéro de la manche
     private int compteurZombie; // Variable pour compter le nombre de zombies actuellement
 
     public Manche() {
         this.nombreZombies = 10; // Initialise le nombre de zombies à 10 pour la première manche
-        numeroManche = 1; // Initialise le numéro de la première manche à 1
+        this.numeroManche = new SimpleIntegerProperty(1); // Initialise le numéro de la première manche à 1
+
+    }
+    public IntegerProperty numeroMancheProperty() {
+        return numeroManche;
     }
 
+    public void setNumeroManche(int numeroManche) {
+        this.numeroManche.set(numeroManche);
+    }
     public void demarrerManche(Environnement environnement) {
         nombreZombies += 10; // Ajoute 10 zombies pour la prochaine manche
-        numeroManche++; // Incrémente le numéro de la manche
-    }
-
-    public int getNumeroManche() {
-        return numeroManche; // Renvoie le numéro de la manche actuelle
+        setNumeroManche(numeroMancheProperty().get() + 1);; // Incrémente le numéro de la manche
     }
 
     public int getNombreZombies() {

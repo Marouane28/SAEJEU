@@ -5,7 +5,6 @@ import com.application.saejeu.saejeu1.modele.Tourelle.TourelleGèle;
 import com.application.saejeu.saejeu1.modele.Tourelle.TourelleMitrailleuse;
 import com.application.saejeu.saejeu1.modele.Tourelle.TourelleRepousse;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
-import com.application.saejeu.saejeu1.vue.VueTourelle;
 import javafx.animation.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -29,9 +28,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import com.application.saejeu.saejeu1.modele.*;
 import com.application.saejeu.saejeu1.vue.VueTerrain;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Controleur implements Initializable {
 
@@ -212,10 +208,11 @@ public class Controleur implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mettreAJourAffichageVies(environnement.getVies()); // Met à jour l'affichage du nombre de vies
-        mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
+
+        mettreAJourAffichageVies(); // Met à jour l'affichage du nombre de vies
+        mettreAJourAffichageManche(); // Met à jour l'affichage du numéro de la manche
         mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
-        mettreAJourAffichagePiece(environnement.getPièces()); // Met à jour l'affichage des pièces
+        mettreAJourAffichagePiece(); // Met à jour l'affichage des pièces
         mettreAJourAffichagePrixTourelles(); // Appel d'une méthode pour mettre à jour l'affichage des prix des tourelles
         mettreAJourAffichageTourelles(this.environnement.getTourelles().size()); // Appel d'une méthode pour mettre à jour l'affichage des tourelles en fonction de leur nombre
         mettreAJourCoûtAmélioration(); // Appel d'une méthode pour mettre à jour le coût d'amélioration
@@ -264,22 +261,16 @@ public class Controleur implements Initializable {
         Main.PlayMusicVictoire(s);
     }
 
-    public void mettreAJourAffichageZombies(int zombies) {
-        IntegerProperty zProperty = new SimpleIntegerProperty();
-        zProperty.set(zombies);
-        this.labelZombie.textProperty().bind(zProperty.asString());
+    public void mettreAJourAffichagePiece() {
+        this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
     }
 
-    public void mettreAJourAffichagePiece(int pieces) {
-        IntegerProperty pProperty = new SimpleIntegerProperty();
-        pProperty.set(pieces);
-        this.labelPieces.textProperty().bind(pProperty.asString());
+    public void mettreAJourAffichageVies() {
+        this.labelVies.textProperty().bind(environnement.viesProperty().asString());
     }
 
-    public void mettreAJourAffichageVies(int vies) {
-        IntegerProperty vProperty = new SimpleIntegerProperty();
-        vProperty.set(vies);
-        this.labelVies.textProperty().bind(vProperty.asString());
+    public void mettreAJourAffichageManche() {
+        this.labelManche.textProperty().bind(manche.numeroMancheProperty().asString());
     }
 
     public void mettreAJourCoûtAmélioration() {
@@ -287,15 +278,15 @@ public class Controleur implements Initializable {
         this.labelCoutAm.textProperty().bind(m.getCoûtAmProperty().asString());
     }
 
+    public void mettreAJourAffichageZombies(int zombies) {
+        IntegerProperty zProperty = new SimpleIntegerProperty();
+        zProperty.set(zombies);
+        this.labelZombie.textProperty().bind(zProperty.asString());
+    }
+
     public void mettreAJourAffichageTourelles(int tourelles) {
         IntegerProperty tProperty = new SimpleIntegerProperty(tourelles);
         this.nbTourelles.textProperty().bind(tProperty.asString());
-    }
-
-    public void mettreAJourAffichageManche(int numeroManche) {
-        IntegerProperty mProperty = new SimpleIntegerProperty();
-        mProperty.set(numeroManche);
-        this.labelManche.textProperty().bind(mProperty.asString());
     }
 
     public void mettreAJourAffichagePrixTourelles() {
