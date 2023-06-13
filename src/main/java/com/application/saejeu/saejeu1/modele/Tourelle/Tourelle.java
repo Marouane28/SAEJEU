@@ -53,17 +53,9 @@ public abstract class Tourelle {
         return this.xProperty().getValue();
     }
 
-    public final void setX(double n) {
-        this.xProperty().setValue(n);
-    }
-
     // Méthodes pour obtenir et définir la valeur de la coordonnée y de la tourelle
     public final double getY() {
         return this.yProperty().getValue();
-    }
-
-    public final void setY(double n) {
-        this.yProperty().setValue(n);
     }
 
     // Méthode pour obtenir la portée d'attaque de la tourelle
@@ -81,19 +73,9 @@ public abstract class Tourelle {
         return degat;
     }
 
-    // Méthode pour définir les dégâts infligés par la tourelle
-    public void setDegat(int degat) {
-        this.degat = degat;
-    }
-
     // Méthode pour définir la cible de la tourelle
     public void setCible(Acteur cible) {
         this.cible = cible;
-    }
-
-    // Méthode pour obtenir la cible de la tourelle
-    public Acteur getCible() {
-        return cible;
     }
 
     // Méthode abstraite pour effectuer l'attaque de la tourelle (à implémenter dans les sous-classes)

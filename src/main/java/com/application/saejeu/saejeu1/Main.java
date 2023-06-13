@@ -29,34 +29,44 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
+        // Récupération de l'URL de l'image du fond du son
         URL urlImageVaiL = Main.class.getResource("sondFond.wav");
+        // Obtention du chemin de l'URL en tant que chaîne de caractères
         String s = urlImageVaiL.getPath();
+        // Lecture du fichier audio de fond
         PlayMusicFond(s);
+        // Lancement de l'application
         launch();
     }
-    public static void PlayMusicFond(String location){
+
+    public static void PlayMusicFond(String location) {
         AudioInputStream audioInputStream = null;
         try {
+            // Obtention de l'AudioInputStream à partir du fichier audio spécifié par l'emplacement
             audioInputStream = AudioSystem.getAudioInputStream(new File(location));
         } catch (UnsupportedAudioFileException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        // Création de l'objet DataLine.Info pour le clip audio
         DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
         try {
+            // Obtention de la ligne de données pour le clip audio
             clipFond = (Clip) AudioSystem.getLine(info);
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
         try {
+            // Ouverture du clip audio avec l'AudioInputStream
             clipFond.open(audioInputStream);
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        // Démarrage de la lecture du clip audio de fond
         clipFond.start();
     }
 
@@ -76,28 +86,33 @@ public class Main extends Application {
         }
     }
 
-    public static void PlayMusicVictoire(String location){
+    public static void PlayMusicVictoire(String location) {
         AudioInputStream audioInputStream = null;
         try {
+            // Obtention de l'AudioInputStream à partir du fichier audio spécifié par l'emplacement
             audioInputStream = AudioSystem.getAudioInputStream(new File(location));
         } catch (UnsupportedAudioFileException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        // Création de l'objet DataLine.Info pour le clip audio
         DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
         try {
+            // Obtention de la ligne de données pour le clip audio
             clipVictoire = (Clip) AudioSystem.getLine(info);
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
         try {
+            // Ouverture du clip audio avec l'AudioInputStream
             clipVictoire.open(audioInputStream);
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        // Démarrage de la lecture du clip audio de victoire
         clipVictoire.start();
     }
 
@@ -109,28 +124,33 @@ public class Main extends Application {
         }
     }
 
-    public static void PlayMusicDefaite(String location){
+    public static void PlayMusicDefaite(String location) {
         AudioInputStream audioInputStream = null;
         try {
+            // Obtention de l'AudioInputStream à partir du fichier audio spécifié par l'emplacement
             audioInputStream = AudioSystem.getAudioInputStream(new File(location));
         } catch (UnsupportedAudioFileException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        // Création de l'objet DataLine.Info pour le clip audio
         DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
         try {
+            // Obtention de la ligne de données pour le clip audio
             clipDefaite = (Clip) AudioSystem.getLine(info);
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
         try {
+            // Ouverture du clip audio avec l'AudioInputStream
             clipDefaite.open(audioInputStream);
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        // Démarrage de la lecture du clip audio de défaite
         clipDefaite.start();
     }
 
@@ -141,6 +161,5 @@ public class Main extends Application {
             clipDefaite.close();
         }
     }
-
 }
 

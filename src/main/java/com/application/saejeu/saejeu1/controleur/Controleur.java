@@ -54,7 +54,7 @@ public class Controleur implements Initializable {
     private TileMap tileMap;
     @FXML
     private Label labelPieces, labelM, labelG, labelR;
-    private final int nb_manche = 10; // permet de définir le nombre de manches
+    private final int nb_manche = 1; // permet de définir le nombre de manches
     private boolean estEnPause = false; // gerer les pauses
 
 
@@ -191,6 +191,7 @@ public class Controleur implements Initializable {
             this.panneauDeJeu.setOnMouseClicked(null);
         });
     }
+
     public void réglerTaille() {
         // Définit la taille minimale du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
@@ -201,6 +202,7 @@ public class Controleur implements Initializable {
         // Définit la taille préférée du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
     }
+
     public void gameLaunch() throws IOException {
 
         manche = new Manche(); // Crée une nouvelle instance de la classe Manche
@@ -219,6 +221,7 @@ public class Controleur implements Initializable {
         mettreAJourAffichageVies(environnement.getVies()); // Met à jour l'affichage du nombre de vies
         mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
         mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
+        mettreAJourAffichagePiece(environnement.getPièces()); // Met à jour l'affichage des pièces
     }
     public void afficherGameOverScene() {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -266,6 +269,12 @@ public class Controleur implements Initializable {
         zProperty.set(zombies);
         this.labelZombie.textProperty().bind(zProperty.asString());
     }
+    public void mettreAJourAffichagePiece(int pieces) {
+        IntegerProperty pProperty = new SimpleIntegerProperty();
+        pProperty.set(pieces);
+        this.labelPieces.textProperty().bind(pProperty.asString());
+    }
+
     public void mettreAJourAffichageVies(int vies) {
         IntegerProperty vProperty = new SimpleIntegerProperty();
         vProperty.set(vies);
@@ -292,7 +301,6 @@ public class Controleur implements Initializable {
                 (ev -> {
                     if (temps % 10 == 0 && manche.getNombreZombies() != manche.getCompteurZombie()) {
                         tourManager.ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
-                        this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
                     } else if (temps % 2 == 0) {
                         if(Main.verifSon()==false){
                             // Lancer la musique du jeu si le son n'est plus lancé

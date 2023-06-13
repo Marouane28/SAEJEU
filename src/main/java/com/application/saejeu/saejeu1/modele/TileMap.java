@@ -60,9 +60,6 @@ public class TileMap {
         return this.mapDeJeu; // Renvoie le tableau représentant la carte du jeu
     }
 
-    public void setMapDeJeu(int[][] tab) {
-        this.mapDeJeu = tab; // Assignation d'un nouveau tableau représentant la carte du jeu
-    }
     public int getTileSize() {
         return this.SIZE_TILE; // Renvoie la taille d'une tuile en pixels
     }
@@ -79,7 +76,4 @@ public class TileMap {
         return this.y; // Renvoie le nombre de lignes de la carte
     }
 
-    public int getNON_OBSTACLE_TILE() {
-        return this.NON_OBSTACLE_TILE; // Renvoie la valeur représentant une tuile non obstruée
-    }
 }

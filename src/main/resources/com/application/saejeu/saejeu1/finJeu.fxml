@@ -15,7 +15,7 @@
     </ImageView>
 
     <VBox alignment="CENTER" layoutX="406.0" layoutY="324.0" prefHeight="199.0" prefWidth="591.0" spacing="50.0" />
-     <Button layoutX="671.0" layoutY="580.0" onAction="#retourMenu" style="-fx-font-size: 20px; -fx-text-fill: white; -fx-background-color: red;" text="Rejouer">
+     <Button layoutX="671.0" layoutY="580.0" onAction="#relancerJeu" style="-fx-font-size: 20px; -fx-text-fill: white; -fx-background-color: red;" text="Rejouer">
          <effect>
              <DropShadow color="black" radius="5.0" spread="0.2" />
          </effect>

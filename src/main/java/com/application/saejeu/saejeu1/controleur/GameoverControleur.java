@@ -17,7 +17,7 @@ public class GameoverControleur {
 
     // quand le bouton est cliqué retour au menu
     @FXML
-    private void retourMenu(ActionEvent event) throws IOException {
+    private void relancerJeu(ActionEvent event) throws IOException {
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL resource = getClass().getResource("/com/application/saejeu/saejeu1/vueJeu.fxml");
