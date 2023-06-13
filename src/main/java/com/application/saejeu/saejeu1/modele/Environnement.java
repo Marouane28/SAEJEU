@@ -158,6 +158,7 @@ public class Environnement {
     }
 
     public ObservableList<Pièce> getListePièces() {
+
         return this.listePièces; // Renvoie la liste des pièces présentes dans l'environnement
     }
     public int getVies() {

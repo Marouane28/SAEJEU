@@ -23,18 +23,18 @@ public class ListObsPiece implements ListChangeListener<Pièce> {
         while (change.next()) {
             if (change.wasAdded()) {
                 for (Pièce pièce : change.getAddedSubList()) {
-                    ajouterVueEnnemi(pièce); // Ajoute la vue de chaque nouvel acteur ennemi ajouté
+                    ajouterVuePièce(pièce); // Ajoute la vue de chaque nouvelle pièce ajoutée
                 }
             }
             if (change.wasRemoved()) {
                 for (Pièce pièce : change.getRemoved()) {
-                    retirerVuePièce(pièce); // Retire la vue de chaque acteur ennemi supprimé
+                    retirerVuePièce(pièce); // Retire la vue de chaque pièce supprimée
                 }
             }
         }
     }
 
-    private void ajouterVueEnnemi(Pièce pièce) {
+    private void ajouterVuePièce(Pièce pièce) {
         VuePièce vuePièce = new VuePièce(this.panneauJeu, pièce); // Crée une nouvelle vue pour l'acteur ennemi
         this.vuesPièces.add(vuePièce); // Ajoute la vue à la liste des vues des ennemis
         pièce.setVuePièce(vuePièce); // Associe la vue à l'acteur ennemi

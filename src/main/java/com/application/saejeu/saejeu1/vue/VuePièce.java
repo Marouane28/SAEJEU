@@ -23,6 +23,7 @@ public class VuePièce {
         this.imageView = null;
         this.pièce = pièce;
         this.imageViews = new ArrayList<>();
+        imagePièce();
     }
 
     public Pièce getPièce() {

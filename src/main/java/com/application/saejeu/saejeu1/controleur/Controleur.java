@@ -45,6 +45,7 @@ public class Controleur implements Initializable {
     private Manche manche; // Référence à la manche en cours
     private ListChangeListener<Acteur> listenerActeur; // Écouteur de changements pour les acteurs (zombies, tourelles, etc.)
     private ListChangeListener<Tourelle> listenerTourelle; // Écouteur de changements pour les tourelles
+    private ListChangeListener<Pièce> listenerPièce;
     private TileMap tileMap; // Représente la carte de tuiles du terrain
     private final int nb_manche = 10; // Permet de définir le nombre de manches dans le jeu
     private boolean estEnPause = false; // Indique si le jeu est en pause ou non
@@ -61,10 +62,12 @@ public class Controleur implements Initializable {
         réglerTaille(); // Ajuste la taille du panneau de jeu en fonction de la taille de l'environnement
 
         // Crée des écouteurs de changement pour les listes d'acteurs et de tourelles de l'environnement
-        listenerActeur = new ListObsActeur(panneauDeJeu);
-        listenerTourelle = new ListObsTourelle(panneauDeJeu);
-        environnement.getActeurs().addListener(listenerActeur);
-        environnement.getTourelles().addListener(listenerTourelle);
+        this.listenerActeur = new ListObsActeur(this.panneauDeJeu);
+        this.listenerTourelle = new ListObsTourelle(this.panneauDeJeu);
+        this.listenerPièce = new ListObsPiece(this.panneauDeJeu);
+        this.environnement.getActeurs().addListener(this.listenerActeur);
+        this.environnement.getTourelles().addListener(this.listenerTourelle);
+        this.environnement.getListePièces().addListener(this.listenerPièce);
 
         initAnimation(); // Initialise l'animation du jeu
         // Démarre l'animation
@@ -183,7 +186,6 @@ public class Controleur implements Initializable {
             this.panneauDeJeu.setOnMouseClicked(null);
         });
     }
-
     public void réglerTaille() {
         // Définit la taille minimale du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
@@ -192,7 +194,6 @@ public class Controleur implements Initializable {
         // Définit la taille préférée du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
     }
-
     public void gameLaunch() throws IOException {
 
         manche = new Manche(); // Crée une nouvelle instance de la classe Manche
@@ -217,7 +218,6 @@ public class Controleur implements Initializable {
         mettreAJourAffichageTourelles(this.environnement.getTourelles().size()); // Appel d'une méthode pour mettre à jour l'affichage des tourelles en fonction de leur nombre
         mettreAJourCoûtAmélioration(); // Appel d'une méthode pour mettre à jour le coût d'amélioration
     }
-
     public void afficherGameOverScene() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL resource = getClass().getResource("/com/application/saejeu/saejeu1/finJeu.fxml");
@@ -239,7 +239,6 @@ public class Controleur implements Initializable {
         String s = urlImageVaiL.getPath();
         Main.PlayMusicDefaite(s);
     }
-
     public void afficherWinJeuScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/application/saejeu/saejeu1/winJeu.fxml"));
         Parent root = null;
@@ -260,35 +259,28 @@ public class Controleur implements Initializable {
         String s = urlImageVaiL.getPath();
         Main.PlayMusicVictoire(s);
     }
-
     public void mettreAJourAffichagePiece() {
         this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
     }
-
     public void mettreAJourAffichageVies() {
         this.labelVies.textProperty().bind(environnement.viesProperty().asString());
     }
-
     public void mettreAJourAffichageManche() {
         this.labelManche.textProperty().bind(manche.numeroMancheProperty().asString());
     }
-
     public void mettreAJourCoûtAmélioration() {
         Tourelle m = new TourelleMitrailleuse(0, 0, this.environnement);
         this.labelCoutAm.textProperty().bind(m.getCoûtAmProperty().asString());
     }
-
     public void mettreAJourAffichageZombies(int zombies) {
         IntegerProperty zProperty = new SimpleIntegerProperty();
         zProperty.set(zombies);
         this.labelZombie.textProperty().bind(zProperty.asString());
     }
-
     public void mettreAJourAffichageTourelles(int tourelles) {
         IntegerProperty tProperty = new SimpleIntegerProperty(tourelles);
         this.nbTourelles.textProperty().bind(tProperty.asString());
     }
-
     public void mettreAJourAffichagePrixTourelles() {
         Tourelle m = new TourelleMitrailleuse(0, 0, this.environnement);
         this.labelM.textProperty().bind(m.getCoûtProperty().asString());
@@ -297,7 +289,6 @@ public class Controleur implements Initializable {
         Tourelle r = new TourelleRepousse(0, 0, this.environnement);
         this.labelR.textProperty().bind(r.getCoûtProperty().asString());
     }
-
     private void initAnimation() {
         gameLoop = new Timeline();
         temps = 0;
