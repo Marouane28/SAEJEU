@@ -300,6 +300,7 @@ public class Controleur implements Initializable {
                 (ev -> {
                     if (temps % 10 == 0 && manche.getNombreZombies() != manche.getCompteurZombie()) {
                         tourManager.ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
+                        this.environnement.créerUnCertainsNombreDePièce(1);
                     } else if (temps % 2 == 0) {
                         if(Main.verifSon()==false){
                             // Lancer la musique du jeu si le son n'est plus lancé

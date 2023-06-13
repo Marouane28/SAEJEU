@@ -208,10 +208,11 @@ public class Environnement {
 
     public void créerUnCertainsNombreDePièce(int nbPièces) {
 
-        Pièce p = new Pièce(1, this);
         for (int i = 0; i < nbPièces; i++) {
 
+            Pièce p = new Pièce(1, this);
             ajouterPièce(p);
+            System.out.println("(" + p.getX() + ", " + p.getY() + ")");
         }
     }
 

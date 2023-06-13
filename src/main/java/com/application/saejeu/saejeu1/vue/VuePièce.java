@@ -38,6 +38,8 @@ public class VuePièce {
         this.setImageView(new ImageView(this.image)); // Création de l'ImageView pour afficher l'image de la tourelle
         imageView.setFitHeight(20); // Ajuster la hauteur de l'ImageView
         imageView.setFitWidth(20); // Ajuster la largeur de l'ImageView
+        imageView.setTranslateX(this.pièce.getX());
+        imageView.setTranslateY(this.pièce.getY());
         this.panneauJeu.getChildren().add(imageView); // Ajout de l'ImageView au panneau de jeu
         this.imageViews.add(imageView); // Ajout de l'ImageView à la liste des ImageView
     }

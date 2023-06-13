@@ -15,14 +15,20 @@ public class Pièce {
     private int x, y;
     private VuePièce vuePièce;
     private Environnement environnement;
-
-
     public Pièce(int valeur, Environnement environnement) {
 
         this.valeur = valeur;
         this.urlImage = "image-pieces.png";
         this.environnement = environnement;
         this.coordonnéesXEtYAléatoireAvecGestionCollision();
+    }
+    public int getValeur() {
+
+        return this.valeur;
+    }
+    public VuePièce getVuePièce() {
+
+        return this.vuePièce;
     }
     public void coordonnéesXEtYAléatoireAvecGestionCollision() {
 
@@ -49,24 +55,13 @@ public class Pièce {
 
         this.vuePièce = vuePièce; // Définit la vue associée à l'acteur
     }
-
     public int getX() {
 
         return this.x; // Renvoie la valeur de la propriété x de la pièce
     }
-
-    public void setX(int n) {
-
-        this.x = n; // Définit la valeur de la propriété x de la pièce
-    }
-
     public final double getY() {
 
         return this.y; // Renvoie la valeur de la propriété y de la pièce
     }
 
-    public void setY(int n) {
-
-        this.y = n;
-    }
 }

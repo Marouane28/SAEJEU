@@ -88,6 +88,7 @@ public abstract class Acteur {
     }
 
     public void deplacement() {
+
         if (index < this.environnement.getChemin().size() - 1) {
             index++; // Incrémente l'index pour passer à l'étape suivante du chemin
             setX(environnement.getChemin().get(index).getX() * 16); // Définit la nouvelle position en x de l'acteur en fonction du chemin
