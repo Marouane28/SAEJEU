@@ -19,7 +19,7 @@ public abstract class Tourelle {
     private IntegerProperty coût;
     private boolean estAméliorée;
 
-    public Tourelle(int x, int y, int portee, int pv, int degat, Environnement env,String nomImage, int coût) {
+    public Tourelle(int x, int y, int portée, int pv, int dégât, Environnement env,String nomImage, int coût) {
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.portée = portée;
@@ -38,7 +38,7 @@ public abstract class Tourelle {
 
             this.setDégât(getDégât() + 10);
             this.vueTourelle.retirerRayonPortee();
-            this.setPortée(getPortée() + 2*16);
+            this.setPortée(getPortée() + 5*16);
             this.vueTourelle.afficherRayonPorteeAmélioré();
             this.setPv(getPv() + 30);
 
