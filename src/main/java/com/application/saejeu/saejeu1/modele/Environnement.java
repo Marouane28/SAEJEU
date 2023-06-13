@@ -125,6 +125,29 @@ public class Environnement {
         return null; // Aucun sommet trouvé, retourne null
     }
 
+    public boolean emplacementDéjàPrisParUneTourelle(int x, int y) {
+
+        for (Tourelle tourelle : this.tourelles) {
+
+            if (tourelle.getX() == x && tourelle.getY() == y) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean emplacementDéjàPrisParUnePièce(int x, int y) {
+
+        for (Pièce pièce : this.listePièces) {
+
+            if (pièce.getX() == x && pièce.getY() == y) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean estDeconnecte(Sommet s) {
         // Vérifie si le sommet est contenu dans la liste des obstacles
         return this.obstacles.contains(s);

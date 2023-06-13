@@ -36,16 +36,17 @@ public class Pièce {
         int caseY;
         int caseX;
         do {
+            int x = r.nextInt(this.environnement.getX());
+            int y = r.nextInt(this.environnement.getY());
 
-            this.x = r.nextInt(this.environnement.getX());
-            this.y = r.nextInt(this.environnement.getY());
-
-            int coordX = this.x - (this.x % this.environnement.getTileMap().getTileSize());
-            int coordY = this.y - (this.y % this.environnement.getTileMap().getTileSize());
+            int coordX = x - (x % this.environnement.getTileMap().getTileSize());
+            int coordY = y - (y % this.environnement.getTileMap().getTileSize());
             // Condition pour ne pas la placer sur le chemin des zombies
             caseX = coordX / this.environnement.getTileMap().getTileSize();
             caseY = coordY / this.environnement.getTileMap().getTileSize();
-        } while (!this.environnement.dansGrille(this.x, this.y) && this.environnement.getTileMap().isNotObstacle(caseX, caseY));
+
+            this.x = coordX; this.y = coordY;
+        } while (this.environnement.getTileMap().isNotObstacle(caseX, caseY) || this.y <= 100 || this.environnement.emplacementDéjàPrisParUnePièce(this.x, this.y) || this.environnement.emplacementDéjàPrisParUneTourelle(this.x, this.y));
     }
     public String getUrlImage() {
 

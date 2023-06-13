@@ -135,16 +135,9 @@ public class Controleur implements Initializable {
             int caseX = mouseX / this.tileMap.getTileSize();
             int caseY = mouseY / this.tileMap.getTileSize();
 
-            boolean tourelleIci = false;
-            for (int i = 0; i < this.environnement.getTourelles().size(); i++) {
 
-                if (this.environnement.getTourelles().get(i).getX() == (mouseX) && this.environnement.getTourelles().get(i).getY() == (mouseY)) {
-
-                    tourelleIci = true;
-                }
-            }
-            // Si condition remplie
-            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelR.getText())) {
+            // Si conditions remplies
+            if (!this.environnement.emplacementDéjàPrisParUneTourelle(mouseX, mouseY) && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelR.getText())) {
                 // Créer une nouvelle tourelle à la position de la souris si condition remplie
                 Tourelle nouvelleTourelle = new TourelleRepousse(mouseX, mouseY, this.environnement);
                 // Ajouter la tourelle à votre environnement ou à une liste de tourelles
@@ -298,9 +291,12 @@ public class Controleur implements Initializable {
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.08),
                 (ev -> {
+                    if (temps % 10 == 0) {
+
+                        this.environnement.créerUnCertainsNombreDePièce(1);
+                    }
                     if (temps % 10 == 0 && manche.getNombreZombies() != manche.getCompteurZombie()) {
                         tourManager.ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
-                        this.environnement.créerUnCertainsNombreDePièce(1);
                     } else if (temps % 2 == 0) {
                         if(Main.verifSon()==false){
                             // Lancer la musique du jeu si le son n'est plus lancé
