@@ -17,7 +17,6 @@ public class ListObsTourelle implements ListChangeListener<Tourelle> {
         this.panneauJeu = panneauJeu; // Initialise le panneau du jeu
         this.vuesTourelles = new ArrayList<>(); // Initialise la liste des vues des tourelles
     }
-
     @Override
     public void onChanged(Change<? extends Tourelle> change) {
         while (change.next()) {

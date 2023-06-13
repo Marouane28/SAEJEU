@@ -7,7 +7,6 @@ import java.io.IOException;
 
 public class TileMap {
 
-
     private File fichier; // Fichier contenant la carte du jeu
     private BufferedReader lectureDuFichier; // Lecteur pour lire le contenu du fichier
     private int[][] mapDeJeu; // Tableau représentant la carte du jeu
@@ -70,7 +69,6 @@ public class TileMap {
     public boolean isNotObstacle(int x, int y) {
         return this.getMapDeJeu()[x][y] == this.NON_OBSTACLE_TILE; // Vérifie si la tuile à la position (x, y) n'est pas un obstacle
     }
-
     public int getX() {
         return this.x; // Renvoie le nombre de colonnes de la carte
     }

@@ -18,18 +18,18 @@ public class TourelleGèle extends Tourelle {
 
     @Override
     public void attaquer() {
-        if (cible != null && estEnPortee(cible) && !ennemisGelés.contains(cible)) {
+        if (cible != null && estEnPortée(cible) && !ennemisGelés.contains(cible)) {
             // Vérifier si une cible est définie, si elle est dans la portée de la tourelle et si elle n'est pas déjà gelée
             cible.geler(CYCLES); // Geler l'ennemi pour le nombre de cycles spécifié
-            cible.decrementerPv(getDegat()); // Réduire les points de vie de la cible
+            cible.decrementerPv(getDégât()); // Réduire les points de vie de la cible
             ennemisGelés.add(cible); // Ajouter l'ennemi à la liste des ennemis gelés
-            decrementerPv(5); // Réduire les points de vie de la tourelle
-            System.out.println("Tourelle gèle attaque l'ennemi !");
+            décrémenterPv(5); // Réduire les points de vie de la tourelle
+            //System.out.println("Tourelle gèle attaque l'ennemi !");
             this.environnement.setPièces(this.environnement.getPièces() + 40);
-            System.out.println("viens de gagner une pièce par attaque d'une tourelle gèle");
+            //System.out.println("viens de gagner une pièce par attaque d'une tourelle gèle");
         } else {
             // Aucune cible valide pour la tourelle gèle
-            System.out.println("Aucune cible valide pour la tourelle gèle !");
+            //System.out.println("Aucune cible valide pour la tourelle gèle !");
         }
     }
 

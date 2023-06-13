@@ -21,12 +21,9 @@ public class Environnement {
     private Map<Sommet, Set<Sommet>> listeAdj; // Liste d'adjacence pour la recherche de chemin
     private ObservableList<Sommet> obstacles; // Liste des sommets représentant les obstacles
     private ObservableList<Tourelle> tourelles; // Liste des tourelles présentes dans l'environnement
-    private final int OBSTACLE_TILE = 400; // Tuile utilisée pour représenter un obstacle
     private IntegerProperty pièces; // pièces pour le jeu
-
     private BFS bfs; // Algorithme BFS pour la recherche de chemin
-    ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
-
+    private ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
     private int vies; // Nombre de vies restantes
 
     public Environnement(TileMap tileMap) throws IOException {
@@ -53,21 +50,17 @@ public class Environnement {
 
         return this.getPropertyPièces().getValue();
     }
-
     public void setPièces(int i) {
 
         this.pièces.set(i);
     }
-
     public void gagnerUnCertainNombreDePièce(int i) {
 
         this.pièces.set(this.getPièces() + i);
     }
-
     public BFS getBfs() {
         return bfs; // Renvoie l'algorithme BFS utilisé
     }
-
     public void construit() {
         int i;
         int j;
@@ -112,12 +105,10 @@ public class Environnement {
         }
 
     }
-
     public boolean dansGrille(int x, int y) {
         // Vérifie si les coordonnées (x, y) se trouvent dans les limites de la grille
         return x >= 0 && x < this.getX() && y >= 0 && y < this.getY();
     }
-
     public Sommet getSommet(int x, int y) {
         // Parcours des sommets dans la listeAdj
         for (Sommet sommet : this.listeAdj.keySet()) {
@@ -128,14 +119,12 @@ public class Environnement {
         }
         return null; // Aucun sommet trouvé, retourne null
     }
-
-    public boolean estDeconnecte(Sommet s) {
+    public boolean estDéconnecte(Sommet s) {
         // Vérifie si le sommet est contenu dans la liste des obstacles
         return this.obstacles.contains(s);
     }
-
     public Set<Sommet> adjacents(Sommet s) {
-        if (this.estDeconnecte(s)) {
+        if (this.estDéconnecte(s)) {
             return Collections.emptySet(); // Le sommet est déconnecté, retourne un ensemble vide
         } else {
             Set<Sommet> adjacents = listeAdj.getOrDefault(s, new HashSet<>());
@@ -144,43 +133,33 @@ public class Environnement {
             return adjacents; // Retourne l'ensemble des sommets adjacents
         }
     }
-
     public TileMap getTileMap() {
         return this.tileMap;
     }
-
     public int getX() {
         return x; // Renvoie la largeur de l'environnement
     }
-
     public int getY() {
         return y; // Renvoie la hauteur de l'environnement
     }
-
     public ObservableList<Acteur> getActeurs() {
         return acteurs; // Renvoie la liste des acteurs présents dans l'environnement
     }
-
     public int getVies() {
         return vies; // Renvoie le nombre de vies restantes
     }
-
-    public void decrementerVies() {
+    public void décrémenterVies() {
         vies--; // Décrémente le nombre de vies
     }
-
     public void ajouterActeur(Acteur a) {
         this.acteurs.add(a); // Ajoute un acteur à la liste des acteurs
     }
-
     public ObservableList<Tourelle> getTourelles() {
         return tourelles; // Renvoie la liste des tourelles présentes dans l'environnement
     }
-
     public void ajouterTourelle(Tourelle tourelle) {
         this.tourelles.add(tourelle); // Ajoute une tourelle à la liste des tourelles
     }
-
     public Acteur créerZombie() {
         Random rand = new Random();
         int nb = rand.nextInt(3 - 1 + 1) + 1;
@@ -195,7 +174,6 @@ public class Environnement {
         ajouterActeur(zombie);
         return zombie; // Crée un zombie et l'ajoute à la liste des acteurs
     }
-
     public ArrayList<Sommet> getChemin() {
         return chemin; // Renvoie le chemin trouvé par l'algorithme BFS
     }
