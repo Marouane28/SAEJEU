@@ -43,7 +43,7 @@ public abstract class Tourelle {
             this.setPv(getPv() + 30); // Augmentation des points de vie de la tourelle de 30
             this.setEstAméliorée(true); // La tourelle est maintenant améliorée
             this.environnement.gagnerUnCertainNombreDePièce(-getCoûtAmélioration()); // Réduction du nombre de pièces de l'environnement par le coût d'amélioration
-            this.vueTourelle.actualiserBarreEtat(); // actualiser barre de vie
+            this.vueTourelle.actualiserBarreEtat(); // actualiser barre de vie/
         }
     }
 
