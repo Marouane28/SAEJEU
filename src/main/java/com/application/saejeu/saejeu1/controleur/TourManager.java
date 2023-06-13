@@ -28,8 +28,8 @@ public class TourManager {
 
     // Le centre de contrôle pour les tours
     public void effectuerTour() {
-        controleur.mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
-        controleur.mettreAJourAffichageTourelles(environnement.getTourelles().size()); // Met à jour l'affichage du nombre de tourelle
+        controleur.mettreAJourAffichageZombies(); // Met à jour l'affichage du nombre de zombies
+        controleur.mettreAJourAffichageTourelles(); // Met à jour l'affichage du nombre de tourelle
         System.out.println("un tour"); // Affiche un message indiquant le début d'un tour
         ArrayList<Acteur> acteursCopy = new ArrayList<>(environnement.getActeurs()); // Crée une copie de la liste des acteurs dans l'environnement
         for (Acteur zombie : acteursCopy) {

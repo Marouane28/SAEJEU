@@ -43,7 +43,7 @@ public class Controleur implements Initializable {
     private int temps; // Temps écoulé dans le jeu
     private Environnement environnement; // Référence à l'environnement du jeu
     private Manche manche; // Référence à la manche en cours
-    private ListChangeListener<Acteur> listenerActeur; // Écouteur de changements pour les acteurs (zombies, tourelles, etc.)
+    private ListChangeListener<Acteur> listenerActeur; // Écouteur de changements pour les acteurs
     private ListChangeListener<Tourelle> listenerTourelle; // Écouteur de changements pour les tourelles
     private TileMap tileMap; // Représente la carte de tuiles du terrain
     private final int nb_manche = 10; // Permet de définir le nombre de manches dans le jeu
@@ -209,12 +209,12 @@ public class Controleur implements Initializable {
             e.printStackTrace();
         }
 
-        mettreAJourAffichageVies(); // Met à jour l'affichage du nombre de vies
-        mettreAJourAffichageManche(); // Met à jour l'affichage du numéro de la manche
-        mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
-        mettreAJourAffichagePiece(); // Met à jour l'affichage des pièces
+        bindAffichageVies(); // Met à jour l'affichage du nombre de vies
+        bindAffichageManche(); // Met à jour l'affichage du numéro de la manche
+        mettreAJourAffichageZombies(); // Met à jour l'affichage du nombre de zombies
+        bindAffichagePiece(); // Met à jour l'affichage des pièces
         mettreAJourAffichagePrixTourelles(); // Appel d'une méthode pour mettre à jour l'affichage des prix des tourelles
-        mettreAJourAffichageTourelles(this.environnement.getTourelles().size()); // Appel d'une méthode pour mettre à jour l'affichage des tourelles en fonction de leur nombre
+        mettreAJourAffichageTourelles(); // Appel d'une méthode pour mettre à jour l'affichage des tourelles en fonction de leur nombre
         mettreAJourCoûtAmélioration(); // Appel d'une méthode pour mettre à jour le coût d'amélioration
     }
 
@@ -261,15 +261,15 @@ public class Controleur implements Initializable {
         Main.PlayMusicVictoire(s);
     }
 
-    public void mettreAJourAffichagePiece() {
+    public void bindAffichagePiece() {
         this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
     }
 
-    public void mettreAJourAffichageVies() {
+    public void bindAffichageVies() {
         this.labelVies.textProperty().bind(environnement.viesProperty().asString());
     }
 
-    public void mettreAJourAffichageManche() {
+    public void bindAffichageManche() {
         this.labelManche.textProperty().bind(manche.numeroMancheProperty().asString());
     }
 
@@ -278,15 +278,13 @@ public class Controleur implements Initializable {
         this.labelCoutAm.textProperty().bind(m.getCoûtAmProperty().asString());
     }
 
-    public void mettreAJourAffichageZombies(int zombies) {
-        IntegerProperty zProperty = new SimpleIntegerProperty();
-        zProperty.set(zombies);
-        this.labelZombie.textProperty().bind(zProperty.asString());
+    public void mettreAJourAffichageZombies() {
+        this.labelZombie.setText(String.valueOf(environnement.getActeurs().size()));
     }
 
-    public void mettreAJourAffichageTourelles(int tourelles) {
-        IntegerProperty tProperty = new SimpleIntegerProperty(tourelles);
-        this.nbTourelles.textProperty().bind(tProperty.asString());
+    public void mettreAJourAffichageTourelles() {
+        this.nbTourelles.setText(String.valueOf(environnement.getTourelles().size()));
+
     }
 
     public void mettreAJourAffichagePrixTourelles() {
