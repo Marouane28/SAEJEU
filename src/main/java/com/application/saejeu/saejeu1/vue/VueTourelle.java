@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import javafx.scene.paint.Color;
@@ -19,10 +20,9 @@ public class VueTourelle {
     private Pane panneauJeu; // Panneau du jeu
     private ArrayList<ImageView> imageViews; // Liste des ImageView pour afficher la tourelle
     private Tourelle tourelle; // Instance de la classe Tourelle pour représenter la tourelle
-
     private Rectangle barreVie; // Barre de vie de la tourelle
     private final double barreVieWidth = 45; // Largeur de la barre de vie
-
+    private ImageView imageView;
     private final double barreVieHeight = 5; // Hauteur de la barre de vie
 
     public VueTourelle(Pane panneauJeu, Tourelle tourelle) {
@@ -32,19 +32,38 @@ public class VueTourelle {
         imageTourelle(); // Affichage de l'image de la tourelle
         afficherRayonPortee(); // Affichage du rayon de portée de la tourelle
         initialiserBarreVie(); // Initialisation de la barre de vie de la tourelle
+
+        this.imageView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                // Vérifiez si la tourelle peut être améliorée
+                if (!tourelle.isEstAméliorée()) {
+                    // Appeler la méthode d'amélioration de la tourelle
+                    tourelle.améliorer();
+                }
+            }
+        });
     }
 
     // Méthode pour afficher l'image de la tourelle
     public void imageTourelle() {
         URL urlImageEnn = Main.class.getResource(tourelle.getNomImage()); // Récupération de l'URL de l'image de la tourelle
         image = new Image(String.valueOf(urlImageEnn)); // Chargement de l'image
-        ImageView imageView = new ImageView(image); // Création de l'ImageView pour afficher l'image de la tourelle
-        imageView.setFitHeight(16); // Ajuster la hauteur de l'ImageView
-        imageView.setFitWidth(16); // Ajuster la largeur de l'ImageView
+        this.setImageView(new ImageView(this.image)); // Création de l'ImageView pour afficher l'image de la tourelle
+        imageView.setFitHeight(20); // Ajuster la hauteur de l'ImageView
+        imageView.setFitWidth(20); // Ajuster la largeur de l'ImageView
         imageView.translateXProperty().bind(tourelle.xProperty()); // Lier la position horizontale de l'ImageView à la position horizontale de la tourelle
         imageView.translateYProperty().bind(tourelle.yProperty()); // Lier la position verticale de l'ImageView à la position verticale de la tourelle
         this.panneauJeu.getChildren().add(imageView); // Ajout de l'ImageView au panneau de jeu
         this.imageViews.add(imageView); // Ajout de l'ImageView à la liste des ImageView
+
+    }
+    public void setImageView(ImageView imageView) {
+
+        this.imageView = imageView;
+    }
+    public ImageView getImageView() {
+
+        return this.imageView;
     }
 
     // Méthode pour afficher le rayon de portée de la tourelle
@@ -56,9 +75,27 @@ public class VueTourelle {
         double centerY = tourelle.getY() + tourelleHauteur / 16;
         rayonPortee.setCenterX(centerX); // Positionnement du centre du cercle
         rayonPortee.setCenterY(centerY);
-        rayonPortee.setRadius(tourelle.getPortee()); // Définition du rayon du cercle en fonction de la portée de la tourelle
+        rayonPortee.setRadius(tourelle.getPortée()); // Définition du rayon du cercle en fonction de la portée de la tourelle
         rayonPortee.setFill(null); // Aucun remplissage
         rayonPortee.setStroke(Color.rgb(255, 0, 0, 0.8)); // Couleur de contour du cercle
+        rayonPortee.setStrokeWidth(2.0); // Épaisseur du contour
+
+        DropShadow dropShadow = new DropShadow(10, Color.rgb(255, 0, 0, 0.4)); // Effet d'ombre portée pour le cercle
+        rayonPortee.setEffect(dropShadow);
+
+        panneauJeu.getChildren().add(rayonPortee); // Ajout du cercle au panneau de jeu
+    }
+    public void afficherRayonPorteeAmélioré() {
+        Circle rayonPortee = new Circle(); // Création d'un cercle pour représenter le rayon de portée
+        double tourelleLargeur = image.getWidth(); // Largeur de l'image de la tourelle
+        double tourelleHauteur = image.getHeight(); // Hauteur de l'image de la tourelle
+        double centerX = tourelle.getX() + tourelleLargeur / 16; // Calcul du centre du cercle en fonction de la position de la tourelle
+        double centerY = tourelle.getY() + tourelleHauteur / 16;
+        rayonPortee.setCenterX(centerX); // Positionnement du centre du cercle
+        rayonPortee.setCenterY(centerY);
+        rayonPortee.setRadius(tourelle.getPortée()); // Définition du rayon du cercle en fonction de la portée de la tourelle
+        rayonPortee.setFill(null); // Aucun remplissage
+        rayonPortee.setStroke(Color.rgb(0, 0, 255, 0.8)); // Couleur de contour du cercle
         rayonPortee.setStrokeWidth(2.0); // Épaisseur du contour
 
         DropShadow dropShadow = new DropShadow(10, Color.rgb(255, 0, 0, 0.4)); // Effet d'ombre portée pour le cercle
@@ -72,7 +109,7 @@ public class VueTourelle {
         for (Node node : panneauJeu.getChildren()) {
             if (node instanceof Circle) {
                 Circle circle = (Circle) node;
-                if (circle.getRadius() == tourelle.getPortee()) { // Vérification si le cercle correspondant à la portée de la tourelle
+                if (circle.getRadius() == tourelle.getPortée()) { // Vérification si le cercle correspondant à la portée de la tourelle
                     panneauJeu.getChildren().remove(circle); // Retirer le cercle du panneau de jeu
                     break;
                 }

@@ -28,6 +28,7 @@ public class TourManager {
     public void effectuerTour() {
         controleur.mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
         controleur.mettreAJourAffichagePiece(environnement.getPièces()); // Met à jour l'affichage des pièces
+        controleur.mettreAJourAffichageTourelles(environnement.getTourelles().size());
         System.out.println("un tour"); // Affiche un message indiquant le début d'un tour
         ArrayList<Acteur> acteursCopy = new ArrayList<>(environnement.getActeurs()); // Crée une copie de la liste des acteurs dans l'environnement
         for (Acteur zombie : acteursCopy) {
@@ -87,7 +88,7 @@ public class TourManager {
     }
     // Gère la perte de vie lorsque le zombie atteint la cible
     public void gérerCollision(Acteur zombie) {
-        environnement.decrementerVies(); // Décrémente le nombre de vies de l'environnement
+        environnement.décrémenterVies(); // Décrémente le nombre de vies de l'environnement
         environnement.getActeurs().remove(zombie); // Supprime le zombie de la liste des acteurs
         int viesRestantes = environnement.getVies(); // Obtient le nombre de vies restantes
         controleur.mettreAJourAffichageVies(viesRestantes); // Met à jour l'affichage du nombre de vies restantes

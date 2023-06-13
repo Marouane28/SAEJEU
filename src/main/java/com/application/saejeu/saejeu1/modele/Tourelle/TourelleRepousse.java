@@ -16,10 +16,10 @@ public class TourelleRepousse extends Tourelle {
 
     @Override
     public void attaquer() {
-        if (cible != null && estEnPortee(cible) && !acteursRepousses.contains(cible)) {
+        if (cible != null && estEnPortée(cible) && !acteursRepousses.contains(cible)) {
             // Vérifier si une cible est définie, si elle est dans la portée de la tourelle et si elle n'a pas déjà été repoussée
-            cible.decrementerPv(getDegat()); // Réduire les points de vie de la cible
-            decrementerPv(5); // Réduire les points de vie de la tourelle
+            cible.decrementerPv(getDégât()); // Réduire les points de vie de la cible
+            décrémenterPv(5); // Réduire les points de vie de la tourelle
             System.out.println("Tourelle repousse attaque l'ennemi !");
 
             // Repousser l'ennemi en le faisant réapparaître

@@ -5,6 +5,7 @@ import com.application.saejeu.saejeu1.modele.Tourelle.TourelleGèle;
 import com.application.saejeu.saejeu1.modele.Tourelle.TourelleMitrailleuse;
 import com.application.saejeu.saejeu1.modele.Tourelle.TourelleRepousse;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
+import com.application.saejeu.saejeu1.vue.VueTourelle;
 import javafx.animation.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -39,11 +40,7 @@ public class Controleur implements Initializable {
     @FXML
     private Pane panneauDeJeu;
     @FXML
-    private Label labelVies;
-    @FXML
-    private Label labelManche;
-    @FXML
-    private Label labelZombie;
+    private Label labelManche, labelZombie, labelVies, nbTourelles, labelCoutAm;
     // permet de definir l'animation
     private Timeline gameLoop;
     private int temps;
@@ -117,7 +114,7 @@ public class Controleur implements Initializable {
                 }
             }
             // Si condition remplie
-            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= this.changerStringLabelEnInt(String.valueOf(this.labelG))) {
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelG.getText())) {
                 // Créer une nouvelle tourelle à la position de la souris si condition remplie
                 Tourelle nouvelleTourelle = new TourelleGèle(mouseX, mouseY, this.environnement);
                 // Ajouter la tourelle à votre environnement ou à une liste de tourelles
@@ -149,7 +146,7 @@ public class Controleur implements Initializable {
                 }
             }
             // Si condition remplie
-            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= this.changerStringLabelEnInt(String.valueOf(this.labelR))) {
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelR.getText())) {
                 // Créer une nouvelle tourelle à la position de la souris si condition remplie
                 Tourelle nouvelleTourelle = new TourelleRepousse(mouseX, mouseY, this.environnement);
                 // Ajouter la tourelle à votre environnement ou à une liste de tourelles
@@ -181,7 +178,7 @@ public class Controleur implements Initializable {
                 }
             }
             // Si condition remplie
-            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= this.changerStringLabelEnInt(String.valueOf(this.labelM))) {
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelM.getText())) {
                 // Créer une nouvelle tourelle à la position de la souris si condition remplie
                 Tourelle nouvelleTourelle = new TourelleMitrailleuse(mouseX, mouseY, this.environnement);
                 // Ajouter la tourelle à votre environnement ou à une liste de tourelles
@@ -222,6 +219,9 @@ public class Controleur implements Initializable {
         mettreAJourAffichageManche(manche.getNumeroManche()); // Met à jour l'affichage du numéro de la manche
         mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
         mettreAJourAffichagePiece(environnement.getPièces()); // Met à jour l'affichage des pièces
+        mettreAJourAffichagePrixTourelles();
+        mettreAJourAffichageTourelles(this.environnement.getTourelles().size());
+        mettreAJourCoûtAmélioration();
     }
     public void afficherGameOverScene() {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -280,14 +280,29 @@ public class Controleur implements Initializable {
         vProperty.set(vies);
         this.labelVies.textProperty().bind(vProperty.asString());
     }
+    public void mettreAJourCoûtAmélioration() {
+
+        Tourelle m = new TourelleMitrailleuse(0, 0, this.environnement);
+        this.labelCoutAm.textProperty().bind(m.getCoûtAmProperty().asString());
+    }
+    public void mettreAJourAffichageTourelles(int tourelles) {
+
+        IntegerProperty tProperty = new SimpleIntegerProperty(tourelles);
+        this.nbTourelles.textProperty().bind(tProperty.asString());
+    }
     public void mettreAJourAffichageManche(int numeroManche) {
         IntegerProperty mProperty = new SimpleIntegerProperty();
         mProperty.set(numeroManche);
         this.labelManche.textProperty().bind(mProperty.asString());
     }
-    private int changerStringLabelEnInt (String input) {
-        String numberString = input.replaceAll("[^0-9]", ""); // Supprime tous les caractères non numériques
-        return Integer.parseInt(numberString);
+    public void mettreAJourAffichagePrixTourelles() {
+
+        Tourelle m = new TourelleMitrailleuse(0, 0, this.environnement);
+        this.labelM.textProperty().bind(m.getCoûtProperty().asString());
+        Tourelle g = new TourelleGèle(0, 0, this.environnement);
+        this.labelG.textProperty().bind(g.getCoûtProperty().asString());
+        Tourelle r = new TourelleRepousse(0, 0, this.environnement);
+        this.labelR.textProperty().bind(r.getCoûtProperty().asString());
     }
 
     private void initAnimation() {

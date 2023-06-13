@@ -23,7 +23,7 @@ public class Environnement {
     private ObservableList<Tourelle> tourelles; // Liste des tourelles présentes dans l'environnement
     private IntegerProperty pièces; // pièces pour le jeu
     private BFS bfs; // Algorithme BFS pour la recherche de chemin
-    ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
+    private ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
     private int vies; // Nombre de vies restantes
 
     public Environnement(TileMap tileMap) throws IOException {
@@ -163,7 +163,7 @@ public class Environnement {
         return vies; // Renvoie le nombre de vies restantes
     }
 
-    public void decrementerVies() {
+    public void décrémenterVies() {
         vies--; // Décrémente le nombre de vies
     }
 
