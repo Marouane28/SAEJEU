@@ -46,7 +46,7 @@ public class Pièce {
             caseY = coordY / this.environnement.getTileMap().getTileSize();
 
             this.x = coordX; this.y = coordY;
-        } while (this.environnement.getTileMap().isNotObstacle(caseX, caseY) || this.y <= 100 || this.environnement.emplacementDéjàPrisParUnePièce(this.x, this.y) || this.environnement.emplacementDéjàPrisParUneTourelle(this.x, this.y));
+        } while (this.environnement.getTileMap().isNotObstacle(caseX, caseY) || this.y <= 200 || this.environnement.emplacementDéjàPrisParUnePièce(this.x, this.y) || this.environnement.emplacementDéjàPrisParUneTourelle(this.x, this.y));
     }
     public String getUrlImage() {
 

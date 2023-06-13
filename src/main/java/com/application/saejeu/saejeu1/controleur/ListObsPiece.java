@@ -26,6 +26,7 @@ public class ListObsPiece implements ListChangeListener<Pièce> {
             if (change.wasAdded()) {
                 for (Pièce pièce : change.getAddedSubList()) {
                     ajouterVuePièce(pièce); // Ajoute la vue de chaque nouvelle pièce ajoutée
+                    System.out.println("ajout pièce");
                 }
             }
             if (change.wasRemoved()) {
