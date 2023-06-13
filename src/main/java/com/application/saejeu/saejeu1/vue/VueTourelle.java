@@ -99,7 +99,6 @@ public class VueTourelle {
 
         panneauJeu.getChildren().add(rayonPortee); // Ajout du cercle au panneau de jeu
     }
-
     // Méthode pour retirer le rayon de portée de la tourelle
     public void retirerRayonPortee() {
         for (Node node : panneauJeu.getChildren()) {
@@ -112,7 +111,6 @@ public class VueTourelle {
             }
         }
     }
-
     // Méthode pour retirer l'image de la tourelle
     public void retirerImageTourelle(Tourelle tourelle) {
         ImageView imageViewToRemove = null;

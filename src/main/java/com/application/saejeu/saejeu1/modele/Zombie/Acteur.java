@@ -36,26 +36,32 @@ public abstract class Acteur {
     }
 
     public DoubleProperty xProperty() {
-        return x; // Renvoie la propriété x de l'acteur
+
+        return this.x; // Renvoie la propriété x de l'acteur
     }
 
     public DoubleProperty yProperty() {
-        return y; // Renvoie la propriété y de l'acteur
+
+        return this.y; // Renvoie la propriété y de l'acteur
     }
 
     public final double getX() {
+
         return this.xProperty().getValue(); // Renvoie la valeur de la propriété x de l'acteur
     }
 
     public final void setX(double n) {
+
         this.xProperty().setValue(n); // Définit la valeur de la propriété x de l'acteur
     }
 
     public final double getY() {
+
         return this.yProperty().getValue(); // Renvoie la valeur de la propriété y de l'acteur
     }
 
     public final void setY(double n) {
+
         this.yProperty().setValue(n); // Définit la valeur de la propriété y de l'acteur
     }
 
