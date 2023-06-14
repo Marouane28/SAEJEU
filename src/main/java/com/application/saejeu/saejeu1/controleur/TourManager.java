@@ -98,56 +98,13 @@ public class TourManager {
 
         int nextCaseX = prochainX / this.environnement.getTileMap().getTileSize();
         int nextCaseY = prochainY / this.environnement.getTileMap().getTileSize();
-        if (this.environnement.dansGrille(prochainX, prochainY) && !this.environnement.getTileMap().isNotObstacle(nextCaseX, nextCaseY)) {
+        if (!this.environnement.emplacementDéjàPrisParUneTourelle(prochainX, prochainY) && this.environnement.dansGrille(prochainX, prochainY) && !this.environnement.getTileMap().isNotObstacle(nextCaseX, nextCaseY) && !(prochainY >= 800)) {
 
             pièce.getVuePièce().retirerImagePièce(pièce);
             pièce.setX(pièce.getX() + this.environnement.getTileMap().getTileSize());
             pièce.setY(pièce.getY() + this.environnement.getTileMap().getTileSize());
             pièce.getVuePièce().imagePièce();
         }
-    }
-    public void choixDuDéplacementAléatoireDePièce(Pièce pièce) {
-
-        Random r = new Random();
-        int tileSize = this.environnement.getTileMap().getTileSize();
-
-        int deltaX = 0;
-        int deltaY = 0;
-
-        int randomNumber = r.nextInt(8);
-        switch (randomNumber) {
-            case 0:
-                deltaX = tileSize;
-                break;
-            case 1:
-                deltaX = -tileSize;
-                break;
-            case 2:
-                deltaY = tileSize;
-                break;
-            case 3:
-                deltaY = -tileSize;
-                break;
-            case 4:
-                deltaX = tileSize;
-                deltaY = tileSize;
-                break;
-            case 5:
-                deltaX = -tileSize;
-                deltaY = -tileSize;
-                break;
-            case 6:
-                deltaX = tileSize;
-                deltaY = -tileSize;
-                break;
-            case 7:
-                deltaX = -tileSize;
-                deltaY = tileSize;
-                break;
-        }
-
-        pièce.setX(pièce.getX() + deltaX);
-        pièce.setY(pièce.getY() + deltaY);
     }
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
