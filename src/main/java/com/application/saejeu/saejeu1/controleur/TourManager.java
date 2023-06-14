@@ -92,10 +92,18 @@ public class TourManager {
     }
     public void mouvementDePièce(Pièce pièce) {
 
-        pièce.getVuePièce().retirerImagePièce(pièce);
-        pièce.setX(pièce.getX() + this.environnement.getTileMap().getTileSize());
-        pièce.setY(pièce.getY() + this.environnement.getTileMap().getTileSize());
-        pièce.getVuePièce().imagePièce();
+        int prochainX = pièce.getX() + this.environnement.getTileMap().getTileSize();
+        int prochainY = pièce.getY() + this.environnement.getTileMap().getTileSize();
+
+        int nextCaseX = prochainX / this.environnement.getTileMap().getTileSize();
+        int nextCaseY = prochainY / this.environnement.getTileMap().getTileSize();
+        if (this.environnement.dansGrille(prochainX, prochainY)) {
+
+            pièce.getVuePièce().retirerImagePièce(pièce);
+            pièce.setX(pièce.getX() + this.environnement.getTileMap().getTileSize());
+            pièce.setY(pièce.getY() + this.environnement.getTileMap().getTileSize());
+            pièce.getVuePièce().imagePièce();
+        }
     }
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
