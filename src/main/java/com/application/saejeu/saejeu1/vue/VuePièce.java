@@ -29,13 +29,13 @@ public class VuePièce {
             System.out.println("bonjour");
         });
     }
-
     public void updateMouseClickedListener() {
 
         this.imageView.setOnMouseClicked(event -> {
 
             System.out.println("bonjour");
             this.pièce.getEnvironnement().gagnerUnCertainNombreDePièce(this.pièce.getValeur());
+            this.pièce.getEnvironnement().suppPièce(this.pièce);
         });
     }
 

@@ -239,6 +239,11 @@ public class Environnement {
         }
     }
 
+    public void suppPièce(Pièce pièce) {
+
+        this.listePièces.remove(pièce);
+    }
+
     public ArrayList<Sommet> getChemin() {
         return chemin; // Renvoie le chemin trouvé par l'algorithme BFS
     }
