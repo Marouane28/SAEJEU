@@ -93,16 +93,18 @@ public class TourManager {
     }
     public void mouvementDePièce(Pièce pièce) {
 
-        int prochainX = pièce.getX() + this.environnement.getTileMap().getTileSize();
-        int prochainY = pièce.getY() + this.environnement.getTileMap().getTileSize();
+        int tileSize = this.environnement.getTileMap().getTileSize();
 
-        int nextCaseX = prochainX / this.environnement.getTileMap().getTileSize();
-        int nextCaseY = prochainY / this.environnement.getTileMap().getTileSize();
+        int prochainX = pièce.getX() + tileSize;
+        int prochainY = pièce.getY() + tileSize;
+
+        int nextCaseX = prochainX / tileSize;
+        int nextCaseY = prochainY / tileSize;
         if (!this.environnement.emplacementDéjàPrisParUnePièce(prochainX, prochainY) && !this.environnement.emplacementDéjàPrisParUneTourelle(prochainX, prochainY) && this.environnement.dansGrille(prochainX, prochainY) && !this.environnement.getTileMap().isNotObstacle(nextCaseX, nextCaseY) && !(prochainY >= 800)) {
 
             pièce.getVuePièce().retirerImagePièce(pièce);
-            pièce.setX(pièce.getX() + this.environnement.getTileMap().getTileSize());
-            pièce.setY(pièce.getY() + this.environnement.getTileMap().getTileSize());
+            pièce.setX(prochainX);
+            pièce.setY(prochainY);
             pièce.getVuePièce().imagePièce();
         }
     }
