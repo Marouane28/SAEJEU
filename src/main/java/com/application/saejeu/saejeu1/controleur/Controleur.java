@@ -272,10 +272,6 @@ public class Controleur implements Initializable {
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.08),
                 (ev -> {
-                    if (temps % 10 == 0) {
-
-                        this.environnement.créerUnCertainsNombreDePièce(1);
-                    }
                     if (temps % 10 == 0 && manche.getNombreZombies() != manche.getCompteurZombie()) {
                         tourManager.ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
                     } else if (temps % 2 == 0) {
@@ -291,5 +287,9 @@ public class Controleur implements Initializable {
                 })
         );
         gameLoop.getKeyFrames().add(kf);
+    }
+    public int getTemps() {
+
+        return this.temps;
     }
 }

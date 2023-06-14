@@ -3,6 +3,7 @@ package com.application.saejeu.saejeu1.controleur;
 import com.application.saejeu.saejeu1.controleur.Controleur;
 import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.modele.Manche;
+import com.application.saejeu.saejeu1.modele.Pièce;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.Timeline;
@@ -53,6 +54,10 @@ public class TourManager {
                 gérerCollision(zombie); // Gère la collision lorsque le zombie atteint sa cible
             }
         }
+        if (this.controleur.getTemps() % 5 == 0) {
+
+            effectuerTourPièces();
+        }
     }
 
     public void ajouterZombie() {
@@ -72,6 +77,25 @@ public class TourManager {
                 environnement.getTourelles().remove(tour); // Supprime la tourelle de la liste des tourelles si elle n'est plus en marche
             }
         }
+    }
+    public void effectuerTourPièces() {
+
+        ArrayList<Pièce> piècesCopy = new ArrayList<>(this.environnement.getListePièces());
+        if (piècesCopy.size() < 10) {
+
+            this.environnement.créerUnCertainsNombreDePièce(1);
+        }
+        for (Pièce pièce : piècesCopy) {
+
+            mouvementDePièce(pièce);
+        }
+    }
+    public void mouvementDePièce(Pièce pièce) {
+
+        pièce.getVuePièce().retirerImagePièce(pièce);
+        pièce.setX(pièce.getX() + this.environnement.getTileMap().getTileSize());
+        pièce.setY(pièce.getY() + this.environnement.getTileMap().getTileSize());
+        pièce.getVuePièce().imagePièce();
     }
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés

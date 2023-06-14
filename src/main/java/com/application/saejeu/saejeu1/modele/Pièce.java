@@ -36,8 +36,8 @@ public class Pièce {
         int caseY;
         int caseX;
         do {
-            int x = r.nextInt(this.environnement.getX());
-            int y = r.nextInt(this.environnement.getY());
+            int x = r.nextInt(1441);
+            int y = r.nextInt(801);
 
             int coordX = x - (x % this.environnement.getTileMap().getTileSize());
             int coordY = y - (y % this.environnement.getTileMap().getTileSize());
@@ -46,7 +46,7 @@ public class Pièce {
             caseY = coordY / this.environnement.getTileMap().getTileSize();
 
             this.x = coordX; this.y = coordY;
-        } while (this.environnement.getTileMap().isNotObstacle(caseX, caseY) || this.y <= 200 || this.environnement.emplacementDéjàPrisParUnePièce(this.x, this.y) || this.environnement.emplacementDéjàPrisParUneTourelle(this.x, this.y));
+        } while (this.environnement.getTileMap().isNotObstacle(caseX, caseY) || this.y >= 650 || this.y <= 150 || this.environnement.emplacementDéjàPrisParUnePièce(this.x, this.y) || this.environnement.emplacementDéjàPrisParUneTourelle(this.x, this.y));
     }
     public String getUrlImage() {
 
@@ -60,9 +60,18 @@ public class Pièce {
 
         return this.x; // Renvoie la valeur de la propriété x de la pièce
     }
-    public final double getY() {
+    public int getY() {
 
         return this.y; // Renvoie la valeur de la propriété y de la pièce
+    }
+
+    public void setX(int i) {
+
+        this.x = i;
+    }
+    public void setY(int i) {
+
+        this.y = i;
     }
 
 }
