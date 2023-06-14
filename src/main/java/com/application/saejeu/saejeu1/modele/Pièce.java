@@ -58,6 +58,10 @@ public class Pièce {
 
         this.vuePièce = vuePièce; // Définit la vue associée à l'acteur
     }
+    public Environnement getEnvironnement() {
+
+        return this.environnement;
+    }
     public final int getX() {
 
         return this.x.getValue(); // Renvoie la valeur de la propriété x de la pièce

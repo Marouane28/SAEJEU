@@ -33,7 +33,9 @@ public class VuePièce {
     public void updateMouseClickedListener() {
 
         this.imageView.setOnMouseClicked(event -> {
+
             System.out.println("bonjour");
+            this.pièce.getEnvironnement().gagnerUnCertainNombreDePièce(this.pièce.getValeur());
         });
     }
 

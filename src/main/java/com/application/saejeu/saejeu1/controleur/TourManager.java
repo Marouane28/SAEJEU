@@ -132,6 +132,10 @@ public class TourManager {
             // Mettre à jour l'écouteur d'événements
             pièce.getVuePièce().updateMouseClickedListener();
         }
+        else {
+
+            //System.out.println("pas bouger");
+        }
     }
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
