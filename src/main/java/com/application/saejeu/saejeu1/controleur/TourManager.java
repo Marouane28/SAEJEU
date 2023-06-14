@@ -98,7 +98,7 @@ public class TourManager {
 
         int nextCaseX = prochainX / this.environnement.getTileMap().getTileSize();
         int nextCaseY = prochainY / this.environnement.getTileMap().getTileSize();
-        if (!this.environnement.emplacementDéjàPrisParUneTourelle(prochainX, prochainY) && this.environnement.dansGrille(prochainX, prochainY) && !this.environnement.getTileMap().isNotObstacle(nextCaseX, nextCaseY) && !(prochainY >= 800)) {
+        if (!this.environnement.emplacementDéjàPrisParUnePièce(prochainX, prochainY) && !this.environnement.emplacementDéjàPrisParUneTourelle(prochainX, prochainY) && this.environnement.dansGrille(prochainX, prochainY) && !this.environnement.getTileMap().isNotObstacle(nextCaseX, nextCaseY) && !(prochainY >= 800)) {
 
             pièce.getVuePièce().retirerImagePièce(pièce);
             pièce.setX(pièce.getX() + this.environnement.getTileMap().getTileSize());
