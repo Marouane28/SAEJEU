@@ -12,7 +12,7 @@ import java.util.Random;
 public class Pièce {
     private int valeur;
     private String urlImage;
-    private int x, y;
+    private IntegerProperty x, y;
     private VuePièce vuePièce;
     private Environnement environnement;
     public Pièce(int valeur, Environnement environnement) {
@@ -20,6 +20,8 @@ public class Pièce {
         this.valeur = valeur;
         this.urlImage = "image-pieces.png";
         this.environnement = environnement;
+        this.x = new SimpleIntegerProperty();
+        this.y = new SimpleIntegerProperty();
         this.coordonnéesXEtYAléatoireAvecGestionCollision();
     }
     public int getValeur() {
@@ -45,8 +47,8 @@ public class Pièce {
             caseX = coordX / this.environnement.getTileMap().getTileSize();
             caseY = coordY / this.environnement.getTileMap().getTileSize();
 
-            this.x = coordX; this.y = coordY;
-        } while (this.environnement.getTileMap().isNotObstacle(caseX, caseY) || this.y >= 650 || this.y <= 150 || this.environnement.emplacementDéjàPrisParUnePièce(this.x, this.y) || this.environnement.emplacementDéjàPrisParUneTourelle(this.x, this.y));
+            this.x.setValue(coordX); this.y.setValue(coordY);
+        } while (this.environnement.getTileMap().isNotObstacle(caseX, caseY) || this.getY() >= 650 || this.getY() <= 150 || this.environnement.emplacementDéjàPrisParUnePièce(this.getX(), this.getY()) || this.environnement.emplacementDéjàPrisParUneTourelle(this.getX(), this.getY()));
     }
     public String getUrlImage() {
 
@@ -56,22 +58,28 @@ public class Pièce {
 
         this.vuePièce = vuePièce; // Définit la vue associée à l'acteur
     }
-    public int getX() {
+    public final int getX() {
 
-        return this.x; // Renvoie la valeur de la propriété x de la pièce
+        return this.x.getValue(); // Renvoie la valeur de la propriété x de la pièce
     }
-    public int getY() {
+    public final int getY() {
 
-        return this.y; // Renvoie la valeur de la propriété y de la pièce
+        return this.y.getValue(); // Renvoie la valeur de la propriété y de la pièce
     }
-
     public void setX(int i) {
 
-        this.x = i;
+        this.x.setValue(i);
     }
     public void setY(int i) {
 
-        this.y = i;
+        this.y.setValue(i);
     }
+    public IntegerProperty getXProperty() {
 
+        return this.x;
+    }
+    public IntegerProperty getYProperty() {
+
+        return this.y;
+    }
 }
