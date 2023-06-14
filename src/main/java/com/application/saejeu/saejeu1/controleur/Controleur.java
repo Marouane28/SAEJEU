@@ -69,6 +69,7 @@ public class Controleur implements Initializable {
         initAnimation(); // Initialise l'animation du jeu
         // Démarre l'animation
         gameLoop.play();
+
     }
     @FXML
     public void abandonnerJeu(ActionEvent actionEvent) {
