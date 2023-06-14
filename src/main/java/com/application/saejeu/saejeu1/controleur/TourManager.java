@@ -9,6 +9,7 @@ import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.Timeline;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class TourManager {
     private Environnement environnement; // Référence vers l'environnement du jeu
@@ -104,6 +105,49 @@ public class TourManager {
             pièce.setY(pièce.getY() + this.environnement.getTileMap().getTileSize());
             pièce.getVuePièce().imagePièce();
         }
+    }
+    public void choixDuDéplacementAléatoireDePièce(Pièce pièce) {
+
+        Random r = new Random();
+        int tileSize = this.environnement.getTileMap().getTileSize();
+
+        int deltaX = 0;
+        int deltaY = 0;
+
+        int randomNumber = r.nextInt(8);
+        switch (randomNumber) {
+            case 0:
+                deltaX = tileSize;
+                break;
+            case 1:
+                deltaX = -tileSize;
+                break;
+            case 2:
+                deltaY = tileSize;
+                break;
+            case 3:
+                deltaY = -tileSize;
+                break;
+            case 4:
+                deltaX = tileSize;
+                deltaY = tileSize;
+                break;
+            case 5:
+                deltaX = -tileSize;
+                deltaY = -tileSize;
+                break;
+            case 6:
+                deltaX = tileSize;
+                deltaY = -tileSize;
+                break;
+            case 7:
+                deltaX = -tileSize;
+                deltaY = tileSize;
+                break;
+        }
+
+        pièce.setX(pièce.getX() + deltaX);
+        pièce.setY(pièce.getY() + deltaY);
     }
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
