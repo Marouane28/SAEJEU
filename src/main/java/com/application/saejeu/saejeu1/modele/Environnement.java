@@ -25,7 +25,7 @@ public class Environnement {
     private BFS bfs; // Algorithme BFS pour la recherche de chemin
     private ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
     private IntegerProperty vies; // Nombre de vies restantes
-    private ObservableList<Pièce> listePièces;
+    private ObservableList<Pièce> listePièces; // La liste observable de pièces
 
     public Environnement(TileMap tileMap) throws IOException {
         this.tileMap = tileMap; // Initialise la carte de tuiles
@@ -126,27 +126,23 @@ public class Environnement {
     }
 
     public boolean emplacementDéjàPrisParUneTourelle(int x, int y) {
-
         for (Tourelle tourelle : this.tourelles) {
-
             if (tourelle.getX() == x && tourelle.getY() == y) {
-
-                return true;
+                return true; // L'emplacement est déjà pris par une tourelle
             }
         }
-        return false;
+        return false; // Aucune tourelle n'occupe l'emplacement
     }
+
     public boolean emplacementDéjàPrisParUnePièce(int x, int y) {
-
         for (Pièce pièce : this.listePièces) {
-
             if (pièce.getX() == x && pièce.getY() == y) {
-
-                return true;
+                return true; // L'emplacement est déjà pris par une pièce
             }
         }
-        return false;
+        return false; // Aucune pièce n'occupe l'emplacement
     }
+
 
     public boolean estDeconnecte(Sommet s) {
         // Vérifie si le sommet est contenu dans la liste des obstacles
@@ -181,7 +177,6 @@ public class Environnement {
     }
 
     public ObservableList<Pièce> getListePièces() {
-
         return this.listePièces; // Renvoie la liste des pièces présentes dans l'environnement
     }
     public int getVies() {
@@ -197,11 +192,9 @@ public class Environnement {
     }
 
     public void ajouterActeur(Acteur a) {
-
         this.acteurs.add(a); // Ajoute un acteur à la liste des acteurs
     }
     public void ajouterPièce(Pièce p) {
-
         this.listePièces.add(p); // Ajoute un acteur à la liste des acteurs
     }
 
@@ -230,18 +223,15 @@ public class Environnement {
     }
 
     public void créerUnCertainsNombreDePièce(int nbPièces) {
-
         for (int i = 0; i < nbPièces; i++) {
-
-            Pièce p = new Pièce(1, this);
-            ajouterPièce(p);
-            System.out.println("(" + p.getX() + ", " + p.getY() + ")");
+            Pièce p = new Pièce(2, this); // Crée une nouvelle pièce avec une valeur de 2 et l'environnement actuel
+            ajouterPièce(p); // Ajoute la pièce à la liste des pièces de l'environnement
+            System.out.println("(" + p.getX() + ", " + p.getY() + ")"); // Affiche les coordonnées (x, y) de la pièce nouvellement créée
         }
     }
 
     public void suppPièce(Pièce pièce) {
-
-        this.listePièces.remove(pièce);
+        this.listePièces.remove(pièce); // Supprime la pièce spécifiée de la liste des pièces de l'environnement
     }
 
     public ArrayList<Sommet> getChemin() {

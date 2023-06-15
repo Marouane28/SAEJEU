@@ -11,34 +11,35 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class VuePièce {
-    private Pièce pièce;
-    private ImageView imageView;
-    private Pane panneauJeu;
-    private ArrayList<ImageView> imageViews;
-    private Image image;
+    private Pièce pièce; // La pièce associée à la vue
+    private ImageView imageView; // L'imageView utilisée pour afficher l'image de la pièce
+    private Pane panneauJeu; // Le panneau de jeu contenant la vue de la pièce
+    private ArrayList<ImageView> imageViews; // Une liste d'ImageViews
+    private Image image; // L'image de la pièce
 
     public VuePièce(Pane panneauJeu, Pièce pièce) {
-
-        this.panneauJeu = panneauJeu;
-        this.pièce = pièce;
-        this.imageViews = new ArrayList<>();
-        imagePièce();
-        updateMouseClickedListener();
+        this.panneauJeu = panneauJeu; // Initialisation du panneau de jeu
+        this.pièce = pièce; // Initialisation de la pièce associée à la vue
+        this.imageViews = new ArrayList<>(); // Initialisation de la liste d'ImageViews
+        imagePièce(); // Appel à la méthode pour afficher l'image de la pièce
+        updateMouseClickedListener(); // Appel à la méthode pour définir l'écouteur d'événements pour le clic de souris
     }
+
     public void updateMouseClickedListener() {
-
+        // Définition d'un écouteur d'événements pour le clic de souris sur l'image de la pièce
         this.imageView.setOnMouseClicked(event -> {
-
-            // System.out.println("bonjour");
+            // Lorsque l'image de la pièce est cliquée
+            // Augmenter le nombre de pièces de l'environnement de la pièce en utilisant la valeur de la pièce
             this.pièce.getEnvironnement().gagnerUnCertainNombreDePièce(this.pièce.getValeur());
+            // Supprimer la pièce de l'environnement
             this.pièce.getEnvironnement().suppPièce(this.pièce);
         });
     }
 
     public Pièce getPièce() {
-
-        return this.pièce;
+        return this.pièce; // Renvoie la pièce associée à la vue
     }
+
 
     public void imagePièce() {
 
@@ -54,7 +55,6 @@ public class VuePièce {
     }
 
     private void setImageView(ImageView imageView) {
-
         this.imageView = imageView;
     }
 
