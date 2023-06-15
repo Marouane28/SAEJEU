@@ -18,7 +18,7 @@ public class BFS {
     /**
      * Chaque sommet (clé) est associé à son prédécesseur (valeur) du parcours en largeur
      */
-    private Map<Sommet, Sommet> predecesseurs;
+    private HashMap<Sommet, Sommet> predecesseurs;
 
     public BFS(Environnement map, Sommet source) {
         this.map = map;

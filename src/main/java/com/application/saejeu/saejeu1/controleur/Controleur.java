@@ -43,12 +43,13 @@ public class Controleur implements Initializable {
     private int temps; // Temps écoulé dans le jeu
     private Environnement environnement; // Référence à l'environnement du jeu
     private Manche manche; // Référence à la manche en cours
-    private ListChangeListener<Acteur> listenerActeur; // Écouteur de changements pour les acteurs (zombies, tourelles, etc.)
+    private ListChangeListener<Acteur> listenerActeur; // Écouteur de changements pour les acteurs
     private ListChangeListener<Tourelle> listenerTourelle; // Écouteur de changements pour les tourelles
-    private ListChangeListener<Pièce> listenerPièce;
     private TileMap tileMap; // Représente la carte de tuiles du terrain
     private final int nb_manche = 10; // Permet de définir le nombre de manches dans le jeu
     private boolean estEnPause = false; // Indique si le jeu est en pause ou non
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,16 +61,15 @@ public class Controleur implements Initializable {
         réglerTaille(); // Ajuste la taille du panneau de jeu en fonction de la taille de l'environnement
 
         // Crée des écouteurs de changement pour les listes d'acteurs et de tourelles de l'environnement
-        this.listenerActeur = new ListObsActeur(this.panneauDeJeu);
-        this.listenerTourelle = new ListObsTourelle(this.panneauDeJeu);
-        this.listenerPièce = new ListObsPiece(this.panneauDeJeu);
-        this.environnement.getActeurs().addListener(this.listenerActeur);
-        this.environnement.getTourelles().addListener(this.listenerTourelle);
-        this.environnement.getListePièces().addListener(this.listenerPièce);
+        listenerActeur = new ListObsActeur(panneauDeJeu);
+        listenerTourelle = new ListObsTourelle(panneauDeJeu);
+        environnement.getActeurs().addListener(listenerActeur);
+        environnement.getTourelles().addListener(listenerTourelle);
 
         initAnimation(); // Initialise l'animation du jeu
         // Démarre l'animation
         gameLoop.play();
+
     }
     @FXML
     public void abandonnerJeu(ActionEvent actionEvent) {
@@ -101,8 +101,16 @@ public class Controleur implements Initializable {
             int caseX = mouseX / this.tileMap.getTileSize();
             int caseY = mouseY / this.tileMap.getTileSize();
 
-            // Si conditions remplies
-            if (!this.environnement.emplacementDéjàPrisParUneTourelle(mouseX, mouseY) && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelG.getText())) {
+            boolean tourelleIci = false;
+            for (int i = 0; i < this.environnement.getTourelles().size(); i++) {
+
+                if (this.environnement.getTourelles().get(i).getX() == (mouseX) && this.environnement.getTourelles().get(i).getY() == (mouseY)) {
+
+                    tourelleIci = true;
+                }
+            }
+            // Si condition remplie
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelG.getText())) {
                 // Créer une nouvelle tourelle à la position de la souris si condition remplie
                 Tourelle nouvelleTourelle = new TourelleGèle(mouseX, mouseY, this.environnement);
                 // Ajouter la tourelle à votre environnement ou à une liste de tourelles
@@ -125,8 +133,16 @@ public class Controleur implements Initializable {
             int caseX = mouseX / this.tileMap.getTileSize();
             int caseY = mouseY / this.tileMap.getTileSize();
 
-            // Si conditions remplies
-            if (!this.environnement.emplacementDéjàPrisParUneTourelle(mouseX, mouseY) && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelR.getText())) {
+            boolean tourelleIci = false;
+            for (int i = 0; i < this.environnement.getTourelles().size(); i++) {
+
+                if (this.environnement.getTourelles().get(i).getX() == (mouseX) && this.environnement.getTourelles().get(i).getY() == (mouseY)) {
+
+                    tourelleIci = true;
+                }
+            }
+            // Si condition remplie
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelR.getText())) {
                 // Créer une nouvelle tourelle à la position de la souris si condition remplie
                 Tourelle nouvelleTourelle = new TourelleRepousse(mouseX, mouseY, this.environnement);
                 // Ajouter la tourelle à votre environnement ou à une liste de tourelles
@@ -149,8 +165,16 @@ public class Controleur implements Initializable {
             int caseX = mouseX / this.tileMap.getTileSize();
             int caseY = mouseY / this.tileMap.getTileSize();
 
-            // Si conditions remplies
-            if (!this.environnement.emplacementDéjàPrisParUneTourelle(mouseX, mouseY) && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelM.getText())) {
+            boolean tourelleIci = false;
+            for (int i = 0; i < this.environnement.getTourelles().size(); i++) {
+
+                if (this.environnement.getTourelles().get(i).getX() == (mouseX) && this.environnement.getTourelles().get(i).getY() == (mouseY)) {
+
+                    tourelleIci = true;
+                }
+            }
+            // Si condition remplie
+            if (!tourelleIci && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelM.getText())) {
                 // Créer une nouvelle tourelle à la position de la souris si condition remplie
                 Tourelle nouvelleTourelle = new TourelleMitrailleuse(mouseX, mouseY, this.environnement);
                 // Ajouter la tourelle à votre environnement ou à une liste de tourelles
@@ -160,6 +184,7 @@ public class Controleur implements Initializable {
             this.panneauDeJeu.setOnMouseClicked(null);
         });
     }
+
     public void réglerTaille() {
         // Définit la taille minimale du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
@@ -168,6 +193,7 @@ public class Controleur implements Initializable {
         // Définit la taille préférée du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
     }
+
     public void gameLaunch() throws IOException {
 
         manche = new Manche(); // Crée une nouvelle instance de la classe Manche
@@ -184,14 +210,15 @@ public class Controleur implements Initializable {
             e.printStackTrace();
         }
 
-        mettreAJourAffichageVies(); // Met à jour l'affichage du nombre de vies
-        mettreAJourAffichageManche(); // Met à jour l'affichage du numéro de la manche
-        mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
-        mettreAJourAffichagePiece(); // Met à jour l'affichage des pièces
+        bindAffichageVies(); // Met à jour l'affichage du nombre de vies
+        bindAffichageManche(); // Met à jour l'affichage du numéro de la manche
+        mettreAJourAffichageZombies(); // Met à jour l'affichage du nombre de zombies
+        bindAffichagePiece(); // Met à jour l'affichage des pièces
         mettreAJourAffichagePrixTourelles(); // Appel d'une méthode pour mettre à jour l'affichage des prix des tourelles
-        mettreAJourAffichageTourelles(this.environnement.getTourelles().size()); // Appel d'une méthode pour mettre à jour l'affichage des tourelles en fonction de leur nombre
+        mettreAJourAffichageTourelles(); // Appel d'une méthode pour mettre à jour l'affichage des tourelles en fonction de leur nombre
         mettreAJourCoûtAmélioration(); // Appel d'une méthode pour mettre à jour le coût d'amélioration
     }
+
     public void afficherGameOverScene() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL resource = getClass().getResource("/com/application/saejeu/saejeu1/finJeu.fxml");
@@ -213,6 +240,7 @@ public class Controleur implements Initializable {
         String s = urlImageVaiL.getPath();
         Main.PlayMusicDefaite(s);
     }
+
     public void afficherWinJeuScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/application/saejeu/saejeu1/winJeu.fxml"));
         Parent root = null;
@@ -233,35 +261,34 @@ public class Controleur implements Initializable {
         String s = urlImageVaiL.getPath();
         Main.PlayMusicVictoire(s);
     }
-    public void mettreAJourAffichagePiece() {
 
+    public void bindAffichagePiece() {
         this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
     }
-    public void mettreAJourAffichageVies() {
 
+    public void bindAffichageVies() {
         this.labelVies.textProperty().bind(environnement.viesProperty().asString());
     }
-    public void mettreAJourAffichageManche() {
 
+    public void bindAffichageManche() {
         this.labelManche.textProperty().bind(manche.numeroMancheProperty().asString());
     }
-    public void mettreAJourCoûtAmélioration() {
 
+    public void mettreAJourCoûtAmélioration() {
         Tourelle m = new TourelleMitrailleuse(0, 0, this.environnement);
         this.labelCoutAm.textProperty().bind(m.getCoûtAmProperty().asString());
     }
-    public void mettreAJourAffichageZombies(int zombies) {
-        IntegerProperty zProperty = new SimpleIntegerProperty();
-        zProperty.set(zombies);
-        this.labelZombie.textProperty().bind(zProperty.asString());
-    }
-    public void mettreAJourAffichageTourelles(int tourelles) {
 
-        IntegerProperty tProperty = new SimpleIntegerProperty(tourelles);
-        this.nbTourelles.textProperty().bind(tProperty.asString());
+    public void mettreAJourAffichageZombies() {
+        this.labelZombie.setText(String.valueOf(environnement.getActeurs().size()));
     }
+
+    public void mettreAJourAffichageTourelles() {
+        this.nbTourelles.setText(String.valueOf(environnement.getTourelles().size()));
+
+    }
+
     public void mettreAJourAffichagePrixTourelles() {
-
         Tourelle m = new TourelleMitrailleuse(0, 0, this.environnement);
         this.labelM.textProperty().bind(m.getCoûtProperty().asString());
         Tourelle g = new TourelleGèle(0, 0, this.environnement);
@@ -269,6 +296,7 @@ public class Controleur implements Initializable {
         Tourelle r = new TourelleRepousse(0, 0, this.environnement);
         this.labelR.textProperty().bind(r.getCoûtProperty().asString());
     }
+
     private void initAnimation() {
         gameLoop = new Timeline();
         temps = 0;
@@ -293,9 +321,5 @@ public class Controleur implements Initializable {
                 })
         );
         gameLoop.getKeyFrames().add(kf);
-    }
-    public int getTemps() {
-
-        return this.temps;
     }
 }
