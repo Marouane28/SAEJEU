@@ -125,6 +125,7 @@ public class Controleur implements Initializable {
         // Ici, vous pouvez implémenter la logique pour ajouter une tourelle
         // lorsque le bouton est cliqué
         // Par exemple, vous pouvez activer l'écouteur de clic sur la zone de jeu
+        // version sauvegardée
         panneauDeJeu.setOnMouseClicked(mouseEvent -> {
             // Obtenir les coordonnées de la souris
             int mouseX = (int) mouseEvent.getX() - ((int) mouseEvent.getX() % this.tileMap.getTileSize());
