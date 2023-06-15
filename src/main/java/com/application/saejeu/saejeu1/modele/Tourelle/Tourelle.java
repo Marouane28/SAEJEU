@@ -174,4 +174,22 @@ public abstract class Tourelle {
         }
         return acteursProches;
     }
+
+//    public Acteur ennemiPlusProche() {
+//
+//        Acteur ennemiLePlusProche = null;
+//        double distanceMin = Double.MAX_VALUE;
+//
+//        for (int i = 0; i < environnement.getActeurs().size(); i++) {
+//                double dx = this.getX() - environnement.getActeurs().get(i).getX();
+//                double dy = this.getY() - environnement.getActeurs().get(i).getY();
+//                double distance = Math.sqrt(dx * dx + dy * dy);
+//
+//                if (distance <= portée && distance < distanceMin) {
+//                    ennemiLePlusProche = environnement.getActeurs().get(i);
+//                    distanceMin = distance;
+//                }
+//            }
+//        return ennemiLePlusProche;
+//    }
 }

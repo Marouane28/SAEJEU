@@ -43,6 +43,7 @@ public class TourManager {
             }
 
             effectuerTourTourelles(); // Appelle la méthode effectuerTourTourelles() pour gérer les actions des tourelles pendant le tour
+            tourProjectile();
 
             if (!zombie.estVivant()) {
                 environnement.getActeurs().remove(zombie); // Supprime le zombie de la liste des acteurs s'il n'est plus vivant

@@ -5,7 +5,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Projectile {
-    public static final double VITESSE = 30;
+    public static final double VITESSE = 100;
 
     DoubleProperty x,y;
 
