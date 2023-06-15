@@ -77,6 +77,9 @@ public class TourManager {
                 }
             }
         }
+    }
+
+    private void tourProjectile(){
         try {
             if (!environnement.getProjectiles().isEmpty()) {
                 for (Projectile p : environnement.getProjectiles()) {
