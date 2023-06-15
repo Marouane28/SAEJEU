@@ -60,7 +60,6 @@ public class VueTourelle {
         imageView.translateYProperty().bind(tourelle.yProperty()); // Lier la position verticale de l'ImageView à la position verticale de la tourelle
         this.panneauJeu.getChildren().add(imageView); // Ajout de l'ImageView au panneau de jeu
         this.imageViews.add(imageView); // Ajout de l'ImageView à la liste des ImageView
-
     }
 
     public void setImageView(ImageView imageView) {
