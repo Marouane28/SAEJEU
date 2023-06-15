@@ -23,7 +23,6 @@ public class VuePièce {
         this.pièce = pièce;
         this.imageViews = new ArrayList<>();
         imagePièce();
-
         updateMouseClickedListener();
     }
     public void updateMouseClickedListener() {
@@ -52,7 +51,7 @@ public class VuePièce {
         this.imageView.translateYProperty().bind(this.pièce.getYProperty());
         this.panneauJeu.getChildren().add(this.imageView); // Ajout de l'ImageView au panneau de jeu
         this.imageViews.add(this.imageView); // Ajout de l'ImageView à la liste des ImageView
-    }// hihi
+    }
 
     private void setImageView(ImageView imageView) {
 

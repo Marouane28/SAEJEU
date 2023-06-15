@@ -40,7 +40,6 @@ public class TourManager {
             } else {
                 zombie.decrementerCyclesRestants(); // Décrémente le nombre de cycles restants du zombie
             }
-            //kkkk
 
             effectuerTourTourelles(zombie); // Appelle la méthode effectuerTourTourelles() pour gérer les actions des tourelles pendant le tour
 

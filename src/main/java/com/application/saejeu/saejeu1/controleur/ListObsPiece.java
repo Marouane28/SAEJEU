@@ -36,7 +36,7 @@ public class ListObsPiece implements ListChangeListener<Pièce> {
             }
         }
     }
-    // haha
+
 
     private void ajouterVuePièce(Pièce pièce) {
 
