@@ -1,6 +1,5 @@
 package com.application.saejeu.saejeu1.controleur;
 import com.application.saejeu.saejeu1.modele.Projectile;
-import com.application.saejeu.saejeu1.vue.VueEnnemi;
 import com.application.saejeu.saejeu1.vue.VueProjectile;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
@@ -37,18 +36,17 @@ public class ListObsProjectile implements ListChangeListener<Projectile> {
 
 
     private void enleverProjectile (Projectile proj){
-//        this.panneauDeJeu.getChildren().remove(this.panneauDeJeu.lookup("#"+ p.getId()));
         VueProjectile vueProjectileToRemove = null;
         for (VueProjectile vueProjectile : vuesProjectile) {
-            if (vueProjectile.getProjectile() == proj) { // Recherche la vue correspondant à l'acteur ennemi supprimé
+            if (vueProjectile.getProjectile() == proj) { // Recherche la vue correspondant au projectile supprimé
                 vueProjectileToRemove = vueProjectile; // Stocke la vue à supprimer
                 break;
             }
         }
 
         if (vueProjectileToRemove != null) {
-            vueProjectileToRemove.retirerImageProjectile(proj); // Retire l'image de l'acteur ennemi dans la vue
-            vuesProjectile.remove(vueProjectileToRemove); // Supprime la vue des ennemis
+            vueProjectileToRemove.retirerImageProjectile(proj); // Retire l'image du projectile dans la vue
+            vuesProjectile.remove(vueProjectileToRemove); // Supprime la vue des projectiles
         }
     }
 }

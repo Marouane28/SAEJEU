@@ -26,68 +26,73 @@ public abstract class Projectile {
     }
 
     public void lancerProjectile() {
-
+        // Calcul des distances entre le projectile et l'ennemi selon les axes X et Y
         double distanceX = ennemi.getX() - this.getX();
         double distanceY = ennemi.getY() - this.getY();
 
-        // Calcule la distance total
+        // Calcul de la distance totale en utilisant le théorème de Pythagore
         double totalDistance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-
+        // Calcul des composantes de direction normalisées (valeurs entre -1 et 1)
         double directionX = distanceX / totalDistance;
         double directionY = distanceY / totalDistance;
 
-        // Calculer les nouvelles positions
+        // Calcul des nouvelles positions en fonction de la vitesse du projectile et des directions
         double nouvellePositionX = this.getX() + (VITESSE * directionX);
         double nouvellePositionY = this.getY() + (VITESSE * directionY);
 
-
+        // Mise à jour des coordonnées du projectile avec les nouvelles positions calculées
         this.setX(nouvellePositionX);
         this.setY(nouvellePositionY);
-        if (atteintActeur()) {
-            ennemi.decrementerPv(1);
-            environnement.getProjectiles().remove(this);
-        }
-
     }
 
-    public void updatePosition(double elapsedTime) {
 
+    // Méthode qui est utlisé dans la méthode handle de la vueProjectile afin d'améliorer l'animation du projectile
+    public void updatePosition(double elapsedTime) {
+        // Calcul de la distance entre les coordonnées du projectile et de l'ennemi
         double distance = Math.sqrt(Math.pow(this.ennemi.getX()+10 - this.x.getValue(), 2) + Math.pow(this.ennemi.getY()+10 - this.y.getValue(), 2));
+
+        // Calcul des composantes de direction normalisées (valeurs entre -1 et 1)
         double xDirection = (this.ennemi.getX()+10 - this.x.getValue()) / distance;
         double yDirection = (this.ennemi.getY()+10 - this.y.getValue()) / distance;
 
+        // Calcul des déplacements en fonction de la vitesse du projectile, des directions et du temps écoulé
         double deltaX = xDirection * VITESSE * elapsedTime;
         double deltaY = yDirection * VITESSE * elapsedTime;
 
+        // Mise à jour des coordonnées du projectile avec les déplacements calculés
         x.set(x.get() + deltaX);
         y.set(y.get() + deltaY);
-
     }
 
 
+
     public boolean atteintActeur() {
-        // Les coins du projectile
-        double x1 = getX();
-        double y1 = getY();
-        double x2 = getX() + 20;
-        double y2 = getY() + 20;
+        // Coordonnées du projectile
+        double xProjDroite = getX();
+        double yProjDroite = getY();
+        double xProjGauche = getX() + 20; // 20 = la taille de l'image en pixel
+        double yProjGauche = getY() + 20;
 
-        // Les coins de l'acteur
-        double aX1 = ennemi.getX();
-        double aY1 = ennemi.getY();
-        double aX2 = ennemi.getX() + 16;
-        double aY2 = ennemi.getY() + 16;
+        // Coordonnées de l'acteur (ennemi)
+        double xActDroite = ennemi.getX();
+        double yActDroite = ennemi.getY();
+        double xActGauche = ennemi.getX() + 20; // 20 = la taille de l'image en pixel
+        double yActGauche = ennemi.getY() + 20;
 
-        // Vérifie si l'un des coins du projectile est à l'intérieur de la hitbox de l'acteur
-        if ((x1 >= aX1 && x1 <= aX2 && y1 >= aY1 && y1 <= aY2) ||  // Coin supérieur gauche
-                (x1 >= aX1 && x1 <= aX2 && y2 >= aY1 && y2 <= aY2) ||  // Coin inférieur gauche
-                (x2 >= aX1 && x2 <= aX2 && y1 >= aY1 && y1 <= aY2) ||  // Coin supérieur droit
-                (x2 >= aX1 && x2 <= aX2 && y2 >= aY1 && y2 <= aY2)) {  // Coin inférieur droit
+        // Vérifie si le projectile intersecte l'acteur
+        if ((xProjDroite >= xActDroite && xProjDroite <= xActGauche && yProjDroite >= yActDroite && yProjDroite <= yActGauche) || // coin supérieur gauche du projectile
+                (xProjDroite >= xActDroite && xProjDroite <= xActGauche && yProjGauche >= yActDroite && yProjGauche <= yActGauche) || // coin inférieur gauche du projectile
+                (xProjGauche >= xActDroite && xProjGauche <= xActGauche && yProjDroite >= yActDroite && yProjDroite <= yActGauche) || //  coin supérieur droit du projectile
+                (xProjGauche >= xActDroite && xProjGauche <= xActGauche && yProjGauche >= yActDroite && yProjGauche <= yActGauche)) { //  coin inférieur droit du projectile
+
+            // Si l'intersection est vérifiée, retirer le projectile de l'environnement
             environnement.retirerProjectile(this);
-            return true;
+
+            return true; // Le projectile a atteint l'acteur
         }
-        return false;
+
+        return false; // Le projectile n'a pas atteint l'acteur
     }
 
 

@@ -81,18 +81,28 @@ public class TourManager {
     }
 
 
-    private void tourProjectile(){
+    private void tourProjectile() {
         try {
+            // Vérifie si la liste des projectiles dans l'environnement n'est pas vide
             if (!environnement.getProjectiles().isEmpty()) {
+                // Parcourt tous les projectiles dans la liste
                 for (Projectile p : environnement.getProjectiles()) {
+                    // Lance le projectile en appelant la méthode lancerProjectile()
                     p.lancerProjectile();
-                    if (p.atteintActeur()){
+
+                    // Vérifie si le projectile atteint un acteur
+                    if (p.atteintActeur()) {
+                        // Si le projectile atteint un acteur, il est retiré de l'environnement
                         environnement.retirerProjectile(p);
                     }
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            // Capture toute exception qui pourrait survenir lors du traitement des projectiles
+            // et ne fait rien en cas d'exception
+        }
     }
+
 
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
