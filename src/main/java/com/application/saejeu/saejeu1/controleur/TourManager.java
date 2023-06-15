@@ -69,10 +69,8 @@ public class TourManager {
         ObservableList<Tourelle> tourelles = environnement.getTourelles();
         for (Tourelle tour : tourelles) {
             for (Acteur ennemi : tour.ennemiPlusProche()){
-                if (tour instanceof TourelleMitrailleuse) {
                     if (environnement.getProjectiles().isEmpty() && ennemi.estVivant()) {
                         tour.attaquer();
-                    }
                 }
                 if (!tour.estEnMarche()) {
                     tourelles.remove(tour);

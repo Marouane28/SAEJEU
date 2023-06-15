@@ -2,6 +2,8 @@ package com.application.saejeu.saejeu1.modele.Tourelle;
 
 import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.modele.Projectile;
+import com.application.saejeu.saejeu1.modele.ProjectileMitrailleuse;
+import com.application.saejeu.saejeu1.modele.ProjectileRepousse;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 
 import java.util.ArrayList;
@@ -17,26 +19,38 @@ public class TourelleRepousse extends Tourelle {
 
     @Override
     public void attaquer() {
-        if (cible != null && estEnPortée(cible) && !acteursRepousses.contains(cible)) {
-            // Vérifier si une cible est définie, si elle est dans la portée de la tourelle et si elle n'a pas déjà été repoussée
-            cible.decrementerPv(getDégât()); // Réduire les points de vie de la cible
-            décrémenterPv(5); // Réduire les points de vie de la tourelle
-            System.out.println("Tourelle repousse attaque l'ennemi !");
+        ArrayList<Acteur> ennemisProches = ennemiPlusProche();
+        for (Acteur ennemi : ennemisProches) {
+            if (ennemi.estVivant()) {
+                creerProjectile();
+            }
+            if (ennemi != null && estEnPortée(ennemi) && !acteursRepousses.contains(ennemi)) {
+                // Vérifier si une cible est définie, si elle est dans la portée de la tourelle et si elle n'a pas déjà été repoussée
+                ennemi.decrementerPv(getDégât()); // Réduire les points de vie de la cible
+                décrémenterPv(5); // Réduire les points de vie de la tourelle
+                System.out.println("Tourelle repousse attaque l'ennemi !");
 
-            // Repousser l'ennemi en le faisant réapparaître
-            cible.respawn();
-            acteursRepousses.add(cible); // Ajouter la cible à la liste des acteurs repoussés
-            this.environnement.setPièces(this.environnement.getPièces() + 50);
-            System.out.println("viens de gagner deux pièce par attaque d'une tourelle repousse");
+                // Repousser l'ennemi en le faisant réapparaître
+                ennemi.respawn();
+                acteursRepousses.add(ennemi); // Ajouter la cible à la liste des acteurs repoussés
+                this.environnement.setPièces(this.environnement.getPièces() + 50);
+                System.out.println("viens de gagner deux pièce par attaque d'une tourelle repousse");
 
-        } else {
-            // Aucune cible valide pour la tourelle repousse
-            System.out.println("Aucune cible valide pour la tourelle repousse !");
+            } else {
+                // Aucune cible valide pour la tourelle repousse
+                System.out.println("Aucune cible valide pour la tourelle repousse !");
+            }
         }
     }
 
     @Override
     public Projectile creerProjectile() {
+        System.out.println(ennemiPlusProche());
+        for (int m = 0; m < ennemiPlusProche().size(); m++) {
+            Projectile pro = new ProjectileRepousse(this.getX() + 10, this.getY() - 30, ennemiPlusProche().get(m), environnement);
+            environnement.ajouterProjectile(pro);
+        }
+        // La méthode creerProjectile() ne retourne rien, car vous ajoutez directement les projectiles à l'environnement
         return null;
     }
 }

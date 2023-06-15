@@ -21,7 +21,7 @@ public class VueProjectile {
         this.imageViews = new ArrayList<>();
 
 
-        URL urlImageEnn = Main.class.getResource("projectile.png"); // Récupération de l'URL de l'image de l'ennemi
+        URL urlImageEnn = Main.class.getResource(projectile.getNomImage()); // Récupération de l'URL de l'image de l'ennemi
         Image imageEnn = new Image(String.valueOf(urlImageEnn)); // Chargement de l'image
         ImageView imageView = new ImageView(imageEnn); // Création de l'ImageView pour afficher l'image de l'ennemi
         imageView.translateXProperty().bind(projectile.xProperty()); // Lier la position horizontale de l'ImageView à la position horizontale de l'ennemi

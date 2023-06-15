@@ -96,6 +96,9 @@ public abstract class Projectile {
     }
 
 
+    public String getNomImage() {
+        return nomImage;
+    }
 
     public double getX() {
         return x.get();
