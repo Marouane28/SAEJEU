@@ -25,7 +25,6 @@ public class Environnement {
     private BFS bfs; // Algorithme BFS pour la recherche de chemin
     private ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
     private IntegerProperty vies; // Nombre de vies restantes
-    private ObservableList<Pièce> listePièces;
 
     public Environnement(TileMap tileMap) throws IOException {
         this.tileMap = tileMap; // Initialise la carte de tuiles
@@ -36,7 +35,6 @@ public class Environnement {
         this.listeAdj = new HashMap(); // Initialise la liste d'adjacence
         this.obstacles = FXCollections.observableArrayList(); // Initialise la liste des obstacles
         this.pièces = new SimpleIntegerProperty((25000)); // Initialise le nombre de pièces pour le début de la partie
-        this.listePièces = FXCollections.observableArrayList(); // Initialise la liste des pièces
 
         construit(); // Construit la liste d'adjacence
         bfs = new BFS(this, getSommet(0, 20)); // Initialise l'algorithme BFS avec un sommet source
@@ -125,29 +123,6 @@ public class Environnement {
         return null; // Aucun sommet trouvé, retourne null
     }
 
-    public boolean emplacementDéjàPrisParUneTourelle(int x, int y) {
-
-        for (Tourelle tourelle : this.tourelles) {
-
-            if (tourelle.getX() == x && tourelle.getY() == y) {
-
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean emplacementDéjàPrisParUnePièce(int x, int y) {
-
-        for (Pièce pièce : this.listePièces) {
-
-            if (pièce.getX() == x && pièce.getY() == y) {
-
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean estDeconnecte(Sommet s) {
         // Vérifie si le sommet est contenu dans la liste des obstacles
         return this.obstacles.contains(s);
@@ -180,10 +155,6 @@ public class Environnement {
         return acteurs; // Renvoie la liste des acteurs présents dans l'environnement
     }
 
-    public ObservableList<Pièce> getListePièces() {
-
-        return this.listePièces; // Renvoie la liste des pièces présentes dans l'environnement
-    }
     public int getVies() {
         return vies.get();
     }
@@ -197,12 +168,7 @@ public class Environnement {
     }
 
     public void ajouterActeur(Acteur a) {
-
         this.acteurs.add(a); // Ajoute un acteur à la liste des acteurs
-    }
-    public void ajouterPièce(Pièce p) {
-
-        this.listePièces.add(p); // Ajoute un acteur à la liste des acteurs
     }
 
     public ObservableList<Tourelle> getTourelles() {
@@ -214,7 +180,6 @@ public class Environnement {
     }
 
     public Acteur créerZombie() {
-
         Random rand = new Random();
         int nb = rand.nextInt(3 - 1 + 1) + 1;
         Acteur zombie = null;
@@ -227,21 +192,6 @@ public class Environnement {
         }
         ajouterActeur(zombie);
         return zombie; // Crée un zombie et l'ajoute à la liste des acteurs
-    }
-
-    public void créerUnCertainsNombreDePièce(int nbPièces) {
-
-        for (int i = 0; i < nbPièces; i++) {
-
-            Pièce p = new Pièce(1, this);
-            ajouterPièce(p);
-            System.out.println("(" + p.getX() + ", " + p.getY() + ")");
-        }
-    }
-
-    public void suppPièce(Pièce pièce) {
-
-        this.listePièces.remove(pièce);
     }
 
     public ArrayList<Sommet> getChemin() {
