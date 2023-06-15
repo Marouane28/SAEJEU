@@ -13,7 +13,7 @@ public class TourelleRepousse extends Tourelle {
     private List<Acteur> acteursRepousses;
 
     public TourelleRepousse(int x, int y, Environnement env) {
-        super(x, y, 5 * 16, 60, 5, env, "tourelleRepousse.png", 300);
+        super(x, y, 80, 60, 2, env, "tourelleRepousse.png", 300);
         acteursRepousses = new ArrayList<>(); // Initialisation de la liste des acteurs repoussés
     }
 

@@ -7,7 +7,6 @@ import com.application.saejeu.saejeu1.vue.VueTourelle;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-import java.util.ArrayList;
 
 public abstract class Tourelle {
     private IntegerProperty x, y, coûtAmélioration; // Coordonnées x, y de la tourelle et son niveau (1, 2 ou 3)
@@ -15,7 +14,6 @@ public abstract class Tourelle {
     private int pv; // Points de vie de la tourelle
     private int dégât; // Dégâts infligés par la tourelle
     protected Environnement environnement; // Référence à l'environnement du jeu
-    protected Acteur cible; // Référence à l'ennemi actuellement ciblé
     private String nomImage; // Nom du fichier d'image associé à la tourelle
     private VueTourelle vueTourelle; // Référence à la vue de la tourelle
     private IntegerProperty coût; // Propriété représentant le coût de la tourelle
@@ -158,22 +156,6 @@ public abstract class Tourelle {
     public boolean estEnMarche() {
         return this.pv > 0;
     }
-
-//    public ArrayList<Acteur> ennemiPlusProche() {
-//        ArrayList<Acteur> acteursProches = new ArrayList<Acteur>();
-//
-//        for (int i = 0; i < environnement.getActeurs().size(); i++) {
-//            Acteur acteur = environnement.getActeurs().get(i);
-//            double distanceX = Math.abs(acteur.getX() - getX() - 8); // Ajouter ou soustraire la moitié de la largeur de la tourelle
-//            double distanceY = Math.abs(acteur.getY() - getY() - 8); // Ajouter ou soustraire la moitié de la hauteur de la tourelle
-//            double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-//
-//            if (distance <= portée) {
-//                acteursProches.add(acteur);
-//            }
-//        }
-//        return acteursProches;
-//    }
 
     public Acteur ennemiPlusProche() {
 

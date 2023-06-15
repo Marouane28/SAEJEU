@@ -1,11 +1,9 @@
 package com.application.saejeu.saejeu1.controleur;
 
-import com.application.saejeu.saejeu1.controleur.Controleur;
 import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.modele.Manche;
 import com.application.saejeu.saejeu1.modele.Projectile;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
-import com.application.saejeu.saejeu1.modele.Tourelle.TourelleMitrailleuse;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
