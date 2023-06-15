@@ -57,7 +57,7 @@ public class TourManager {
         }
         if (this.controleur.getTemps() % 15 == 0) {
 
-            effectuerTourPièces();
+            effectuerTourPieces();
         }
     }
 
@@ -79,15 +79,19 @@ public class TourManager {
             }
         }
     }
-    public void effectuerTourPièces() {
-
+    public void effectuerTourPieces() {
+        // Créer une copie de la liste des pièces pour itérer en toute sécurité
         ArrayList<Pièce> piècesCopy = new ArrayList<>(this.environnement.getListePièces());
-        if (piècesCopy.size() < 10) {
 
+        // Vérifier si le nombre de pièces est inférieur à 10
+        if (piècesCopy.size() < 10) {
+            // Créer une nouvelle pièce si le nombre de pièces est inférieur à 10
             this.environnement.créerUnCertainsNombreDePièce(1);
         }
-        for (Pièce pièce : piècesCopy) {
 
+        // Itérer sur chaque pièce dans la copie de la liste des pièces
+        for (Pièce pièce : piècesCopy) {
+            // Appliquer le mouvement de la pièce
             mouvementDePièce(pièce);
         }
     }

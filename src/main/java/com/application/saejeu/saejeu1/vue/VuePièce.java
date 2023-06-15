@@ -24,16 +24,13 @@ public class VuePièce {
         this.imageViews = new ArrayList<>();
         imagePièce();
 
-        this.imageView.setOnMouseClicked(event -> {
-
-            System.out.println("bonjour");
-        });
+        updateMouseClickedListener();
     }
     public void updateMouseClickedListener() {
 
         this.imageView.setOnMouseClicked(event -> {
 
-            System.out.println("bonjour");
+            // System.out.println("bonjour");
             this.pièce.getEnvironnement().gagnerUnCertainNombreDePièce(this.pièce.getValeur());
             this.pièce.getEnvironnement().suppPièce(this.pièce);
         });
