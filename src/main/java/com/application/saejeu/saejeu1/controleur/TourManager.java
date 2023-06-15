@@ -85,6 +85,7 @@ public class TourManager {
             }
         } catch (Exception e) {}
     }
+
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
         if (manche.numeroMancheProperty().get() < nb_manche) {
