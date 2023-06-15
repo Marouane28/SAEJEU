@@ -1,6 +1,7 @@
 package com.application.saejeu.saejeu1.modele.Tourelle;
 
 import com.application.saejeu.saejeu1.modele.Environnement;
+import com.application.saejeu.saejeu1.modele.Projectile;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 
 import java.util.ArrayList;
@@ -32,5 +33,10 @@ public class TourelleRepousse extends Tourelle {
             // Aucune cible valide pour la tourelle repousse
             System.out.println("Aucune cible valide pour la tourelle repousse !");
         }
+    }
+
+    @Override
+    public Projectile creerProjectile() {
+        return null;
     }
 }

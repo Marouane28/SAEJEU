@@ -6,8 +6,6 @@ import com.application.saejeu.saejeu1.modele.Tourelle.TourelleMitrailleuse;
 import com.application.saejeu.saejeu1.modele.Tourelle.TourelleRepousse;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.*;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -45,6 +43,7 @@ public class Controleur implements Initializable {
     private Manche manche; // Référence à la manche en cours
     private ListChangeListener<Acteur> listenerActeur; // Écouteur de changements pour les acteurs
     private ListChangeListener<Tourelle> listenerTourelle; // Écouteur de changements pour les tourelles
+    private ListChangeListener<Projectile> listenerProjectile;
     private TileMap tileMap; // Représente la carte de tuiles du terrain
     private final int nb_manche = 10; // Permet de définir le nombre de manches dans le jeu
     private boolean estEnPause = false; // Indique si le jeu est en pause ou non
@@ -63,8 +62,10 @@ public class Controleur implements Initializable {
         // Crée des écouteurs de changement pour les listes d'acteurs et de tourelles de l'environnement
         listenerActeur = new ListObsActeur(panneauDeJeu);
         listenerTourelle = new ListObsTourelle(panneauDeJeu);
+        listenerProjectile = new ListObsProjectile(panneauDeJeu);
         environnement.getActeurs().addListener(listenerActeur);
         environnement.getTourelles().addListener(listenerTourelle);
+        environnement.getProjectiles().addListener(listenerProjectile);
 
         initAnimation(); // Initialise l'animation du jeu
         // Démarre l'animation

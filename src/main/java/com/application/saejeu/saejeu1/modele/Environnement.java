@@ -21,6 +21,7 @@ public class Environnement {
     private Map<Sommet, Set<Sommet>> listeAdj; // Liste d'adjacence pour la recherche de chemin
     private ObservableList<Sommet> obstacles; // Liste des sommets représentant les obstacles
     private ObservableList<Tourelle> tourelles; // Liste des tourelles présentes dans l'environnement
+    private ObservableList<Projectile> projectiles;
     private IntegerProperty pièces; // pièces pour le jeu
     private BFS bfs; // Algorithme BFS pour la recherche de chemin
     private ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
@@ -35,6 +36,7 @@ public class Environnement {
         this.listeAdj = new HashMap(); // Initialise la liste d'adjacence
         this.obstacles = FXCollections.observableArrayList(); // Initialise la liste des obstacles
         this.pièces = new SimpleIntegerProperty((25000)); // Initialise le nombre de pièces pour le début de la partie
+        this.projectiles = FXCollections.observableArrayList();
 
         construit(); // Construit la liste d'adjacence
         bfs = new BFS(this, getSommet(0, 20)); // Initialise l'algorithme BFS avec un sommet source
@@ -177,6 +179,18 @@ public class Environnement {
 
     public void ajouterTourelle(Tourelle tourelle) {
         this.tourelles.add(tourelle); // Ajoute une tourelle à la liste des tourelles
+    }
+
+    public ObservableList<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public void ajouterProjectile(Projectile p){
+        projectiles.add(p);
+    }
+
+    public void retirerProjectile(Projectile p){
+        projectiles.remove(p);
     }
 
     public Acteur créerZombie() {

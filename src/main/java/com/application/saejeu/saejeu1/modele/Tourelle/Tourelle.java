@@ -1,10 +1,13 @@
 package com.application.saejeu.saejeu1.modele.Tourelle;
 
 import com.application.saejeu.saejeu1.modele.Environnement;
+import com.application.saejeu.saejeu1.modele.Projectile;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import com.application.saejeu.saejeu1.vue.VueTourelle;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+
+import java.util.ArrayList;
 
 public abstract class Tourelle {
     private IntegerProperty x, y, coûtAmélioration; // Coordonnées x, y de la tourelle et son niveau (1, 2 ou 3)
@@ -128,15 +131,11 @@ public abstract class Tourelle {
     public void setDégât(int dégât) {
         this.dégât = dégât;
     }
-    // Méthode pour définir la cible de la tourelle
-    public void setCible(Acteur cible) {
-        this.cible = cible;
-    }
 
     // Méthode abstraite pour effectuer l'attaque de la tourelle (à implémenter dans les sous-classes)
     public abstract void attaquer();
+    public abstract Projectile creerProjectile();
     // Méthode pour vérifier si l'ennemi est à portée de la tourelle
-
     public boolean estEnPortée(Acteur ennemi) {
         // Calcul de la distance entre la tourelle et l'ennemi en utilisant le théorème de Pythagore
         double distance = Math.sqrt(Math.pow(ennemi.getX() - getX(), 2) + Math.pow(ennemi.getY() - getY(), 2)); //racine de (x - x')^2 + (y - y')^2
@@ -158,5 +157,21 @@ public abstract class Tourelle {
     // Méthode pour vérifier si la tourelle est en marche (a encore des points de vie)
     public boolean estEnMarche() {
         return this.pv > 0;
+    }
+
+    public ArrayList<Acteur> ennemiPlusProche() {
+        ArrayList<Acteur> acteursProches = new ArrayList<Acteur>();
+
+        for (int i = 0; i < environnement.getActeurs().size(); i++) {
+            Acteur acteur = environnement.getActeurs().get(i);
+            double distanceX = Math.abs(acteur.getX() - getX() - 8); // Ajouter ou soustraire la moitié de la largeur de la tourelle
+            double distanceY = Math.abs(acteur.getY() - getY() - 8); // Ajouter ou soustraire la moitié de la hauteur de la tourelle
+            double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+            if (distance <= portée) {
+                acteursProches.add(acteur);
+            }
+        }
+        return acteursProches;
     }
 }

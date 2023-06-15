@@ -3,9 +3,12 @@ package com.application.saejeu.saejeu1.controleur;
 import com.application.saejeu.saejeu1.controleur.Controleur;
 import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.modele.Manche;
+import com.application.saejeu.saejeu1.modele.Projectile;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
+import com.application.saejeu.saejeu1.modele.Tourelle.TourelleMitrailleuse;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
@@ -39,7 +42,7 @@ public class TourManager {
                 zombie.decrementerCyclesRestants(); // Décrémente le nombre de cycles restants du zombie
             }
 
-            effectuerTourTourelles(zombie); // Appelle la méthode effectuerTourTourelles() pour gérer les actions des tourelles pendant le tour
+            effectuerTourTourelles(); // Appelle la méthode effectuerTourTourelles() pour gérer les actions des tourelles pendant le tour
 
             if (!zombie.estVivant()) {
                 environnement.getActeurs().remove(zombie); // Supprime le zombie de la liste des acteurs s'il n'est plus vivant
@@ -62,16 +65,27 @@ public class TourManager {
     }
 
     // Permet aux tourelles d'attaquer l'ennemi et de supprimer la tourelle quand elle ne fonctionne plus
-    public void effectuerTourTourelles(Acteur zombie) {
-        ArrayList<Tourelle> tourCopy = new ArrayList<>(environnement.getTourelles()); // Crée une copie de la liste des tourelles dans l'environnement
-        for (Tourelle tour : tourCopy) {
-            tour.setCible(zombie); // Définit le zombie comme cible de la tourelle
-            tour.attaquer(); // Fait attaquer la tourelle
-
-            if (!tour.estEnMarche()) {
-                environnement.getTourelles().remove(tour); // Supprime la tourelle de la liste des tourelles si elle n'est plus en marche
+    private void effectuerTourTourelles() {
+        ObservableList<Tourelle> tourelles = environnement.getTourelles();
+        for (Tourelle tour : tourelles) {
+            for (Acteur ennemi : tour.ennemiPlusProche()){
+                if (tour instanceof TourelleMitrailleuse) {
+                    if (environnement.getProjectiles().isEmpty() && ennemi.estVivant()) {
+                        tour.attaquer();
+                    }
+                }
+                if (!tour.estEnMarche()) {
+                    tourelles.remove(tour);
+                }
             }
         }
+        try {
+            if (!environnement.getProjectiles().isEmpty()) {
+                for (Projectile p : environnement.getProjectiles()) {
+                    p.lancerProjectile();
+                }
+            }
+        } catch (Exception e) {}
     }
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
