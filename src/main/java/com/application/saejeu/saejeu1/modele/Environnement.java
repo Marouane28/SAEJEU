@@ -238,7 +238,6 @@ public class Environnement {
             System.out.println("(" + p.getX() + ", " + p.getY() + ")");
         }
     }
-
     public void suppPièce(Pièce pièce) {
 
         this.listePièces.remove(pièce);
