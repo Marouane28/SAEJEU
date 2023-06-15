@@ -49,6 +49,8 @@ public class Controleur implements Initializable {
     private TileMap tileMap; // Représente la carte de tuiles du terrain
     private final int nb_manche = 10; // Permet de définir le nombre de manches dans le jeu
     private boolean estEnPause = false; // Indique si le jeu est en pause ou non
+    private static Music music; // attribut de music
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -207,11 +209,11 @@ public class Controleur implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.show();
         // Arreter la musique en cours (si elle est en cours de lecture)
-        Main.stopMusicFond();
+        music.stopMusicFond();
         // Lancer la musique de la défaite
         URL urlImageVaiL = Main.class.getResource("sonGameOver.wav");
         String s = urlImageVaiL.getPath();
-        Main.PlayMusicDefaite(s);
+        music.PlayMusicDefaite(s);
     }
     public void afficherWinJeuScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/application/saejeu/saejeu1/winJeu.fxml"));
@@ -227,11 +229,11 @@ public class Controleur implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.show();
         // Arreter la musique en cours (si elle est en cours de lecture)
-        Main.stopMusicFond();
+        music.stopMusicFond();
         // Lancer la musique de victoire
         URL urlImageVaiL = Main.class.getResource("sondVictoire.wav");
         String s = urlImageVaiL.getPath();
-        Main.PlayMusicVictoire(s);
+        music.PlayMusicVictoire(s);
     }
     public void mettreAJourAffichagePiece() {
         this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
@@ -278,11 +280,11 @@ public class Controleur implements Initializable {
                     if (temps % 10 == 0 && manche.getNombreZombies() != manche.getCompteurZombie()) {
                         tourManager.ajouterZombie(); // Ajoute un zombie toutes les 10 unités de temps si le nombre de zombies ajoutés est inférieur au nombre total de zombies de la manche
                     } else if (temps % 2 == 0) {
-                        if(Main.verifSon()==false){
+                        if(music.verifSon()==false){
                             // Lancer la musique du jeu si le son n'est plus lancé
                             URL urlImageVaiL = Main.class.getResource("sondFond.wav");
                             String s = urlImageVaiL.getPath();
-                            Main.PlayMusicFond(s);
+                            music.PlayMusicFond(s);
                         }
                         tourManager.effectuerTour(); // Effectue un tour toutes les 2 unités de temps
                     }

@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.net.URL;
 
 public class GameoverControleur {
+    private static Music music; // attribut de music
+
 
     // quand le bouton est cliqué retour au menu
     @FXML
@@ -28,10 +30,10 @@ public class GameoverControleur {
         primaryStage.setScene(scene);
         primaryStage.show();
         // Arreter la musique en cours (si elle est en cours de lecture)
-        Main.stopMusicDefaite();
+        music.stopMusicDefaite();
         URL urlImageVaiL = Main.class.getResource("sondFond.wav");
         String s = urlImageVaiL.getPath();
-        Main.PlayMusicFond(s);
+        music.PlayMusicFond(s);
     }
     @FXML
     public void quitterApplication(ActionEvent event) {

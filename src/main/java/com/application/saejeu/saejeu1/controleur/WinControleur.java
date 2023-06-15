@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class WinControleur {
-
+    private static Music music; // attribut de music
 
     // quand le bouton est cliqué retour au menu
     @FXML
@@ -29,10 +29,10 @@ public class WinControleur {
         primaryStage.setScene(scene);
         primaryStage.show();
         // Arreter la musique en cours (si elle est en cours de lecture)
-        Main.stopMusicVictoire();
+        music.stopMusicVictoire();
         URL urlImageVaiL = Main.class.getResource("sondFond.wav");
         String s = urlImageVaiL.getPath();
-        Main.PlayMusicFond(s);
+        music.PlayMusicFond(s);
     }
 
     @FXML

@@ -17,15 +17,15 @@ import java.util.*;
 public class Environnement {
     private int x, y; // Coordonnées de l'environnement
     private TileMap tileMap; // Carte de tuiles
-    private ObservableList<Acteur> acteurs; // Liste des acteurs présents dans l'environnement
     private Map<Sommet, Set<Sommet>> listeAdj; // Liste d'adjacence pour la recherche de chemin
+    private ObservableList<Acteur> acteurs; // Liste des acteurs présents dans l'environnement
     private ObservableList<Sommet> obstacles; // Liste des sommets représentant les obstacles
     private ObservableList<Tourelle> tourelles; // Liste des tourelles présentes dans l'environnement
+    private ObservableList<Pièce> listePièces; // La liste observable de pièces
     private IntegerProperty pièces; // pièces pour le jeu
     private BFS bfs; // Algorithme BFS pour la recherche de chemin
     private ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
     private IntegerProperty vies; // Nombre de vies restantes
-    private ObservableList<Pièce> listePièces; // La liste observable de pièces
 
     public Environnement(TileMap tileMap) throws IOException {
         this.tileMap = tileMap; // Initialise la carte de tuiles
