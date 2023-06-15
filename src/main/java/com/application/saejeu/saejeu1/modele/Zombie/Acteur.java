@@ -109,7 +109,6 @@ public abstract class Acteur {
     public void geler(int cycles) {
         cyclesRestants = cycles; // Définit le nombre de cycles restants pour l'état gelé de l'acteur
     }
-
     public void respawn() {
         setIndex(0); // Réinitialise l'index de l'acteur pour le faire réapparaître
     }
