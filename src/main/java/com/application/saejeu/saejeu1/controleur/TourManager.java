@@ -3,11 +3,13 @@ package com.application.saejeu.saejeu1.controleur;
 import com.application.saejeu.saejeu1.controleur.Controleur;
 import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.modele.Manche;
+import com.application.saejeu.saejeu1.modele.Pièce;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.Timeline;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class TourManager {
     private Environnement environnement; // Référence vers l'environnement du jeu
@@ -28,9 +30,9 @@ public class TourManager {
 
     // Le centre de contrôle pour les tours
     public void effectuerTour() {
-        controleur.mettreAJourAffichageZombies(); // Met à jour l'affichage du nombre de zombies
-        controleur.mettreAJourAffichageTourelles(); // Met à jour l'affichage du nombre de tourelle
-        System.out.println("un tour"); // Affiche un message indiquant le début d'un tour
+        controleur.mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
+        controleur.mettreAJourAffichageTourelles(environnement.getTourelles().size()); // Met à jour l'affichage du nombre de tourelle
+        //System.out.println("un tour"); // Affiche un message indiquant le début d'un tour
         ArrayList<Acteur> acteursCopy = new ArrayList<>(environnement.getActeurs()); // Crée une copie de la liste des acteurs dans l'environnement
         for (Acteur zombie : acteursCopy) {
             if (zombie.getCyclesRestants() == 0) {
@@ -53,6 +55,10 @@ public class TourManager {
                 gérerCollision(zombie); // Gère la collision lorsque le zombie atteint sa cible
             }
         }
+        if (this.controleur.getTemps() % 15 == 0) {
+            // Vérifier si le temps est un multiple de 15 (effectue l'action toutes les 15 unités de temps)
+            effectuerTourPieces();
+        }
     }
 
     public void ajouterZombie() {
@@ -73,6 +79,61 @@ public class TourManager {
             }
         }
     }
+    public void effectuerTourPieces() {
+        // Créer une copie de la liste des pièces pour itérer en toute sécurité
+        ArrayList<Pièce> piècesCopy = new ArrayList<>(this.environnement.getListePièces());
+        // Vérifier si le nombre de pièces est inférieur à 10
+        if (piècesCopy.size() < 10) {
+            // Créer une nouvelle pièce si le nombre de pièces est inférieur à 10
+            this.environnement.créerUnCertainsNombreDePièce(1);
+        }
+        // Itérer sur chaque pièce dans la copie de la liste des pièces
+        for (Pièce pièce : piècesCopy) {
+            // Appliquer le mouvement de la pièce
+            mouvementDePièce(pièce);
+        }
+    }
+    public void mouvementDePièce(Pièce pièce) {
+        int tileSize = this.environnement.getTileMap().getTileSize();
+        Random r = new Random();
+
+        int deltaX = 0;
+        int deltaY = 0;
+
+        // Générer une direction aléatoire
+        int randomNumber = r.nextInt(4);
+        switch (randomNumber) {
+            case 0:
+                deltaX = tileSize; // Déplacement vers la droite
+                break;
+            case 1:
+                deltaX = -tileSize; // Déplacement vers la gauche
+                break;
+            case 2:
+                deltaY = tileSize; // Déplacement vers le bas
+                break;
+            case 3:
+                deltaY = -tileSize; // Déplacement vers le haut
+                break;
+        }
+
+        int prochainX = pièce.getX() + deltaX;
+        int prochainY = pièce.getY() + deltaY;
+
+        int nextCaseX = prochainX / tileSize;
+        int nextCaseY = prochainY / tileSize;
+
+        if (!this.environnement.emplacementDéjàPrisParUnePièce(prochainX, prochainY) && !this.environnement.emplacementDéjàPrisParUneTourelle(prochainX, prochainY) && this.environnement.dansGrille(prochainX, prochainY) && !this.environnement.getTileMap().isNotObstacle(nextCaseX, nextCaseY) && !(prochainY >= 800)) {
+            pièce.getVuePièce().retirerImagePièce(pièce);
+            pièce.setX(prochainX);
+            pièce.setY(prochainY);
+            pièce.getVuePièce().imagePièce();
+
+            // Mettre à jour l'écouteur d'événements
+            pièce.getVuePièce().updateMouseClickedListener();
+        }
+    }
+
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
         if (manche.numeroMancheProperty().get() < nb_manche) {

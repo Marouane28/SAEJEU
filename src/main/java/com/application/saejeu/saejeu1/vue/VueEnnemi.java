@@ -15,10 +15,8 @@ public class VueEnnemi {
     private ArrayList<ImageView> imageViews; // Liste des ImageView pour afficher les ennemis
     private Pane panneauJeu; // Panneau du jeu
     private Acteur acteur; // Instance de la classe Acteur pour représenter l'ennemi
-
     private Rectangle barreVie; // Barre de vie de l'ennemi
     private final double barreVieWidth = 20; // Largeur de la barre de vie
-
     private final double barreVieHeight = 5; // Hauteur de la barre de vie
 
     public VueEnnemi(Pane panneauJeu, Acteur acteur) {
@@ -47,7 +45,6 @@ public class VueEnnemi {
                 break;
             }
         }
-
         if (imageViewToRemove != null) {
             panneauJeu.getChildren().remove(imageViewToRemove); // Retirer l'ImageView du panneau de jeu
             imageViews.remove(imageViewToRemove); // Retirer l'ImageView de la liste des ImageView
@@ -61,7 +58,6 @@ public class VueEnnemi {
 
     public void actualiserBarreEtat() {
         double pourcentageVie = (double) acteur.getPv() / 60; // Calculer le pourcentage de vie restante
-
         if (pourcentageVie > 0.5) {
             barreVie.setFill(Color.GREEN); // Plus de 50% de vie, couleur verte
         } else if (pourcentageVie > 0.2) {
@@ -69,7 +65,6 @@ public class VueEnnemi {
         } else {
             barreVie.setFill(Color.RED); // Moins de 20% de vie, couleur rouge
         }
-
         double nouvelleLongueur = barreVieWidth * pourcentageVie;
         barreVie.setWidth(nouvelleLongueur); // Ajuster la longueur de la barre de vie en fonction du pourcentage de vie restante
     }

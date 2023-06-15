@@ -32,6 +32,7 @@ public class VueTourelle {
         imageTourelle(); // Affichage de l'image de la tourelle
         afficherRayonPortee(); // Affichage du rayon de portée de la tourelle
         initialiserBarreVie(); // Initialisation de la barre de vie de la tourelle
+
         setOnClickUpgrade(); // Définir le clic pour l'amélioration de la tourelle
 
     }
@@ -60,6 +61,7 @@ public class VueTourelle {
         imageView.translateYProperty().bind(tourelle.yProperty()); // Lier la position verticale de l'ImageView à la position verticale de la tourelle
         this.panneauJeu.getChildren().add(imageView); // Ajout de l'ImageView au panneau de jeu
         this.imageViews.add(imageView); // Ajout de l'ImageView à la liste des ImageView
+
     }
 
     public void setImageView(ImageView imageView) {
@@ -103,7 +105,6 @@ public class VueTourelle {
 
         panneauJeu.getChildren().add(rayonPortee); // Ajout du cercle au panneau de jeu
     }
-
     // Méthode pour retirer le rayon de portée de la tourelle
     public void retirerRayonPortee() {
         for (Node node : panneauJeu.getChildren()) {
@@ -116,7 +117,6 @@ public class VueTourelle {
             }
         }
     }
-
     // Méthode pour retirer l'image de la tourelle
     public void retirerImageTourelle(Tourelle tourelle) {
         ImageView imageViewToRemove = null;
