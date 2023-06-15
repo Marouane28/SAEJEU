@@ -70,15 +70,15 @@ public class TourManager {
         ObservableList<Tourelle> tourelles = environnement.getTourelles();
         if (environnement.getProjectiles().isEmpty()) {
             for (Tourelle tour : tourelles) {
-
                 tour.attaquer();
 
                 if (!tour.estEnMarche()) {
                     tourelles.remove(tour);
+
                 }
             }
         }
-        }
+    }
 
 
     private void tourProjectile(){
@@ -86,6 +86,9 @@ public class TourManager {
             if (!environnement.getProjectiles().isEmpty()) {
                 for (Projectile p : environnement.getProjectiles()) {
                     p.lancerProjectile();
+                    if (p.atteintActeur()){
+                        environnement.retirerProjectile(p);
+                    }
                 }
             }
         } catch (Exception e) {}

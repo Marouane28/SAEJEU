@@ -15,9 +15,8 @@ public class TourelleMitrailleuse extends Tourelle {
 
     @Override
     public void attaquer() {
-                creerProjectile();
-            }
-
+        creerProjectile();
+    }
     @Override
     public Projectile creerProjectile() {
             Acteur a = ennemiPlusProche();

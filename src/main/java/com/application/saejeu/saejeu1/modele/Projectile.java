@@ -44,16 +44,13 @@ public abstract class Projectile {
 
         this.setX(nouvellePositionX);
         this.setY(nouvellePositionY);
-        // neymar il est nul
-        if (atteintActeur()){
-
+        if (atteintActeur()) {
             ennemi.decrementerPv(1);
             environnement.getProjectiles().remove(this);
-
-
         }
 
     }
+
     public void updatePosition(double elapsedTime) {
 
         double distance = Math.sqrt(Math.pow(this.ennemi.getX()+10 - this.x.getValue(), 2) + Math.pow(this.ennemi.getY()+10 - this.y.getValue(), 2));
