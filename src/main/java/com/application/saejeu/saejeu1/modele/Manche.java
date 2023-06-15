@@ -22,6 +22,7 @@ public class Manche {
     public void setNumeroManche(int numeroManche) {
         this.numeroManche.set(numeroManche);
     }
+
     public void demarrerManche(Environnement environnement) {
         nombreZombies += 10; // Ajoute 10 zombies pour la prochaine manche
         setNumeroManche(numeroMancheProperty().get() + 1);; // Incrémente le numéro de la manche

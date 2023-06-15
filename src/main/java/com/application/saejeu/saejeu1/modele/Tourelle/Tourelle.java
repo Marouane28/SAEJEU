@@ -11,7 +11,6 @@ public abstract class Tourelle {
     private int portée; // Portée d'attaque de la tourelle
     private int pv; // Points de vie de la tourelle
     private int dégât; // Dégâts infligés par la tourelle
-
     protected Environnement environnement; // Référence à l'environnement du jeu
     protected Acteur cible; // Référence à l'ennemi actuellement ciblé
     private String nomImage; // Nom du fichier d'image associé à la tourelle

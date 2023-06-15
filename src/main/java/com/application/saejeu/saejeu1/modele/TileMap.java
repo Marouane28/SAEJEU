@@ -66,6 +66,7 @@ public class TileMap {
     public boolean isNotObstacle(int x, int y) {
         return this.getMapDeJeu()[x][y] == this.NON_OBSTACLE_TILE; // Vérifie si la tuile à la position (x, y) n'est pas un obstacle
     }
+
     public int getX() {
         return this.x; // Renvoie le nombre de colonnes de la carte
     }
