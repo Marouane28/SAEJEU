@@ -212,7 +212,7 @@ public class Controleur implements Initializable {
         URL urlImageVaiL = Main.class.getResource("sonGameOver.wav");
         String s = urlImageVaiL.getPath();
         Main.PlayMusicDefaite(s);
-    }
+    } // aaaa
     public void afficherWinJeuScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/application/saejeu/saejeu1/winJeu.fxml"));
         Parent root = null;

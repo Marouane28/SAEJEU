@@ -14,7 +14,7 @@ public class Manche {
         this.nombreZombies = 10; // Initialise le nombre de zombies à 10 pour la première manche
         this.numeroManche = new SimpleIntegerProperty(1); // Initialise le numéro de la première manche à 1
 
-    }
+    } // hhhh
     public IntegerProperty numeroMancheProperty() {
         return numeroManche;
     }
