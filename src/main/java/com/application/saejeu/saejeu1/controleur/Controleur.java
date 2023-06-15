@@ -234,34 +234,31 @@ public class Controleur implements Initializable {
         Main.PlayMusicVictoire(s);
     }
     public void mettreAJourAffichagePiece() {
-
         this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
     }
     public void mettreAJourAffichageVies() {
-
         this.labelVies.textProperty().bind(environnement.viesProperty().asString());
     }
     public void mettreAJourAffichageManche() {
-
         this.labelManche.textProperty().bind(manche.numeroMancheProperty().asString());
     }
-    public void mettreAJourCoûtAmélioration() {
+    public int getTemps() {
+        return this.temps;
+    }
 
+    public void mettreAJourCoûtAmélioration() {
         Tourelle m = new TourelleMitrailleuse(0, 0, this.environnement);
         this.labelCoutAm.textProperty().bind(m.getCoûtAmProperty().asString());
     }
     public void mettreAJourAffichageZombies(int zombies) {
-        IntegerProperty zProperty = new SimpleIntegerProperty();
-        zProperty.set(zombies);
+        IntegerProperty zProperty = new SimpleIntegerProperty(zombies);
         this.labelZombie.textProperty().bind(zProperty.asString());
     }
     public void mettreAJourAffichageTourelles(int tourelles) {
-
         IntegerProperty tProperty = new SimpleIntegerProperty(tourelles);
         this.nbTourelles.textProperty().bind(tProperty.asString());
     }
     public void mettreAJourAffichagePrixTourelles() {
-
         Tourelle m = new TourelleMitrailleuse(0, 0, this.environnement);
         this.labelM.textProperty().bind(m.getCoûtProperty().asString());
         Tourelle g = new TourelleGèle(0, 0, this.environnement);
@@ -293,9 +290,5 @@ public class Controleur implements Initializable {
                 })
         );
         gameLoop.getKeyFrames().add(kf);
-    }
-    public int getTemps() {
-
-        return this.temps;
     }
 }

@@ -33,6 +33,12 @@ public class VueTourelle {
         afficherRayonPortee(); // Affichage du rayon de portée de la tourelle
         initialiserBarreVie(); // Initialisation de la barre de vie de la tourelle
 
+        setOnClickUpgrade(); // Définir le clic pour l'amélioration de la tourelle
+
+    }
+
+    // Définit le gestionnaire d'événements pour le clic de la tourelle
+    public void setOnClickUpgrade() {
         this.imageView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 // Vérifiez si la tourelle peut être améliorée

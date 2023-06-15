@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 public class VueTerrain {
 
     private Image imgTilep;
-    private ImageView imgV;
     private Environnement terrain;
     private TilePane tilePane;
     private String nomFichier;

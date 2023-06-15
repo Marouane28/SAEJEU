@@ -25,11 +25,9 @@ public class Pièce {
         this.coordonnéesXEtYAléatoireAvecGestionCollision();
     }
     public int getValeur() {
-
         return this.valeur;
     }
     public VuePièce getVuePièce() {
-
         return this.vuePièce;
     }
     public void coordonnéesXEtYAléatoireAvecGestionCollision() {
@@ -52,39 +50,30 @@ public class Pièce {
     }
 
     public String getUrlImage() {
-
         return this.urlImage;
     }
     public void setVuePièce(VuePièce vuePièce) {
-
         this.vuePièce = vuePièce; // Définit la vue associée à l'acteur
     }
     public Environnement getEnvironnement() {
-
         return this.environnement;
     }
     public final int getX() {
-
         return this.x.getValue(); // Renvoie la valeur de la propriété x de la pièce
     }
     public final int getY() {
-
         return this.y.getValue(); // Renvoie la valeur de la propriété y de la pièce
     }
     public void setX(int i) {
-
         this.x.setValue(i);
     }
     public void setY(int i) {
-
         this.y.setValue(i);
     }
     public IntegerProperty getXProperty() {
-
         return this.x;
     }
     public IntegerProperty getYProperty() {
-
         return this.y;
     }
 }

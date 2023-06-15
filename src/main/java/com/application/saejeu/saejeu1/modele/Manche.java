@@ -14,7 +14,7 @@ public class Manche {
         this.nombreZombies = 10; // Initialise le nombre de zombies à 10 pour la première manche
         this.numeroManche = new SimpleIntegerProperty(1); // Initialise le numéro de la première manche à 1
 
-    } // hhhh
+    }
     public IntegerProperty numeroMancheProperty() {
         return numeroManche;
     }
@@ -22,6 +22,7 @@ public class Manche {
     public void setNumeroManche(int numeroManche) {
         this.numeroManche.set(numeroManche);
     }
+
     public void demarrerManche(Environnement environnement) {
         nombreZombies += 10; // Ajoute 10 zombies pour la prochaine manche
         setNumeroManche(numeroMancheProperty().get() + 1);; // Incrémente le numéro de la manche

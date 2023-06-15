@@ -56,7 +56,7 @@ public class TourManager {
             }
         }
         if (this.controleur.getTemps() % 15 == 0) {
-
+            // Vérifier si le temps est un multiple de 15 (effectue l'action toutes les 15 unités de temps)
             effectuerTourPieces();
         }
     }
@@ -82,13 +82,11 @@ public class TourManager {
     public void effectuerTourPieces() {
         // Créer une copie de la liste des pièces pour itérer en toute sécurité
         ArrayList<Pièce> piècesCopy = new ArrayList<>(this.environnement.getListePièces());
-
         // Vérifier si le nombre de pièces est inférieur à 10
         if (piècesCopy.size() < 10) {
             // Créer une nouvelle pièce si le nombre de pièces est inférieur à 10
             this.environnement.créerUnCertainsNombreDePièce(1);
         }
-
         // Itérer sur chaque pièce dans la copie de la liste des pièces
         for (Pièce pièce : piècesCopy) {
             // Appliquer le mouvement de la pièce
@@ -96,7 +94,6 @@ public class TourManager {
         }
     }
     public void mouvementDePièce(Pièce pièce) {
-
         int tileSize = this.environnement.getTileMap().getTileSize();
         Random r = new Random();
 
@@ -127,7 +124,6 @@ public class TourManager {
         int nextCaseY = prochainY / tileSize;
 
         if (!this.environnement.emplacementDéjàPrisParUnePièce(prochainX, prochainY) && !this.environnement.emplacementDéjàPrisParUneTourelle(prochainX, prochainY) && this.environnement.dansGrille(prochainX, prochainY) && !this.environnement.getTileMap().isNotObstacle(nextCaseX, nextCaseY) && !(prochainY >= 800)) {
-
             pièce.getVuePièce().retirerImagePièce(pièce);
             pièce.setX(prochainX);
             pièce.setY(prochainY);
@@ -136,11 +132,8 @@ public class TourManager {
             // Mettre à jour l'écouteur d'événements
             pièce.getVuePièce().updateMouseClickedListener();
         }
-        else {
-
-            //System.out.println("pas bouger");
-        }
     }
+
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés
         if (manche.numeroMancheProperty().get() < nb_manche) {
