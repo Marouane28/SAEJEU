@@ -68,17 +68,18 @@ public class TourManager {
     // Permet aux tourelles d'attaquer l'ennemi et de supprimer la tourelle quand elle ne fonctionne plus
     private void effectuerTourTourelles() {
         ObservableList<Tourelle> tourelles = environnement.getTourelles();
-        for (Tourelle tour : tourelles) {
-            for (Acteur ennemi : tour.ennemiPlusProche()){
-                    if (environnement.getProjectiles().isEmpty() && ennemi.estVivant()) {
-                        tour.attaquer();
-                }
+        if (environnement.getProjectiles().isEmpty()) {
+            for (Tourelle tour : tourelles) {
+
+                tour.attaquer();
+
                 if (!tour.estEnMarche()) {
                     tourelles.remove(tour);
                 }
             }
         }
-    }
+        }
+
 
     private void tourProjectile(){
         try {

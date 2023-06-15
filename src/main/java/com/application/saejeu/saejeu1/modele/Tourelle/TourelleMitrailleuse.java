@@ -15,21 +15,18 @@ public class TourelleMitrailleuse extends Tourelle {
 
     @Override
     public void attaquer() {
-        ArrayList<Acteur> ennemisProches = ennemiPlusProche();
-        for (Acteur ennemi : ennemisProches) {
-            if (ennemi.estVivant()) {
                 creerProjectile();
             }
-        }
-    }
 
     @Override
     public Projectile creerProjectile() {
-        System.out.println(ennemiPlusProche());
-        for (int m = 0; m < ennemiPlusProche().size(); m++) {
-            Projectile pro = new ProjectileMitrailleuse(this.getX() + 10, this.getY() - 30, ennemiPlusProche().get(m), environnement);
-            environnement.ajouterProjectile(pro);
-        }
+            Acteur a = ennemiPlusProche();
+            if (a != null) {
+                Projectile pro = new ProjectileMitrailleuse(this.getX() + 10, this.getY() - 30, a, environnement);
+                environnement.ajouterProjectile(pro);
+                return pro;
+            }
+
         // La méthode creerProjectile() ne retourne rien, car vous ajoutez directement les projectiles à l'environnement
         return null;
     }

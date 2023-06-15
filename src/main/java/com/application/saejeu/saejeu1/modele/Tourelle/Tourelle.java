@@ -159,37 +159,37 @@ public abstract class Tourelle {
         return this.pv > 0;
     }
 
-    public ArrayList<Acteur> ennemiPlusProche() {
-        ArrayList<Acteur> acteursProches = new ArrayList<Acteur>();
-
-        for (int i = 0; i < environnement.getActeurs().size(); i++) {
-            Acteur acteur = environnement.getActeurs().get(i);
-            double distanceX = Math.abs(acteur.getX() - getX() - 8); // Ajouter ou soustraire la moitié de la largeur de la tourelle
-            double distanceY = Math.abs(acteur.getY() - getY() - 8); // Ajouter ou soustraire la moitié de la hauteur de la tourelle
-            double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-            if (distance <= portée) {
-                acteursProches.add(acteur);
-            }
-        }
-        return acteursProches;
-    }
-
-//    public Acteur ennemiPlusProche() {
-//
-//        Acteur ennemiLePlusProche = null;
-//        double distanceMin = Double.MAX_VALUE;
+//    public ArrayList<Acteur> ennemiPlusProche() {
+//        ArrayList<Acteur> acteursProches = new ArrayList<Acteur>();
 //
 //        for (int i = 0; i < environnement.getActeurs().size(); i++) {
-//                double dx = this.getX() - environnement.getActeurs().get(i).getX();
-//                double dy = this.getY() - environnement.getActeurs().get(i).getY();
-//                double distance = Math.sqrt(dx * dx + dy * dy);
+//            Acteur acteur = environnement.getActeurs().get(i);
+//            double distanceX = Math.abs(acteur.getX() - getX() - 8); // Ajouter ou soustraire la moitié de la largeur de la tourelle
+//            double distanceY = Math.abs(acteur.getY() - getY() - 8); // Ajouter ou soustraire la moitié de la hauteur de la tourelle
+//            double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 //
-//                if (distance <= portée && distance < distanceMin) {
-//                    ennemiLePlusProche = environnement.getActeurs().get(i);
-//                    distanceMin = distance;
-//                }
+//            if (distance <= portée) {
+//                acteursProches.add(acteur);
 //            }
-//        return ennemiLePlusProche;
+//        }
+//        return acteursProches;
 //    }
+
+    public Acteur ennemiPlusProche() {
+
+        Acteur ennemiLePlusProche = null;
+        double distanceMin = Double.MAX_VALUE;
+
+        for (int i = 0; i < environnement.getActeurs().size(); i++) {
+                double dx = this.getX() - environnement.getActeurs().get(i).getX();
+                double dy = this.getY() - environnement.getActeurs().get(i).getY();
+                double distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance <= portée && distance < distanceMin) {
+                    ennemiLePlusProche = environnement.getActeurs().get(i);
+                    distanceMin = distance;
+                }
+            }
+        return ennemiLePlusProche;
+    }
 }

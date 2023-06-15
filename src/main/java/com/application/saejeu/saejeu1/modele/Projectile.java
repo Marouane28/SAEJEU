@@ -44,9 +44,7 @@ public abstract class Projectile {
 
         this.setX(nouvellePositionX);
         this.setY(nouvellePositionY);
-
-
-
+        // neymar il est nul
         if (atteintActeur()){
 
             ennemi.decrementerPv(1);
