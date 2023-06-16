@@ -32,7 +32,6 @@ public class TileMapTest {
         assertFalse(this.tileMap.isNotObstacle(1, 1));
         assertTrue(this.tileMap.isNotObstacle(2, 1));
 
-
     }
     @Test
     public void testRemplirLaMap() throws IOException {
