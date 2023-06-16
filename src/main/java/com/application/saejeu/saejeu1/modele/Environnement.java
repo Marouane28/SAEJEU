@@ -35,7 +35,7 @@ public class Environnement {
         this.tourelles = FXCollections.observableArrayList(); // Initialise la liste des tourelles
         this.listeAdj = new HashMap(); // Initialise la liste d'adjacence
         this.obstacles = FXCollections.observableArrayList(); // Initialise la liste des obstacles
-        this.pièces = new SimpleIntegerProperty((25000)); // Initialise le nombre de pièces pour le début de la partie
+        this.pièces = new SimpleIntegerProperty((250)); // Initialise le nombre de pièces pour le début de la partie
         this.listePièces = FXCollections.observableArrayList(); // Initialise la liste des pièces
 
         construit(); // Construit la liste d'adjacence
