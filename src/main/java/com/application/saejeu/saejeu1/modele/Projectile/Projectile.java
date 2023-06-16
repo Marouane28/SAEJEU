@@ -54,7 +54,7 @@ public abstract class Projectile {
     }
 
 
-    // Méthode qui est utlisé dans la méthode handle de la vueProjectile afin d'améliorer l'animation du projectile
+    // Méthode qui est utilisée dans la méthode handle de la vueProjectile afin d'améliorer l'animation du projectile
     public void updatePosition(double elapsedTime) {
         // Calcul de la distance entre les coordonnées du projectile et de l'ennemi
         double distance = Math.sqrt(Math.pow(this.ennemi.getX()+10 - this.x.getValue(), 2) + Math.pow(this.ennemi.getY()+10 - this.y.getValue(), 2));
