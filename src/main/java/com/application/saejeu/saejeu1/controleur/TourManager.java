@@ -90,49 +90,10 @@ public class TourManager {
         // Itérer sur chaque pièce dans la copie de la liste des pièces
         for (Pièce pièce : piècesCopy) {
             // Appliquer le mouvement de la pièce
-            mouvementDePièce(pièce);
+            pièce.mouvementDePièce(pièce);
         }
     }
-    public void mouvementDePièce(Pièce pièce) {
-        int tileSize = this.environnement.getTileMap().getTileSize();
-        Random r = new Random();
 
-        int deltaX = 0;
-        int deltaY = 0;
-
-        // Générer une direction aléatoire
-        int randomNumber = r.nextInt(4);
-        switch (randomNumber) {
-            case 0:
-                deltaX = tileSize; // Déplacement vers la droite
-                break;
-            case 1:
-                deltaX = -tileSize; // Déplacement vers la gauche
-                break;
-            case 2:
-                deltaY = tileSize; // Déplacement vers le bas
-                break;
-            case 3:
-                deltaY = -tileSize; // Déplacement vers le haut
-                break;
-        }
-
-        int prochainX = pièce.getX() + deltaX;
-        int prochainY = pièce.getY() + deltaY;
-
-        int nextCaseX = prochainX / tileSize;
-        int nextCaseY = prochainY / tileSize;
-
-        if (!this.environnement.emplacementDéjàPrisParUnePièce(prochainX, prochainY) && !this.environnement.emplacementDéjàPrisParUneTourelle(prochainX, prochainY) && this.environnement.dansGrille(prochainX, prochainY) && !this.environnement.getTileMap().isNotObstacle(nextCaseX, nextCaseY) && !(prochainY >= 800)) {
-            pièce.getVuePièce().retirerImagePièce(pièce);
-            pièce.setX(prochainX);
-            pièce.setY(prochainY);
-            pièce.getVuePièce().imagePièce();
-
-            // Mettre à jour l'écouteur d'événements
-            pièce.getVuePièce().updateMouseClickedListener();
-        }
-    }
 
     public void terminerManche() {
         System.out.println("Tous les zombies ont été éliminés !"); // Affiche un message indiquant que tous les zombies ont été éliminés

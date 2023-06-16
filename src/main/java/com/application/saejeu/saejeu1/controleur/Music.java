@@ -39,14 +39,6 @@ public class Music {
         clipFond.start();
     }
 
-    public static boolean verifSon() {
-        // Vérification si le clip de musique de fond est en cours de lecture
-        if (!clipFond.isRunning()) {
-            return false;
-        }
-        return true;
-    }
-
     public static void stopMusicFond() {
         // Arrêt et fermeture du clip de musique de fond s'il est en cours de lecture
         if (clipFond != null && clipFond.isRunning()) {
@@ -129,5 +121,12 @@ public class Music {
             clipDefaite.stop();
             clipDefaite.close();
         }
+    }
+    public static boolean verifSon() {
+        // Vérification si le clip de musique de fond est en cours de lecture
+        if (!clipFond.isRunning()) {
+            return false;
+        }
+        return true;
     }
 }

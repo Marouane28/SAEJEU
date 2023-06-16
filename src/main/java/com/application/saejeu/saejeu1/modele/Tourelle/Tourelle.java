@@ -31,7 +31,7 @@ public abstract class Tourelle {
         this.coûtAmélioration = new SimpleIntegerProperty(100); // Propriété représentant le coût d'amélioration initial de la tourelle
     }
 
-    public void améliorer() {
+    public void améliorerTourelle() {
         // Méthode pour améliorer la tourelle
         if (this.environnement.getPièces() >= this.getCoûtAmélioration()) {
             // Vérification si l'environnement a suffisamment de pièces pour l'amélioration

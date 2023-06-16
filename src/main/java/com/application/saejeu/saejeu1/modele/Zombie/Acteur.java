@@ -13,7 +13,7 @@ public abstract class Acteur {
     private int pv; // Les points de vie de l'acteur
     private boolean gele; // Indique si l'acteur est gelé ou non
     private int index; // L'index utilisé pour le déplacement sur le chemin
-    private int cyclesRestants; // Le nombre de cycles restants pour un état particulier de l'acteur
+    private int cyclesRestants; // Le nombre de cycles restants pour gérer le gèle de l'acteur
     private String nomImage; // Le nom de l'image associée à l'acteur
     private VueEnnemi vueEnnemi; // La vue associée à l'acteur
 
@@ -88,7 +88,6 @@ public abstract class Acteur {
     }
 
     public void deplacement() {
-
         if (index < this.environnement.getChemin().size() - 1) {
             index++; // Incrémente l'index pour passer à l'étape suivante du chemin
             setX(environnement.getChemin().get(index).getX() * 16); // Définit la nouvelle position en x de l'acteur en fonction du chemin

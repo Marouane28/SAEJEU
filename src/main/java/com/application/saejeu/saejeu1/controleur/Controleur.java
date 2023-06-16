@@ -30,7 +30,6 @@ import com.application.saejeu.saejeu1.modele.*;
 import com.application.saejeu.saejeu1.vue.VueTerrain;
 
 public class Controleur implements Initializable {
-
     @FXML
     private TilePane tilePane; // Représente le terrain de jeu (la grille)
     @FXML
@@ -186,10 +185,10 @@ public class Controleur implements Initializable {
             e.printStackTrace();
         }
 
-        mettreAJourAffichageVies(); // Met à jour l'affichage du nombre de vies
-        mettreAJourAffichageManche(); // Met à jour l'affichage du numéro de la manche
+        bindAffichageVies(); // Met à jour l'affichage du nombre de vies
+        bindAffichageManche(); // Met à jour l'affichage du numéro de la manche
         mettreAJourAffichageZombies(environnement.getActeurs().size()); // Met à jour l'affichage du nombre de zombies
-        mettreAJourAffichagePiece(); // Met à jour l'affichage des pièces
+        bindAffichagePiece(); // Met à jour l'affichage des pièces
         mettreAJourAffichagePrixTourelles(); // Appel d'une méthode pour mettre à jour l'affichage des prix des tourelles
         mettreAJourAffichageTourelles(this.environnement.getTourelles().size()); // Appel d'une méthode pour mettre à jour l'affichage des tourelles en fonction de leur nombre
         mettreAJourCoûtAmélioration(); // Appel d'une méthode pour mettre à jour le coût d'amélioration
@@ -235,13 +234,13 @@ public class Controleur implements Initializable {
         String s = urlImageVaiL.getPath();
         music.PlayMusicVictoire(s);
     }
-    public void mettreAJourAffichagePiece() {
+    public void bindAffichagePiece() {
         this.labelPieces.textProperty().bind(this.environnement.getPropertyPièces().asString());
     }
-    public void mettreAJourAffichageVies() {
+    public void bindAffichageVies() {
         this.labelVies.textProperty().bind(environnement.viesProperty().asString());
     }
-    public void mettreAJourAffichageManche() {
+    public void bindAffichageManche() {
         this.labelManche.textProperty().bind(manche.numeroMancheProperty().asString());
     }
     public int getTemps() {
