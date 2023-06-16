@@ -40,12 +40,11 @@ public class VuePièce {
         return this.pièce; // Renvoie la pièce associée à la vue
     }
 
-
     public void imagePièce() {
 
-        URL urlImageEnn = Main.class.getResource(this.pièce.getUrlImage()); // Récupération de l'URL de l'image de la tourelle
+        URL urlImageEnn = Main.class.getResource(this.pièce.getUrlImage()); // Récupération de l'URL de l'image de la pièce
         this.image = new Image(String.valueOf(urlImageEnn)); // Chargement de l'image
-        this.setImageView(new ImageView(this.image)); // Création de l'ImageView pour afficher l'image de la tourelle
+        this.setImageView(new ImageView(this.image)); //  on modifie l'attribut ImageView pour afficher l'image de la pièce
         imageView.setFitHeight(20); // Ajuster la hauteur de l'ImageView
         this.imageView.setFitWidth(20); // Ajuster la largeur de l'ImageView
         this.imageView.translateXProperty().bind(this.pièce.getXProperty());
