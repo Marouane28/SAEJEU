@@ -80,7 +80,7 @@ public abstract class Projectile {
         double xProjGauche = getX() + 20; // 20 = Taille des images des projectiles en pixel
         double yProjGauche = getY() + 20;
 
-        // Coordonnées de l'acteur (ennemi)
+        // Coordonnées de l'ennemi
         double xActDroite = ennemi.getX();
         double yActDroite = ennemi.getY();
         double xActGauche = ennemi.getX() + 20; // 20 = Taille des images des zombies en pixel
