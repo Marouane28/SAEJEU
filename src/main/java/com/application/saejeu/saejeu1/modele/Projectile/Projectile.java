@@ -21,8 +21,7 @@ public abstract class Projectile {
 
     // Constructeur de la classe Projectile
     public Projectile(double x, double y, Acteur ennemi, Environnement environnement, String nomImage) {
-        // Initialisation des propriétés x et y avec les valeurs fournies
-        this.x = new SimpleDoubleProperty(x);
+        this.x = new SimpleDoubleProperty(x); // Propriété représentant la position x du projectile
         this.y = new SimpleDoubleProperty(y);
 
         // Assignation des références
