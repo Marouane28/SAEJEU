@@ -1,4 +1,11 @@
-package com.application.saejeu.saejeu1.modele.JUnit;
+package com.application.saejeu.saejeu1.test;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import com.application.saejeu.saejeu1.modele.BFS;
 import com.application.saejeu.saejeu1.modele.Environnement;
@@ -7,11 +14,6 @@ import com.application.saejeu.saejeu1.modele.TileMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class BFSTest {
     private Environnement map;
@@ -23,15 +25,18 @@ public class BFSTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        // Création d'une map (graphe) de test
-        map = new Environnement(new TileMap(",", "testtilemap"));
+        // Création d'une map (graphe) de test à partir du fichier testtilemap1
+        map = new Environnement(new TileMap(",", "testtilemap1"));
 
-        // Création des sommets
-        source = new Sommet(0, 0, 0.0);
-        sommetA = new Sommet(1, 0, 0.0);
-        sommetB = new Sommet(2, 0, 0.0);
-        sommetC = new Sommet(1, 1, 0.0);
-        sommetD = new Sommet(2, 1, 0.0);
+        // Chargement des sommets et des poids à partir du fichier
+        ArrayList<ArrayList<Double>> tileData = loadTileData("testtilemap1");
+
+        // Création des sommets avec les poids spécifiés
+        source = new Sommet(0, 0, tileData.get(0).get(0));
+        sommetA = new Sommet(1, 0, tileData.get(0).get(1));
+        sommetB = new Sommet(2, 0, tileData.get(0).get(2));
+        sommetC = new Sommet(1, 1, tileData.get(1).get(0));
+        sommetD = new Sommet(2, 1, tileData.get(1).get(1));
 
         // Ajout des arêtes (liaisons entre sommets)
         map.ajouterArete(source, sommetA);
@@ -64,5 +69,19 @@ public class BFSTest {
         Assertions.assertEquals(cheminAttendu, bfs.cheminVersSource(sommetD));
     }
 
-
+    private ArrayList<ArrayList<Double>> loadTileData(String filename) throws IOException {
+        ArrayList<ArrayList<Double>> tileData = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] values = line.split(",");
+            ArrayList<Double> row = new ArrayList<>();
+            for (String value : values) {
+                row.add(Double.parseDouble(value));
+            }
+            tileData.add(row);
+        }
+        reader.close();
+        return tileData;
+    }
 }

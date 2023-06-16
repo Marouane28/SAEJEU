@@ -239,10 +239,13 @@ public class Environnement {
     }
 
     public void ajouterArete(Sommet sommet1, Sommet sommet2) {
-        Set<Sommet> adjacents1 = listeAdj.get(sommet1);
-        Set<Sommet> adjacents2 = listeAdj.get(sommet2);
+        Set<Sommet> adjacents1 = listeAdj.getOrDefault(sommet1, new HashSet<>());
+        Set<Sommet> adjacents2 = listeAdj.getOrDefault(sommet2, new HashSet<>());
         adjacents1.add(sommet2);
         adjacents2.add(sommet1);
+        listeAdj.put(sommet1, adjacents1);
+        listeAdj.put(sommet2, adjacents2);
     }
+
 
 }
