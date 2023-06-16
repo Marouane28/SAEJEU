@@ -250,20 +250,7 @@ public class Environnement {
     }
 
     // Méthode qui crée soit un zombie rapide soit un zombie géant soit un zombie lent
-    public Acteur créerZombie() {
-        Random rand = new Random();
-        int nb = rand.nextInt(3 - 1 + 1) + 1;
-        Acteur zombie;
-        if (nb == 1) {
-            zombie = new ZombieRapide(this);
-        } else if (nb == 2) {
-            zombie = new ZombieLent(this);
-        } else {
-            zombie = new ZombieGeant(this);
-        }
-        ajouterActeur(zombie);
-        return zombie; // Crée un zombie et l'ajoute à la liste des acteurs
-    }
+
 
     public void créerUnCertainsNombreDePièce(int nbPièces) {
         for (int i = 0; i < nbPièces; i++) {
