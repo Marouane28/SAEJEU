@@ -208,6 +208,8 @@ public class Environnement {
     public void ajouterTourelle(Tourelle tourelle) {
         this.tourelles.add(tourelle); // Ajoute une tourelle à la liste des tourelles
     }
+
+    // Méthode qui crée soit un zombie rapide soit un zombie géant soit un zombie lent
     public Acteur créerZombie(){
         Acteur zombie;
         Random rand = new Random();
@@ -248,9 +250,6 @@ public class Environnement {
     public void retirerProjectile(Projectile p){
         projectiles.remove(p);
     }
-
-    // Méthode qui crée soit un zombie rapide soit un zombie géant soit un zombie lent
-
 
     public void créerUnCertainsNombreDePièce(int nbPièces) {
         for (int i = 0; i < nbPièces; i++) {
