@@ -44,7 +44,7 @@ public class VueTourelle {
                 // Vérifiez si la tourelle peut être améliorée
                 if (!tourelle.isEstAméliorée()) {
                     // Appeler la méthode d'amélioration de la tourelle
-                    tourelle.améliorer();
+                    tourelle.améliorerTourelle();
                 }
             }
         });
