@@ -141,14 +141,6 @@ public abstract class Tourelle {
 
     public abstract Projectile creerProjectile();
 
-//    // Méthode pour vérifier si l'ennemi est à portée de la tourelle
-//    public boolean estEnPortée(Acteur ennemi) {
-//        // Calcul de la distance entre la tourelle et l'ennemi en utilisant le théorème de Pythagore
-//        double distance = Math.sqrt(Math.pow(ennemi.getX() - getX(), 2) + Math.pow(ennemi.getY() - getY(), 2)); //racine de (x - x')^2 + (y - y')^2
-//        // Vérification si la distance est inférieure ou égale à la portée de la tourelle
-//        return distance <= this.portée;
-//    }
-
     // Méthode pour définir la vue de la tourelle
     public void setVueTourelle(VueTourelle vueTourelle) {
         this.vueTourelle = vueTourelle;

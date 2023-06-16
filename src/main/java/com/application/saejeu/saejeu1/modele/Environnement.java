@@ -193,10 +193,11 @@ public class Environnement {
         projectiles.remove(p);
     }
 
+    // Méthode qui crée soit un zombie rapide soit un zombie géant soit un zombie lent
     public Acteur créerZombie() {
         Random rand = new Random();
         int nb = rand.nextInt(3 - 1 + 1) + 1;
-        Acteur zombie = null;
+        Acteur zombie;
         if (nb == 1) {
             zombie = new ZombieRapide(this);
         } else if (nb == 2) {

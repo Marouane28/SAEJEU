@@ -2,6 +2,7 @@ package com.application.saejeu.saejeu1.modele.Tourelle;
 
 import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.modele.Projectile;
+import com.application.saejeu.saejeu1.modele.ProjectileMitrailleuse;
 import com.application.saejeu.saejeu1.modele.ProjectileRepousse;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 
@@ -41,13 +42,18 @@ public class TourelleRepousse extends Tourelle {
 
     @Override
     public Projectile creerProjectile() {
+        // Recherche de l'ennemi le plus proche
         Acteur a = ennemiPlusProche();
         if (a != null) {
-            Projectile pro = new ProjectileRepousse(this.getX() + 10, this.getY() - 30, a, environnement);
+            // Création d'un nouveau projectile de type ProjectileRepousse avec les coordonnées de cet acteur,
+            // l'ennemi cible et l'environnement
+            Projectile pro = new ProjectileRepousse(this.getX(), this.getY(), a, environnement);
+            // Ajout du projectile à l'environnement
             environnement.ajouterProjectile(pro);
+            // Retourne le projectile créé
             return pro;
         }
-        // La méthode creerProjectile() ne retourne rien, car vous ajoutez directement les projectiles à l'environnement
+        // Si aucun ennemi n'est trouvé, retourne null
         return null;
     }
 }

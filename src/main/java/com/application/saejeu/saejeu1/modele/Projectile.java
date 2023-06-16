@@ -5,21 +5,26 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Projectile {
+    // Vitesse du projectile
     public static final double VITESSE = 100;
 
-    private DoubleProperty x,y;
+    // Propriétés de position x et y
+    private DoubleProperty x;
+    private DoubleProperty y;
 
+    // Référence vers l'environnement, l'ennemi cible, la vue du projectile et le nom de l'image
     private Environnement environnement;
     private Acteur ennemi;
     private VueProjectile vueProjectile;
     private String nomImage;
 
-
-
-    public Projectile(double x, double y,Acteur ennemi ,Environnement environnement,String nomImage) {
-
+    // Constructeur de la classe Projectile
+    public Projectile(double x, double y, Acteur ennemi, Environnement environnement, String nomImage) {
+        // Initialisation des propriétés x et y avec les valeurs fournies
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
+
+        // Assignation des références
         this.environnement = environnement;
         this.ennemi = ennemi;
         this.nomImage = nomImage;
@@ -27,21 +32,22 @@ public abstract class Projectile {
 
     public void lancerProjectile() {
 
+        // Calcul des distances horizontale et verticale entre l'ennemi et cet acteur
         double distanceX = ennemi.getX() - this.getX();
         double distanceY = ennemi.getY() - this.getY();
 
-        // Calcule la distance total
+        // Calcul de la distance totale entre cet acteur et l'ennemi
         double totalDistance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-
+        // Calcul des composantes directionnelles sur les axes x et y
         double directionX = distanceX / totalDistance;
         double directionY = distanceY / totalDistance;
 
-        // Calculer les nouvelles positions
+        // Calcul des nouvelles positions en utilisant la vitesse et les composantes directionnelles
         double nouvellePositionX = this.getX() + (VITESSE * directionX);
         double nouvellePositionY = this.getY() + (VITESSE * directionY);
 
-
+        // Mise à jour des coordonnées de cet acteur avec les nouvelles positions
         this.setX(nouvellePositionX);
         this.setY(nouvellePositionY);
     }

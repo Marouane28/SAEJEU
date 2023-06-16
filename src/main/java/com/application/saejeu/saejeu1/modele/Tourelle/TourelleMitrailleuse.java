@@ -28,14 +28,19 @@ public class TourelleMitrailleuse extends Tourelle {
     }
     @Override
     public Projectile creerProjectile() {
-            Acteur a = ennemiPlusProche();
-            if (a != null) {
-                Projectile pro = new ProjectileMitrailleuse(this.getX(), this.getY(), a, environnement);
-                environnement.ajouterProjectile(pro);
-                return pro;
-            }
-
-        // La méthode creerProjectile() ne retourne rien, car vous ajoutez directement les projectiles à l'environnement
+        // Recherche de l'ennemi le plus proche
+        Acteur a = ennemiPlusProche();
+        if (a != null) {
+            // Création d'un nouveau projectile de type ProjectileMitrailleuse avec les coordonnées de cet acteur,
+            // l'ennemi cible et l'environnement
+            Projectile pro = new ProjectileMitrailleuse(this.getX(), this.getY(), a, environnement);
+            // Ajout du projectile à l'environnement
+            environnement.ajouterProjectile(pro);
+            // Retourne le projectile créé
+            return pro;
+        }
+        // Si aucun ennemi n'est trouvé, retourne null
         return null;
     }
+
 }

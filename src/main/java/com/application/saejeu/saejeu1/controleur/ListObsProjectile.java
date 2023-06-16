@@ -7,12 +7,12 @@ import java.util.ArrayList;
 public class ListObsProjectile implements ListChangeListener<Projectile> {
 
 
-    private Pane panneauDeJeu;
-    private ArrayList<VueProjectile> vuesProjectile;
+    private Pane panneauDeJeu;// Le panneau du jeu où seront ajoutées les vues des projectiles
+    private ArrayList<VueProjectile> vuesProjectile;// Liste des vues des projectiles
 
     public ListObsProjectile(Pane panneauDeJeu) {
-        this.panneauDeJeu = panneauDeJeu;
-        this.vuesProjectile = new ArrayList<>();
+        this.panneauDeJeu = panneauDeJeu;// Initialise le panneau du jeu
+        this.vuesProjectile = new ArrayList<>();// Initialise la liste des vues des projectiles
     }
 
     @Override
@@ -20,18 +20,22 @@ public class ListObsProjectile implements ListChangeListener<Projectile> {
 
         while (change.next()) {
             if (change.wasAdded()) {
-                for (Projectile proj : change.getAddedSubList()) {
-                    VueProjectile vueProjectile = new VueProjectile(panneauDeJeu, proj);
-                    vuesProjectile.add(vueProjectile);
-                    proj.setVueProjectile(vueProjectile);
+                for (Projectile p : change.getAddedSubList()) {
+                    ajouterProjectile(p); // Ajoute la vue de chaque nouveau projectile
                 }
             }
             if (change.wasRemoved()) {
-                for (Projectile proj : change.getRemoved()) {
-                    enleverProjectile(proj);
+                for (Projectile p : change.getRemoved()) {
+                    enleverProjectile(p); // Retire la vue de chaque projectile supprimé
                 }
             }
         }
+    }
+
+    private void ajouterProjectile(Projectile p){
+        VueProjectile vueProjectile = new VueProjectile(panneauDeJeu, p);// Crée une nouvelle vue pour le projectile
+        vuesProjectile.add(vueProjectile); // Ajoute la vue à la liste des vues des projectiles
+        p.setVueProjectile(vueProjectile);// Associe la vue au projectile
     }
 
 
