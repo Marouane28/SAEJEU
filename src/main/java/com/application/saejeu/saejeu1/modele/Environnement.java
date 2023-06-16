@@ -208,6 +208,34 @@ public class Environnement {
     public void ajouterTourelle(Tourelle tourelle) {
         this.tourelles.add(tourelle); // Ajoute une tourelle à la liste des tourelles
     }
+    public Acteur créerZombie(){
+        Acteur zombie;
+        Random rand = new Random();
+        int nb = rand.nextInt(3 - 1 + 1) + 1;
+
+        if (nb == 1) {
+            Acteur z1 = new ZombieRapide(this);
+            getActeurs().add(z1);
+            ajouterActeur(z1);
+            zombie = z1;
+        }
+
+        else if (nb == 2){
+            Acteur z2 = new ZombieLent(this);
+            getActeurs().add(z2);
+            ajouterActeur(z2);
+            zombie = z2;
+        }
+
+        else {
+            Acteur z2 = new ZombieGeant(this);
+            getActeurs().add(z2);
+            ajouterActeur(z2);
+            zombie = z2;
+        }
+
+        return zombie;
+    }
 
     public ObservableList<Projectile> getProjectiles() {
         return projectiles;

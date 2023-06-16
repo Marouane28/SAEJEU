@@ -21,14 +21,11 @@ public abstract class Projectile {
 
     // Constructeur de la classe Projectile
     public Projectile(double x, double y, Acteur ennemi, Environnement environnement, String nomImage) {
-        // Initialisation des propriétés x et y avec les valeurs fournies
-        this.x = new SimpleDoubleProperty(x);
-        this.y = new SimpleDoubleProperty(y);
-
-        // Assignation des références
-        this.environnement = environnement;
-        this.ennemi = ennemi;
-        this.nomImage = nomImage;
+        this.x = new SimpleDoubleProperty(x); // Propriété représentant la position x du projectile
+        this.y = new SimpleDoubleProperty(y); // Propriété représentant la position y du projectile
+        this.environnement = environnement; // Initialisation de l'environnement
+        this.ennemi = ennemi; // Initialisation de l'ennemi
+        this.nomImage = nomImage; // Initialisation de nomImage qui correspond à l'URL des images des projectiles
     }
 
     public void lancerProjectile() {
@@ -54,7 +51,7 @@ public abstract class Projectile {
     }
 
 
-    // Méthode qui est utlisé dans la méthode handle de la vueProjectile afin d'améliorer l'animation du projectile
+    // Méthode qui est utilisée dans la méthode handle de la vueProjectile afin d'améliorer l'animation du projectile
     public void updatePosition(double elapsedTime) {
         // Calcul de la distance entre les coordonnées du projectile et de l'ennemi
         double distance = Math.sqrt(Math.pow(this.ennemi.getX()+10 - this.x.getValue(), 2) + Math.pow(this.ennemi.getY()+10 - this.y.getValue(), 2));
@@ -77,13 +74,13 @@ public abstract class Projectile {
         // Coordonnées du projectile
         double xProjDroite = getX();
         double yProjDroite = getY();
-        double xProjGauche = getX() + 20; // 20 = la taille de l'image en pixel
+        double xProjGauche = getX() + 20; // 20 = Taille des images des projectiles en pixel
         double yProjGauche = getY() + 20;
 
-        // Coordonnées de l'acteur (ennemi)
+        // Coordonnées de l'ennemi
         double xActDroite = ennemi.getX();
         double yActDroite = ennemi.getY();
-        double xActGauche = ennemi.getX() + 20; // 20 = la taille de l'image en pixel
+        double xActGauche = ennemi.getX() + 20; // 20 = Taille des images des zombies en pixel
         double yActGauche = ennemi.getY() + 20;
 
         // Vérifie si le projectile intersecte l'acteur
@@ -92,7 +89,7 @@ public abstract class Projectile {
                 (xProjGauche >= xActDroite && xProjGauche <= xActGauche && yProjDroite >= yActDroite && yProjDroite <= yActGauche) || //  coin supérieur droit du projectile
                 (xProjGauche >= xActDroite && xProjGauche <= xActGauche && yProjGauche >= yActDroite && yProjGauche <= yActGauche)) { //  coin inférieur droit du projectile
 
-            // Si l'intersection est vérifiée, retirer le projectile de l'environnement
+            // Si l'intersection est vérifiée, le projectile est retiré de l'environnement
             environnement.retirerProjectile(this);
 
             return true; // Le projectile a atteint l'acteur
