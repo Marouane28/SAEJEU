@@ -83,7 +83,7 @@ public abstract class Projectile {
         // Coordonnées de l'acteur (ennemi)
         double xActDroite = ennemi.getX();
         double yActDroite = ennemi.getY();
-        double xActGauche = ennemi.getX() + 20; // 20 = la taille de l'image en pixel
+        double xActGauche = ennemi.getX() + 20; // 20 = Taille des images des zombies en pixel
         double yActGauche = ennemi.getY() + 20;
 
         // Vérifie si le projectile intersecte l'acteur
