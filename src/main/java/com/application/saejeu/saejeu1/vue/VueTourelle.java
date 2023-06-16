@@ -54,17 +54,17 @@ public class VueTourelle {
     public void imageTourelle() {
         URL urlImageEnn = Main.class.getResource(tourelle.getNomImage()); // Récupération de l'URL de l'image de la tourelle
         image = new Image(String.valueOf(urlImageEnn)); // Chargement de l'image
-        this.setImageView(new ImageView(this.image)); // Création de l'ImageView pour afficher l'image de la tourelle
+        this.setImageView(new ImageView(this.image)); // ImageView pour afficher l'image de la tourelle
         imageView.setFitHeight(20); // Ajuster la hauteur de l'ImageView
         imageView.setFitWidth(20); // Ajuster la largeur de l'ImageView
         imageView.translateXProperty().bind(tourelle.xProperty()); // Lier la position horizontale de l'ImageView à la position horizontale de la tourelle
         imageView.translateYProperty().bind(tourelle.yProperty()); // Lier la position verticale de l'ImageView à la position verticale de la tourelle
         this.panneauJeu.getChildren().add(imageView); // Ajout de l'ImageView au panneau de jeu
         this.imageViews.add(imageView); // Ajout de l'ImageView à la liste des ImageView
-
     }
 
     public void setImageView(ImageView imageView) {
+
         this.imageView = imageView;
     }
 
