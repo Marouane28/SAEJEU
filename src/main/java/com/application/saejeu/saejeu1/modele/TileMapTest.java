@@ -21,6 +21,7 @@ public class TileMapTest {
     public void testGetTileSize() {
         int expectedSize = 16;
         assertEquals(expectedSize, tileMap.getTileSize());
+
     }
 
     @Test
