@@ -1,5 +1,6 @@
-package com.application.saejeu.saejeu1.modele;
+package com.application.saejeu.saejeu1.modele.JUnit;
 
+import com.application.saejeu.saejeu1.modele.TileMap;
 import org.junit.Before;
 import org.junit.Test;
 
