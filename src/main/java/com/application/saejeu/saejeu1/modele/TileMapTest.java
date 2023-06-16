@@ -13,7 +13,7 @@ public class TileMapTest {
 
     @Before
     public void setUp() throws IOException {
-        tileMap = new TileMap(",", "vraietilemap");
+        tileMap = new TileMap(",", "testtilemap");
     }
 
 
@@ -25,10 +25,23 @@ public class TileMapTest {
 
     @Test
     public void testIsNotObstacle() {
-        assertFalse(tileMap.isNotObstacle(0, 0));
-        assertTrue(tileMap.isNotObstacle(0, 20));
-    }
+        assertFalse(this.tileMap.isNotObstacle(0, 0));
+        assertFalse(this.tileMap.isNotObstacle(0, 1));
+        assertFalse(this.tileMap.isNotObstacle(1, 1));
+        assertTrue(this.tileMap.isNotObstacle(2, 1));
 
+
+    }
+    @Test
+    public void testRemplirLaMap() throws IOException {
+
+        setUp();
+        int[][] expectedMap = { {1, 2, 3},
+                                {1, 2, 400} };
+
+        assertEquals(expectedMap.length, this.tileMap.getY());
+        assertEquals(expectedMap[0].length, this.tileMap.getX());
+    }
 }
 
 
