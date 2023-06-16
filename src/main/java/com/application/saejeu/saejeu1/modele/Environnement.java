@@ -37,7 +37,6 @@ public class Environnement {
         this.obstacles = FXCollections.observableArrayList(); // Initialise la liste des obstacles
         this.pièces = new SimpleIntegerProperty((25000)); // Initialise le nombre de pièces pour le début de la partie
         this.projectiles = FXCollections.observableArrayList();
-
         construit(); // Construit la liste d'adjacence
         bfs = new BFS(this, getSommet(0, 20)); // Initialise l'algorithme BFS avec un sommet source
         chemin = bfs.cheminVersSource(getSommet(89, 34)); // Trouve le chemin vers un sommet cible
