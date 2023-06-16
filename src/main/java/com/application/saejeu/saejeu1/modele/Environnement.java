@@ -238,5 +238,11 @@ public class Environnement {
         return chemin; // Renvoie le chemin trouvé par l'algorithme BFS
     }
 
+    public void ajouterArete(Sommet sommet1, Sommet sommet2) {
+        Set<Sommet> adjacents1 = listeAdj.get(sommet1);
+        Set<Sommet> adjacents2 = listeAdj.get(sommet2);
+        adjacents1.add(sommet2);
+        adjacents2.add(sommet1);
+    }
 
 }
