@@ -87,6 +87,7 @@ public class VueTourelle {
 
         panneauJeu.getChildren().add(rayonPortee); // Ajout du cercle au panneau de jeu
     }
+
     public void afficherRayonPorteeAmélioré() {
         Circle rayonPortee = new Circle(); // Création d'un cercle pour représenter le rayon de portée
         double tourelleLargeur = image.getWidth(); // Largeur de l'image de la tourelle

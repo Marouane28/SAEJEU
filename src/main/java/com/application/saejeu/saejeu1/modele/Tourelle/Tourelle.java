@@ -108,6 +108,7 @@ public abstract class Tourelle {
     public int getPortée() {
         return this.portée;
     }
+
     public void setPortée(int i) {
         this.portée = i;
     }
