@@ -66,5 +66,16 @@ public class BFS {
 
         return chemin; // Retourne le chemin de la source à la cible
     }
+
+    public Sommet getPredecesseur(Sommet sommet) {
+        return predecesseurs.get(sommet);
+    }
+
+    public ArrayList<Sommet> getParcours() {
+        return parcours;
+    }
+    public HashMap<Sommet, Sommet> getPredecesseurs() {
+        return predecesseurs;
+    }
 }
 
