@@ -92,7 +92,7 @@ public abstract class Projectile {
                 (xProjGauche >= xActDroite && xProjGauche <= xActGauche && yProjDroite >= yActDroite && yProjDroite <= yActGauche) || //  coin supérieur droit du projectile
                 (xProjGauche >= xActDroite && xProjGauche <= xActGauche && yProjGauche >= yActDroite && yProjGauche <= yActGauche)) { //  coin inférieur droit du projectile
 
-            // Si l'intersection est vérifiée, retirer le projectile de l'environnement
+            // Si l'intersection est vérifiée, le projectile est retiré de l'environnement
             environnement.retirerProjectile(this);
 
             return true; // Le projectile a atteint l'acteur
