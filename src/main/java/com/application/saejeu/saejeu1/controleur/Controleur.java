@@ -30,6 +30,7 @@ import com.application.saejeu.saejeu1.modele.*;
 import com.application.saejeu.saejeu1.vue.VueTerrain;
 
 public class Controleur implements Initializable {
+
     @FXML
     private TilePane tilePane; // Représente le terrain de jeu (la grille)
     @FXML
@@ -45,6 +46,7 @@ public class Controleur implements Initializable {
     private ListChangeListener<Acteur> listenerActeur; // Écouteur de changements pour les acteurs (zombies, tourelles, etc.)
     private ListChangeListener<Tourelle> listenerTourelle; // Écouteur de changements pour les tourelles
     private ListChangeListener<Pièce> listenerPièce;
+    private ListChangeListener<Projectile> listenerProjectile;
     private TileMap tileMap; // Représente la carte de tuiles du terrain
     private final int nb_manche = 10; // Permet de définir le nombre de manches dans le jeu
     private boolean estEnPause = false; // Indique si le jeu est en pause ou non
@@ -64,13 +66,16 @@ public class Controleur implements Initializable {
         this.listenerActeur = new ListObsActeur(this.panneauDeJeu);
         this.listenerTourelle = new ListObsTourelle(this.panneauDeJeu);
         this.listenerPièce = new ListObsPiece(this.panneauDeJeu);
+        this.listenerProjectile = new ListObsProjectile(panneauDeJeu);
         this.environnement.getActeurs().addListener(this.listenerActeur);
         this.environnement.getTourelles().addListener(this.listenerTourelle);
         this.environnement.getListePièces().addListener(this.listenerPièce);
+        this.environnement.getProjectiles().addListener(listenerProjectile);
 
         initAnimation(); // Initialise l'animation du jeu
         // Démarre l'animation
         gameLoop.play();
+
     }
     @FXML
     public void abandonnerJeu(ActionEvent actionEvent) {
@@ -161,6 +166,7 @@ public class Controleur implements Initializable {
             this.panneauDeJeu.setOnMouseClicked(null);
         });
     }
+
     public void réglerTaille() {
         // Définit la taille minimale du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setMinSize(environnement.getX() * 16, environnement.getY() * 16);
@@ -169,6 +175,7 @@ public class Controleur implements Initializable {
         // Définit la taille préférée du panneau de jeu en fonction de la taille de l'environnement
         this.panneauDeJeu.setPrefSize(environnement.getX() * 16, environnement.getY() * 16);
     }
+
     public void gameLaunch() throws IOException {
 
         manche = new Manche(); // Crée une nouvelle instance de la classe Manche
@@ -193,6 +200,7 @@ public class Controleur implements Initializable {
         mettreAJourAffichageTourelles(this.environnement.getTourelles().size()); // Appel d'une méthode pour mettre à jour l'affichage des tourelles en fonction de leur nombre
         mettreAJourCoûtAmélioration(); // Appel d'une méthode pour mettre à jour le coût d'amélioration
     }
+
     public void afficherGameOverScene() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL resource = getClass().getResource("/com/application/saejeu/saejeu1/finJeu.fxml");

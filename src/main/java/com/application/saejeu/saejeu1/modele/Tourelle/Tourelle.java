@@ -1,10 +1,12 @@
 package com.application.saejeu.saejeu1.modele.Tourelle;
 
 import com.application.saejeu.saejeu1.modele.Environnement;
+import com.application.saejeu.saejeu1.modele.Projectile;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import com.application.saejeu.saejeu1.vue.VueTourelle;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+
 
 public abstract class Tourelle {
     private IntegerProperty x, y, coûtAmélioration; // Coordonnées x, y de la tourelle et son niveau (1, 2 ou 3)
@@ -12,7 +14,6 @@ public abstract class Tourelle {
     private int pv; // Points de vie de la tourelle
     private int dégât; // Dégâts infligés par la tourelle
     protected Environnement environnement; // Référence à l'environnement du jeu
-    protected Acteur cible; // Référence à l'ennemi actuellement ciblé
     private String nomImage; // Nom du fichier d'image associé à la tourelle
     private VueTourelle vueTourelle; // Référence à la vue de la tourelle
     private IntegerProperty coût; // Propriété représentant le coût de la tourelle
@@ -37,7 +38,8 @@ public abstract class Tourelle {
             // Vérification si l'environnement a suffisamment de pièces pour l'amélioration
             this.setDégât(getDégât() + 5); // Augmentation du dégât de la tourelle de 10
             this.vueTourelle.retirerRayonPortee(); // Retrait du rayon de portée de la vue de la tourelle
-            this.setPortée(getPortée() + 2*16); // Augmentation de la portée de la tourelle de 2*16 (à définir unité de mesure)
+            this.setPortée(getPortée() + 2 * 16); // Augmentation de la portée de la tourelle de 2*16 (à définir unité de mesure)
+
             this.vueTourelle.afficherRayonPorteeAmélioré(); // Affichage du rayon de portée amélioré dans la vue de la tourelle
             this.setPv(getPv() + 30); // Augmentation des points de vie de la tourelle de 30
             this.setEstAméliorée(true); // La tourelle est maintenant améliorée
@@ -86,6 +88,7 @@ public abstract class Tourelle {
 
         return this.nomImage;
     }
+
     // Méthodes pour accéder aux propriétés x et y de la tourelle
     public IntegerProperty xProperty() {
         return this.x;
@@ -94,6 +97,7 @@ public abstract class Tourelle {
     public IntegerProperty yProperty() {
         return this.y;
     }
+
     // Méthodes pour obtenir et définir la valeur de la coordonnée x de la tourelle
     public final double getX() {
         return this.xProperty().getValue();
@@ -112,6 +116,7 @@ public abstract class Tourelle {
     public void setPortée(int i) {
         this.portée = i;
     }
+
     // Méthode pour obtenir les points de vie de la tourelle
     public int getPv() {
         return this.pv;
@@ -125,25 +130,16 @@ public abstract class Tourelle {
     public int getDégât() {
         return this.dégât;
     }
+
     // Méthode pour définir les dégâts infligés par la tourelle
     public void setDégât(int dégât) {
         this.dégât = dégât;
     }
-    // Méthode pour définir la cible de la tourelle
-    public void setCible(Acteur cible) {
-        this.cible = cible;
-    }
 
     // Méthode abstraite pour effectuer l'attaque de la tourelle (à implémenter dans les sous-classes)
     public abstract void attaquer();
-    // Méthode pour vérifier si l'ennemi est à portée de la tourelle
 
-    public boolean estEnPortée(Acteur ennemi) {
-        // Calcul de la distance entre la tourelle et l'ennemi en utilisant le théorème de Pythagore
-        double distance = Math.sqrt(Math.pow(ennemi.getX() - getX(), 2) + Math.pow(ennemi.getY() - getY(), 2)); //racine de (x - x')^2 + (y - y')^2
-        // Vérification si la distance est inférieure ou égale à la portée de la tourelle
-        return distance <= this.portée;
-    }
+    public abstract Projectile creerProjectile();
 
     // Méthode pour définir la vue de la tourelle
     public void setVueTourelle(VueTourelle vueTourelle) {
@@ -159,5 +155,28 @@ public abstract class Tourelle {
     // Méthode pour vérifier si la tourelle est en marche (a encore des points de vie)
     public boolean estEnMarche() {
         return this.pv > 0;
+    }
+
+    // Méthode qui retourne l'acteur le plus proche de la tourelle
+    public Acteur ennemiPlusProche() {
+
+        Acteur ennemiLePlusProche = null;
+        double distanceMin = Double.MAX_VALUE;
+
+        // Parcours de tous les acteurs dans l'environnement
+        for (int i = 0; i < environnement.getActeurs().size(); i++) {
+            double dx = this.getX() - environnement.getActeurs().get(i).getX();
+            double dy = this.getY() - environnement.getActeurs().get(i).getY();
+            double distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Vérifie si l'acteur est dans la portée et plus proche que les acteurs précédents
+            if (distance <= portée && distance < distanceMin) {
+                ennemiLePlusProche = environnement.getActeurs().get(i);
+                distanceMin = distance;
+            }
+        }
+
+        // Retourne l'acteur ennemi le plus proche
+        return ennemiLePlusProche;
     }
 }

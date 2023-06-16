@@ -1,12 +1,14 @@
 package com.application.saejeu.saejeu1.controleur;
 
-import com.application.saejeu.saejeu1.controleur.Controleur;
 import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.modele.Manche;
 import com.application.saejeu.saejeu1.modele.Pièce;
+import com.application.saejeu.saejeu1.modele.Projectile;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -41,7 +43,8 @@ public class TourManager {
                 zombie.decrementerCyclesRestants(); // Décrémente le nombre de cycles restants du zombie
             }
 
-            effectuerTourTourelles(zombie); // Appelle la méthode effectuerTourTourelles() pour gérer les actions des tourelles pendant le tour
+            effectuerTourTourelles(); // Appelle la méthode effectuerTourTourelles() pour gérer les actions des tourelles pendant le tour
+            tourProjectile();
 
             if (!zombie.estVivant()) {
                 environnement.getActeurs().remove(zombie); // Supprime le zombie de la liste des acteurs s'il n'est plus vivant
@@ -68,14 +71,14 @@ public class TourManager {
     }
 
     // Permet aux tourelles d'attaquer l'ennemi et de supprimer la tourelle quand elle ne fonctionne plus
-    public void effectuerTourTourelles(Acteur zombie) {
-        ArrayList<Tourelle> tourCopy = new ArrayList<>(environnement.getTourelles()); // Crée une copie de la liste des tourelles dans l'environnement
-        for (Tourelle tour : tourCopy) {
-            tour.setCible(zombie); // Définit le zombie comme cible de la tourelle
-            tour.attaquer(); // Fait attaquer la tourelle
-
-            if (!tour.estEnMarche()) {
-                environnement.getTourelles().remove(tour); // Supprime la tourelle de la liste des tourelles si elle n'est plus en marche
+    private void effectuerTourTourelles() {
+        ObservableList<Tourelle> tourelles = FXCollections.observableArrayList(environnement.getTourelles());
+        if (environnement.getProjectiles().isEmpty()) {
+            for (Tourelle tour : tourelles) {
+                tour.attaquer();
+                if (!tour.estEnMarche()) {
+                    environnement.getTourelles().remove(tour);
+                }
             }
         }
     }
@@ -91,6 +94,23 @@ public class TourManager {
         for (Pièce pièce : piècesCopy) {
             // Appliquer le mouvement de la pièce
             pièce.mouvementDePièce(pièce);
+        }
+    }
+
+    private void tourProjectile() {
+        ObservableList<Projectile> projCopy = FXCollections.observableArrayList(environnement.getProjectiles());
+        // Vérifie si la liste des projectiles dans l'environnement n'est pas vide
+        if (!environnement.getProjectiles().isEmpty()) {
+            // Parcourt tous les projectiles dans la liste
+            for (Projectile p : projCopy) {
+                // Lance le projectile en appelant la méthode lancerProjectile()
+                p.lancerProjectile();
+                // Vérifie si le projectile atteint un acteur
+                if (p.atteintActeur()) {
+                    // Si le projectile atteint un acteur, il est retiré de l'environnement
+                    environnement.retirerProjectile(p);
+                }
+            }
         }
     }
 

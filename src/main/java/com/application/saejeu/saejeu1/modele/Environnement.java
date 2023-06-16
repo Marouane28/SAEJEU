@@ -22,6 +22,7 @@ public class Environnement {
     private ObservableList<Sommet> obstacles; // Liste des sommets représentant les obstacles
     private ObservableList<Tourelle> tourelles; // Liste des tourelles présentes dans l'environnement
     private ObservableList<Pièce> listePièces; // La liste observable de pièces
+    private ObservableList<Projectile> projectiles;
     private IntegerProperty pièces; // pièces pour le jeu
     private BFS bfs; // Algorithme BFS pour la recherche de chemin
     private ArrayList<Sommet> chemin; // Chemin trouvé par l'algorithme BFS
@@ -37,6 +38,7 @@ public class Environnement {
         this.obstacles = FXCollections.observableArrayList(); // Initialise la liste des obstacles
         this.pièces = new SimpleIntegerProperty((25000)); // Initialise le nombre de pièces pour le début de la partie
         this.listePièces = FXCollections.observableArrayList(); // Initialise la liste des pièces
+        this.projectiles = FXCollections.observableArrayList();
 
         construit(); // Construit la liste d'adjacence
         bfs = new BFS(this, getSommet(0, 20)); // Initialise l'algorithme BFS avec un sommet source
@@ -206,11 +208,23 @@ public class Environnement {
         this.tourelles.add(tourelle); // Ajoute une tourelle à la liste des tourelles
     }
 
-    public Acteur créerZombie() {
+    public ObservableList<Projectile> getProjectiles() {
+        return projectiles;
+    }
 
+    public void ajouterProjectile(Projectile p){
+        projectiles.add(p);
+    }
+
+    public void retirerProjectile(Projectile p){
+        projectiles.remove(p);
+    }
+
+    // Méthode qui crée soit un zombie rapide soit un zombie géant soit un zombie lent
+    public Acteur créerZombie() {
         Random rand = new Random();
         int nb = rand.nextInt(3 - 1 + 1) + 1;
-        Acteur zombie = null;
+        Acteur zombie;
         if (nb == 1) {
             zombie = new ZombieRapide(this);
         } else if (nb == 2) {
@@ -237,6 +251,4 @@ public class Environnement {
     public ArrayList<Sommet> getChemin() {
         return chemin; // Renvoie le chemin trouvé par l'algorithme BFS
     }
-
-
 }
