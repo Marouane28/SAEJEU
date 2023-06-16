@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class GameoverControleur {
+public class GameOverControleur {
     private static Music music; // attribut de music
 
 
