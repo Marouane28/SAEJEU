@@ -23,9 +23,7 @@ public abstract class Projectile {
     public Projectile(double x, double y, Acteur ennemi, Environnement environnement, String nomImage) {
         this.x = new SimpleDoubleProperty(x); // Propriété représentant la position x du projectile
         this.y = new SimpleDoubleProperty(y); // Propriété représentant la position y du projectile
-
-        // Assignation des références
-        this.environnement = environnement;
+        this.environnement = environnement; // Initialisation de l'environnement
         this.ennemi = ennemi;
         this.nomImage = nomImage;
     }
