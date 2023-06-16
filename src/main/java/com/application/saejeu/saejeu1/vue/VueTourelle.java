@@ -54,17 +54,17 @@ public class VueTourelle {
     public void imageTourelle() {
         URL urlImageEnn = Main.class.getResource(tourelle.getNomImage()); // Récupération de l'URL de l'image de la tourelle
         image = new Image(String.valueOf(urlImageEnn)); // Chargement de l'image
-        this.setImageView(new ImageView(this.image)); // Création de l'ImageView pour afficher l'image de la tourelle
+        this.setImageView(new ImageView(this.image)); // ImageView pour afficher l'image de la tourelle à partir de l'image
         imageView.setFitHeight(20); // Ajuster la hauteur de l'ImageView
         imageView.setFitWidth(20); // Ajuster la largeur de l'ImageView
         imageView.translateXProperty().bind(tourelle.xProperty()); // Lier la position horizontale de l'ImageView à la position horizontale de la tourelle
         imageView.translateYProperty().bind(tourelle.yProperty()); // Lier la position verticale de l'ImageView à la position verticale de la tourelle
         this.panneauJeu.getChildren().add(imageView); // Ajout de l'ImageView au panneau de jeu
         this.imageViews.add(imageView); // Ajout de l'ImageView à la liste des ImageView
-
     }
 
     public void setImageView(ImageView imageView) {
+
         this.imageView = imageView;
     }
 
@@ -73,8 +73,8 @@ public class VueTourelle {
         Circle rayonPortee = new Circle(); // Création d'un cercle pour représenter le rayon de portée
         double tourelleLargeur = image.getWidth(); // Largeur de l'image de la tourelle
         double tourelleHauteur = image.getHeight(); // Hauteur de l'image de la tourelle
-        double centerX = tourelle.getX() + tourelleLargeur / 16; // Calcul du centre du cercle en fonction de la position de la tourelle
-        double centerY = tourelle.getY() + tourelleHauteur / 16;
+        double centerX = tourelle.getX() + tourelleLargeur / this.tourelle.getEnvironnement().getTileMap().getTileSize(); // Calcul du centre du cercle en fonction de la position de la tourelle
+        double centerY = tourelle.getY() + tourelleHauteur / this.tourelle.getEnvironnement().getTileMap().getTileSize();
         rayonPortee.setCenterX(centerX); // Positionnement du centre du cercle
         rayonPortee.setCenterY(centerY);
         rayonPortee.setRadius(tourelle.getPortée()); // Définition du rayon du cercle en fonction de la portée de la tourelle
@@ -91,8 +91,8 @@ public class VueTourelle {
         Circle rayonPortee = new Circle(); // Création d'un cercle pour représenter le rayon de portée
         double tourelleLargeur = image.getWidth(); // Largeur de l'image de la tourelle
         double tourelleHauteur = image.getHeight(); // Hauteur de l'image de la tourelle
-        double centerX = tourelle.getX() + tourelleLargeur / 16; // Calcul du centre du cercle en fonction de la position de la tourelle
-        double centerY = tourelle.getY() + tourelleHauteur / 16;
+        double centerX = tourelle.getX() + tourelleLargeur / this.tourelle.getEnvironnement().getTileMap().getTileSize(); // Calcul du centre du cercle en fonction de la position de la tourelle
+        double centerY = tourelle.getY() + tourelleHauteur / this.tourelle.getEnvironnement().getTileMap().getTileSize();
         rayonPortee.setCenterX(centerX); // Positionnement du centre du cercle
         rayonPortee.setCenterY(centerY);
         rayonPortee.setRadius(tourelle.getPortée()); // Définition du rayon du cercle en fonction de la portée de la tourelle

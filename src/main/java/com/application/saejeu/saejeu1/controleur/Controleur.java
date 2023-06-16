@@ -103,7 +103,7 @@ public class Controleur implements Initializable {
             int caseY = mouseY / this.tileMap.getTileSize();
 
             // Si conditions remplies
-            if (!this.environnement.emplacementDéjàPrisParUneTourelle(mouseX, mouseY) && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelG.getText())) {
+            if (mouseY >= 64 && !this.environnement.emplacementDéjàPrisParUneTourelle(mouseX, mouseY) && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelG.getText())) {
                 // Créer une nouvelle tourelle à la position de la souris si condition remplie
                 Tourelle nouvelleTourelle = new TourelleGèle(mouseX, mouseY, this.environnement);
                 // Ajouter la tourelle à votre environnement ou à une liste de tourelles
@@ -127,7 +127,7 @@ public class Controleur implements Initializable {
             int caseY = mouseY / this.tileMap.getTileSize();
 
             // Si conditions remplies
-            if (!this.environnement.emplacementDéjàPrisParUneTourelle(mouseX, mouseY) && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelR.getText())) {
+            if (mouseY >= 64 && !this.environnement.emplacementDéjàPrisParUneTourelle(mouseX, mouseY) && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelR.getText())) {
                 // Créer une nouvelle tourelle à la position de la souris si condition remplie
                 Tourelle nouvelleTourelle = new TourelleRepousse(mouseX, mouseY, this.environnement);
                 // Ajouter la tourelle à votre environnement ou à une liste de tourelles
@@ -151,7 +151,7 @@ public class Controleur implements Initializable {
             int caseY = mouseY / this.tileMap.getTileSize();
 
             // Si conditions remplies
-            if (!this.environnement.emplacementDéjàPrisParUneTourelle(mouseX, mouseY) && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelM.getText())) {
+            if (mouseY >= 64 && !this.environnement.emplacementDéjàPrisParUneTourelle(mouseX, mouseY) && !this.tileMap.isNotObstacle(caseX, caseY) && this.environnement.getPièces() >= Integer.parseInt(this.labelM.getText())) {
                 // Créer une nouvelle tourelle à la position de la souris si condition remplie
                 Tourelle nouvelleTourelle = new TourelleMitrailleuse(mouseX, mouseY, this.environnement);
                 // Ajouter la tourelle à votre environnement ou à une liste de tourelles

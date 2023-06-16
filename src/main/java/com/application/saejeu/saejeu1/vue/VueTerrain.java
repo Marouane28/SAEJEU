@@ -33,8 +33,8 @@ public class VueTerrain {
         }
         this.imgTilep = new Image(fichierTileSet); // Chargement de l'image du tileset
 
-        for (int i = 0; i < this.terrain.getY() / this.terrain.getTileMap().getTileSize(); i++) {
-            for (int j = 0; j < this.terrain.getX() / this.terrain.getTileMap().getTileSize(); j++) {
+        for (int i = 0; i < this.terrain.getY() / this.terrain.getTileMap().getTileSize(); i++) { // parcours des lignes
+            for (int j = 0; j < this.terrain.getX() / this.terrain.getTileMap().getTileSize(); j++) { // parcours des colonnes
                 int id = this.terrain.getTileMap().getMapDeJeu()[j][i]; // Récupération de l'ID de la tuile à afficher
                 ImageView imgV = new ImageView(this.imgTilep); // Création d'une nouvelle ImageView pour la tuile
                 ajouterTile(imgV, id); // Ajout de la tuile à l'ImageView
