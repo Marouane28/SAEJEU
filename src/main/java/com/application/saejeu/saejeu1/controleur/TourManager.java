@@ -6,6 +6,7 @@ import com.application.saejeu.saejeu1.modele.Projectile;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
@@ -65,13 +66,12 @@ public class TourManager {
 
     // Permet aux tourelles d'attaquer l'ennemi et de supprimer la tourelle quand elle ne fonctionne plus
     private void effectuerTourTourelles() {
-        ObservableList<Tourelle> tourelles = environnement.getTourelles();
+        ObservableList<Tourelle> tourelles = FXCollections.observableArrayList(environnement.getTourelles());
         if (environnement.getProjectiles().isEmpty()) {
             for (Tourelle tour : tourelles) {
                 tour.attaquer();
-
                 if (!tour.estEnMarche()) {
-                    tourelles.remove(tour);
+                    environnement.getTourelles().remove(tour);
 
                 }
             }
@@ -80,24 +80,19 @@ public class TourManager {
 
 
     private void tourProjectile() {
-        try {
-            // Vérifie si la liste des projectiles dans l'environnement n'est pas vide
-            if (!environnement.getProjectiles().isEmpty()) {
-                // Parcourt tous les projectiles dans la liste
-                for (Projectile p : environnement.getProjectiles()) {
-                    // Lance le projectile en appelant la méthode lancerProjectile()
-                    p.lancerProjectile();
-
-                    // Vérifie si le projectile atteint un acteur
-                    if (p.atteintActeur()) {
-                        // Si le projectile atteint un acteur, il est retiré de l'environnement
-                        environnement.retirerProjectile(p);
-                    }
+        ObservableList<Projectile> projCopy = FXCollections.observableArrayList(environnement.getProjectiles());
+        // Vérifie si la liste des projectiles dans l'environnement n'est pas vide
+        if (!environnement.getProjectiles().isEmpty()) {
+            // Parcourt tous les projectiles dans la liste
+            for (Projectile p : projCopy) {
+                // Lance le projectile en appelant la méthode lancerProjectile()
+                p.lancerProjectile();
+                // Vérifie si le projectile atteint un acteur
+                if (p.atteintActeur()) {
+                    // Si le projectile atteint un acteur, il est retiré de l'environnement
+                    environnement.retirerProjectile(p);
                 }
             }
-        } catch (Exception e) {
-            // Capture toute exception qui pourrait survenir lors du traitement des projectiles
-            // et ne fait rien en cas d'exception
         }
     }
 

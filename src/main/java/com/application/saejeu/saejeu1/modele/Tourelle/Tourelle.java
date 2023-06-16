@@ -38,7 +38,8 @@ public abstract class Tourelle {
             // Vérification si l'environnement a suffisamment de pièces pour l'amélioration
             this.setDégât(getDégât() + 5); // Augmentation du dégât de la tourelle de 10
             this.vueTourelle.retirerRayonPortee(); // Retrait du rayon de portée de la vue de la tourelle
-            this.setPortée(getPortée() + 2*16); // Augmentation de la portée de la tourelle de 2*16 (à définir unité de mesure)
+            this.setPortée(getPortée() + 2 * 16); // Augmentation de la portée de la tourelle de 2*16 (à définir unité de mesure)
+
             this.vueTourelle.afficherRayonPorteeAmélioré(); // Affichage du rayon de portée amélioré dans la vue de la tourelle
             this.setPv(getPv() + 30); // Augmentation des points de vie de la tourelle de 30
             this.setEstAméliorée(true); // La tourelle est maintenant améliorée
@@ -87,6 +88,7 @@ public abstract class Tourelle {
 
         return this.nomImage;
     }
+
     // Méthodes pour accéder aux propriétés x et y de la tourelle
     public IntegerProperty xProperty() {
         return this.x;
@@ -95,6 +97,7 @@ public abstract class Tourelle {
     public IntegerProperty yProperty() {
         return this.y;
     }
+
     // Méthodes pour obtenir et définir la valeur de la coordonnée x de la tourelle
     public final double getX() {
         return this.xProperty().getValue();
@@ -109,9 +112,11 @@ public abstract class Tourelle {
     public int getPortée() {
         return this.portée;
     }
+
     public void setPortée(int i) {
         this.portée = i;
     }
+
     // Méthode pour obtenir les points de vie de la tourelle
     public int getPv() {
         return this.pv;
@@ -125,6 +130,7 @@ public abstract class Tourelle {
     public int getDégât() {
         return this.dégât;
     }
+
     // Méthode pour définir les dégâts infligés par la tourelle
     public void setDégât(int dégât) {
         this.dégât = dégât;
@@ -132,14 +138,16 @@ public abstract class Tourelle {
 
     // Méthode abstraite pour effectuer l'attaque de la tourelle (à implémenter dans les sous-classes)
     public abstract void attaquer();
+
     public abstract Projectile creerProjectile();
-    // Méthode pour vérifier si l'ennemi est à portée de la tourelle
-    public boolean estEnPortée(Acteur ennemi) {
-        // Calcul de la distance entre la tourelle et l'ennemi en utilisant le théorème de Pythagore
-        double distance = Math.sqrt(Math.pow(ennemi.getX() - getX(), 2) + Math.pow(ennemi.getY() - getY(), 2)); //racine de (x - x')^2 + (y - y')^2
-        // Vérification si la distance est inférieure ou égale à la portée de la tourelle
-        return distance <= this.portée;
-    }
+
+//    // Méthode pour vérifier si l'ennemi est à portée de la tourelle
+//    public boolean estEnPortée(Acteur ennemi) {
+//        // Calcul de la distance entre la tourelle et l'ennemi en utilisant le théorème de Pythagore
+//        double distance = Math.sqrt(Math.pow(ennemi.getX() - getX(), 2) + Math.pow(ennemi.getY() - getY(), 2)); //racine de (x - x')^2 + (y - y')^2
+//        // Vérification si la distance est inférieure ou égale à la portée de la tourelle
+//        return distance <= this.portée;
+//    }
 
     // Méthode pour définir la vue de la tourelle
     public void setVueTourelle(VueTourelle vueTourelle) {
@@ -157,21 +165,26 @@ public abstract class Tourelle {
         return this.pv > 0;
     }
 
+    // Méthode qui retourne l'acteur le plus proche de la tourelle
     public Acteur ennemiPlusProche() {
 
         Acteur ennemiLePlusProche = null;
         double distanceMin = Double.MAX_VALUE;
 
+        // Parcours de tous les acteurs dans l'environnement
         for (int i = 0; i < environnement.getActeurs().size(); i++) {
-                double dx = this.getX() - environnement.getActeurs().get(i).getX();
-                double dy = this.getY() - environnement.getActeurs().get(i).getY();
-                double distance = Math.sqrt(dx * dx + dy * dy);
+            double dx = this.getX() - environnement.getActeurs().get(i).getX();
+            double dy = this.getY() - environnement.getActeurs().get(i).getY();
+            double distance = Math.sqrt(dx * dx + dy * dy);
 
-                if (distance <= portée && distance < distanceMin) {
-                    ennemiLePlusProche = environnement.getActeurs().get(i);
-                    distanceMin = distance;
-                }
+            // Vérifie si l'acteur est dans la portée et plus proche que les acteurs précédents
+            if (distance <= portée && distance < distanceMin) {
+                ennemiLePlusProche = environnement.getActeurs().get(i);
+                distanceMin = distance;
             }
+        }
+
+        // Retourne l'acteur ennemi le plus proche
         return ennemiLePlusProche;
     }
 }

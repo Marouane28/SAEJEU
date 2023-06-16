@@ -8,7 +8,7 @@ import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 public class TourelleMitrailleuse extends Tourelle {
 
     public TourelleMitrailleuse(int x, int y, Environnement env) {
-        super(x, y, 80, 60, 1, env,"mitrailleuse.png", 400);
+        super(x, y, 80, 60, 5, env,"mitrailleuse.png", 400);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class TourelleMitrailleuse extends Tourelle {
     public Projectile creerProjectile() {
             Acteur a = ennemiPlusProche();
             if (a != null) {
-                Projectile pro = new ProjectileMitrailleuse(this.getX() + 10, this.getY() - 30, a, environnement);
+                Projectile pro = new ProjectileMitrailleuse(this.getX(), this.getY(), a, environnement);
                 environnement.ajouterProjectile(pro);
                 return pro;
             }

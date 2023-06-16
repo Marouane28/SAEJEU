@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 public abstract class Projectile {
     public static final double VITESSE = 100;
 
-    DoubleProperty x,y;
+    private DoubleProperty x,y;
 
     private Environnement environnement;
     private Acteur ennemi;
@@ -26,22 +26,22 @@ public abstract class Projectile {
     }
 
     public void lancerProjectile() {
-        // Calcul des distances entre le projectile et l'ennemi selon les axes X et Y
+
         double distanceX = ennemi.getX() - this.getX();
         double distanceY = ennemi.getY() - this.getY();
 
-        // Calcul de la distance totale en utilisant le théorème de Pythagore
+        // Calcule la distance total
         double totalDistance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-        // Calcul des composantes de direction normalisées (valeurs entre -1 et 1)
+
         double directionX = distanceX / totalDistance;
         double directionY = distanceY / totalDistance;
 
-        // Calcul des nouvelles positions en fonction de la vitesse du projectile et des directions
+        // Calculer les nouvelles positions
         double nouvellePositionX = this.getX() + (VITESSE * directionX);
         double nouvellePositionY = this.getY() + (VITESSE * directionY);
 
-        // Mise à jour des coordonnées du projectile avec les nouvelles positions calculées
+
         this.setX(nouvellePositionX);
         this.setY(nouvellePositionY);
     }
@@ -64,7 +64,6 @@ public abstract class Projectile {
         x.set(x.get() + deltaX);
         y.set(y.get() + deltaY);
     }
-
 
 
     public boolean atteintActeur() {

@@ -20,8 +20,8 @@ public class TourelleGèle extends Tourelle {
 
     @Override
     public void attaquer() {
-        // Vérifier si une cible est définie, si elle est dans la portée de la tourelle et si elle n'est pas déjà gelée
-        if (ennemiPlusProche() != null && estEnPortée(ennemiPlusProche()) && !ennemisGelés.contains(ennemiPlusProche())) {
+        // Vérifier si elle est dans la portée de la tourelle et si elle n'est pas déjà gelée
+        if (ennemiPlusProche() != null && !ennemisGelés.contains(ennemiPlusProche())) {
                 creerProjectile();
                 ennemiPlusProche().geler(CYCLES); // Geler l'ennemi pour le nombre de cycles spécifié
                 ennemiPlusProche().decrementerPv(getDégât()); // Réduire les points de vie de la cible

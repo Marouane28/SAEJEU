@@ -26,7 +26,6 @@ public class VueProjectile {
 
         AnimationTimer timer = new AnimationTimer() {
             private long lastUpdate = 0;
-
             @Override
             public void handle(long now) {
                 // Vérifie si lastUpdate est supérieur à 0, ce qui signifie que le temps précédent a été enregistré
