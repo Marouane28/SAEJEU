@@ -25,7 +25,7 @@ public abstract class Projectile {
         this.y = new SimpleDoubleProperty(y); // Propriété représentant la position y du projectile
         this.environnement = environnement; // Initialisation de l'environnement
         this.ennemi = ennemi; // Initialisation de l'ennemi
-        this.nomImage = nomImage;
+        this.nomImage = nomImage; // Initialisation de nomImage qui correspond à l'URL des images des projectiles
     }
 
     public void lancerProjectile() {
