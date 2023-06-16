@@ -17,7 +17,7 @@ public class ListObsPiece implements ListChangeListener<Pièce> {
 
     public ListObsPiece(Pane panneauJeu) {
         this.panneauJeu = panneauJeu; // Initialise le panneau du jeu
-        this.vuesPièces = new ArrayList<>(); // Initialise la liste des vues des ennemis
+        this.vuesPièces = new ArrayList<>(); // Initialise la liste des vues des pièces
     }
     @Override
     public void onChanged(Change<? extends Pièce> change) {
@@ -36,24 +36,23 @@ public class ListObsPiece implements ListChangeListener<Pièce> {
         }
     }
 
-
     private void ajouterVuePièce(Pièce pièce) {
-        VuePièce vuePièce = new VuePièce(this.panneauJeu, pièce); // Crée une nouvelle vue pour l'acteur ennemi
-        this.vuesPièces.add(vuePièce); // Ajoute la vue à la liste des vues des ennemis
-        pièce.setVuePièce(vuePièce); // Associe la vue à l'acteur ennemi
+        VuePièce vuePièce = new VuePièce(this.panneauJeu, pièce); // Crée une nouvelle vue pour la pièce
+        this.vuesPièces.add(vuePièce); // Ajoute la vue à la liste des vues des pièces
+        pièce.setVuePièce(vuePièce); // Associe la vue à la pièce
     }
 
     private void retirerVuePièce(Pièce pièce) {
         VuePièce vuePièceToRemove = null;
         for (VuePièce vuePièce : this.vuesPièces) {
-            if (vuePièce.getPièce() == pièce) { // Recherche la vue correspondant à l'acteur ennemi supprimé
+            if (vuePièce.getPièce() == pièce) { // Recherche la vue correspondant de la pièce à supprimé
                 vuePièceToRemove = vuePièce; // Stocke la vue à supprimer
                 break;
             }
         }
         if (vuePièceToRemove != null) {
-            vuePièceToRemove.retirerImagePièce(pièce); // Retire l'image de l'acteur ennemi dans la vue
-            this.vuesPièces.remove(vuePièceToRemove); // Supprime la vue des ennemis
+            vuePièceToRemove.retirerImagePièce(pièce); // Retire l'image de la piece dans la vue
+            this.vuesPièces.remove(vuePièceToRemove); // Supprime la vue des pièces
         }
     }
 }

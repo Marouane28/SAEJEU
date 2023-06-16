@@ -1,6 +1,6 @@
 package com.application.saejeu.saejeu1.vue;
 import com.application.saejeu.saejeu1.Main;
-import com.application.saejeu.saejeu1.modele.Projectile;
+import com.application.saejeu.saejeu1.modele.Projectile.Projectile;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,20 +9,17 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ArrayList;
 public class VueProjectile {
-    private Pane pane;
 
-
-    private ArrayList<ImageView> imageViews;
-    Projectile projectile;
+    private Pane pane;  // La référence vers le conteneur de la vue (un Pane)
+    private ArrayList<ImageView> imageViews;  // Une liste d'ImageView pour afficher les images du projectile
+    private Projectile projectile;  // Le projectile à afficher
 
     public VueProjectile(Pane pane, Projectile projectile) {
         this.pane = pane;
         this.projectile = projectile;
-        this.imageViews = new ArrayList<>();
+        this.imageViews = new ArrayList<>();  // Initialise la liste d'ImageView
 
-
-        imageProjectile();
-
+        imageProjectile();  // Appelle une méthode pour configurer les images du projectile
 
         AnimationTimer timer = new AnimationTimer() {
             private long lastUpdate = 0;

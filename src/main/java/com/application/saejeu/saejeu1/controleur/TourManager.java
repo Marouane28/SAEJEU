@@ -3,7 +3,7 @@ package com.application.saejeu.saejeu1.controleur;
 import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.modele.Manche;
 import com.application.saejeu.saejeu1.modele.Pièce;
-import com.application.saejeu.saejeu1.modele.Projectile;
+import com.application.saejeu.saejeu1.modele.Projectile.Projectile;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import javafx.animation.Timeline;
@@ -11,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class TourManager {
     private Environnement environnement; // Référence vers l'environnement du jeu
@@ -26,7 +25,6 @@ public class TourManager {
         this.nb_manche = nb_manche; // Initialise le nombre total de manches avec la valeur fournie en paramètre
         this.controleur = controleur; // Initialise la référence vers le contrôleur avec la valeur fournie en paramètre
         this.gameLoop = gameLoop; // Initialise la variable d'instance avec la valeur fournie en paramètre
-
     }
 
 
@@ -44,7 +42,7 @@ public class TourManager {
             }
 
             effectuerTourTourelles(); // Appelle la méthode effectuerTourTourelles() pour gérer les actions des tourelles pendant le tour
-            tourProjectile();
+            effecteuerTourProjectile(); // Appelle la méthode effectuerTourProjectile() pour gérer les actions des projectiles pendant le tour
 
             if (!zombie.estVivant()) {
                 environnement.getActeurs().remove(zombie); // Supprime le zombie de la liste des acteurs s'il n'est plus vivant
@@ -97,7 +95,7 @@ public class TourManager {
         }
     }
 
-    private void tourProjectile() {
+    private void effecteuerTourProjectile() {
         ObservableList<Projectile> projCopy = FXCollections.observableArrayList(environnement.getProjectiles());
         // Vérifie si la liste des projectiles dans l'environnement n'est pas vide
         if (!environnement.getProjectiles().isEmpty()) {
@@ -128,6 +126,7 @@ public class TourManager {
             controleur.afficherWinJeuScene();
         }
     }
+
     // Gère la perte de vie lorsque le zombie atteint la cible
     public void gérerCollision(Acteur zombie) {
         environnement.décrémenterVies(); // Décrémente le nombre de vies de l'environnement

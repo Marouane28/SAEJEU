@@ -1,5 +1,6 @@
 package com.application.saejeu.saejeu1.controleur;
 import com.application.saejeu.saejeu1.Main;
+import com.application.saejeu.saejeu1.modele.Projectile.Projectile;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import com.application.saejeu.saejeu1.modele.Tourelle.TourelleGèle;
 import com.application.saejeu.saejeu1.modele.Tourelle.TourelleMitrailleuse;

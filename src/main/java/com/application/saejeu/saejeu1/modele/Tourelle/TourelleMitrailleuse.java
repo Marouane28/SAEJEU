@@ -1,8 +1,8 @@
 package com.application.saejeu.saejeu1.modele.Tourelle;
 
 import com.application.saejeu.saejeu1.modele.Environnement;
-import com.application.saejeu.saejeu1.modele.Projectile;
-import com.application.saejeu.saejeu1.modele.ProjectileMitrailleuse;
+import com.application.saejeu.saejeu1.modele.Projectile.Projectile;
+import com.application.saejeu.saejeu1.modele.Projectile.ProjectileMitrailleuse;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 
 public class TourelleMitrailleuse extends Tourelle {

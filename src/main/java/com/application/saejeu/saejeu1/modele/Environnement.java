@@ -1,5 +1,6 @@
 package com.application.saejeu.saejeu1.modele;
 
+import com.application.saejeu.saejeu1.modele.Projectile.Projectile;
 import com.application.saejeu.saejeu1.modele.Tourelle.Tourelle;
 import com.application.saejeu.saejeu1.modele.Zombie.Acteur;
 import com.application.saejeu.saejeu1.modele.Zombie.ZombieGeant;

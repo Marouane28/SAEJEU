@@ -1,5 +1,5 @@
 package com.application.saejeu.saejeu1.controleur;
-import com.application.saejeu.saejeu1.modele.Projectile;
+import com.application.saejeu.saejeu1.modele.Projectile.Projectile;
 import com.application.saejeu.saejeu1.vue.VueProjectile;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
