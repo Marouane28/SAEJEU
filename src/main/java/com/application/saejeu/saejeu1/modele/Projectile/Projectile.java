@@ -77,7 +77,7 @@ public abstract class Projectile {
         // Coordonnées du projectile
         double xProjDroite = getX();
         double yProjDroite = getY();
-        double xProjGauche = getX() + 20; // 20 = la taille de l'image en pixel
+        double xProjGauche = getX() + 20; // 20 = Taille des images des projectiles en pixel
         double yProjGauche = getY() + 20;
 
         // Coordonnées de l'acteur (ennemi)
