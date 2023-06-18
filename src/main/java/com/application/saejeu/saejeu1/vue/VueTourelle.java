@@ -21,9 +21,9 @@ public class VueTourelle {
     private ArrayList<ImageView> imageViews; // Liste des ImageView pour afficher la tourelle
     private Tourelle tourelle; // Instance de la classe Tourelle pour représenter la tourelle
     private Rectangle barreVie; // Barre de vie de la tourelle
-    private final double barreVieWidth = 45; // Largeur de la barre de vie
+    private final double BARRE_VIE_WIDTH = 45; // Largeur de la barre de vie
     private ImageView imageView;
-    private final double barreVieHeight = 5; // Hauteur de la barre de vie
+    private final double BARRE_VIE_HEIGHT = 5; // Hauteur de la barre de vie
 
     public VueTourelle(Pane panneauJeu, Tourelle tourelle) {
         this.panneauJeu = panneauJeu;
@@ -152,13 +152,13 @@ public class VueTourelle {
             barreVie.setFill(Color.RED); // Moins de 20% de vie, couleur rouge
         }
 
-        double nouvelleLongueur = barreVieWidth * pourcentageVie;
+        double nouvelleLongueur = BARRE_VIE_WIDTH * pourcentageVie;
         barreVie.setWidth(nouvelleLongueur); // Ajuster la longueur de la barre de vie en fonction du pourcentage de vie restante
     }
 
     // Méthode pour initialiser la barre de vie de la tourelle
     private void initialiserBarreVie() {
-        barreVie = new Rectangle(barreVieWidth, barreVieHeight); // Création d'un rectangle pour représenter la barre de vie
+        barreVie = new Rectangle(BARRE_VIE_WIDTH, BARRE_VIE_HEIGHT); // Création d'un rectangle pour représenter la barre de vie
         barreVie.setFill(Color.GREEN); // Couleur initiale de la barre de vie
         barreVie.setStroke(Color.BLACK); // Couleur du contour du rectangle
         barreVie.setStrokeWidth(1.0); // Épaisseur du contour
