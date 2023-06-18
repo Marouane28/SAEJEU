@@ -16,8 +16,8 @@ public class VueEnnemi {
     private Pane panneauJeu; // Panneau du jeu
     private Acteur acteur; // Instance de la classe Acteur pour représenter l'ennemi
     private Rectangle barreVie; // Barre de vie de l'ennemi
-    private final double barreVieWidth = 20; // Largeur de la barre de vie
-    private final double barreVieHeight = 5; // Hauteur de la barre de vie
+    private final double BARRE_VIE_WIDTH = 20; // Largeur de la barre de vie
+    private final double BARRE_VIE_HEIGHT = 5; // Hauteur de la barre de vie
 
     public VueEnnemi(Pane panneauJeu, Acteur acteur) {
         this.panneauJeu = panneauJeu;
@@ -65,12 +65,12 @@ public class VueEnnemi {
         } else {
             barreVie.setFill(Color.RED); // Moins de 20% de vie, couleur rouge
         }
-        double nouvelleLongueur = barreVieWidth * pourcentageVie;
+        double nouvelleLongueur = BARRE_VIE_WIDTH * pourcentageVie;
         barreVie.setWidth(nouvelleLongueur); // Ajuster la longueur de la barre de vie en fonction du pourcentage de vie restante
     }
 
     private void initialiserBarreVie() {
-        barreVie = new Rectangle(barreVieWidth, barreVieHeight); // Création de la barre de vie avec la largeur et la hauteur définies
+        barreVie = new Rectangle(BARRE_VIE_WIDTH, BARRE_VIE_HEIGHT); // Création de la barre de vie avec la largeur et la hauteur définies
         barreVie.setFill(Color.GREEN); // Couleur initiale de la barre de vie (verte)
         barreVie.setStroke(Color.BLACK);
         barreVie.setStrokeWidth(1.0);
