@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class TileMapTest {
 
-    private static TileMap tileMap;
+    private static TileMap tileMap; // Déclare une variable statique pour stocker l'objet TileMap.
 
     @BeforeAll
     public static void setUp() throws IOException {
