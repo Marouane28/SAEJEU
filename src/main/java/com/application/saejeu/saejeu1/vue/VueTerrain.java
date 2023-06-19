@@ -11,25 +11,25 @@ import java.io.FileNotFoundException;
 
 public class VueTerrain {
 
-    private Image imgTilep;
-    private Environnement terrain;
-    private TilePane tilePane;
-    private String nomFichier;
+    private Image imgTilep; // Image du tileset
+    private Environnement terrain; // Environnement du terrain
+    private TilePane tilePane; // Conteneur pour les tuiles
+    private String nomFichier; // Nom du fichier du tileset
 
     public VueTerrain(Environnement environnement, TilePane tileP, String nomFichier) throws FileNotFoundException {
-        this.terrain = environnement;
-        this.tilePane = tileP;
-        this.nomFichier = nomFichier;
+        this.terrain = environnement; // Assigner l'environnement passé en paramètre
+        this.tilePane = tileP; // Assigner le TilePane passé en paramètre
+        this.nomFichier = nomFichier; // Assigner le nom du fichier du tileset passé en paramètre
 
         iniTerrain(); // Initialisation du terrain
     }
 
-    void iniTerrain() {
-        FileInputStream fichierTileSet = null;
+    public void iniTerrain() {
+        FileInputStream fichierTileSet = null; // Initialiser le flux de fichier
         try {
-            fichierTileSet = new FileInputStream(getClass().getResource(this.nomFichier).getFile());
+            fichierTileSet = new FileInputStream(getClass().getResource(this.nomFichier).getFile()); // Ouvrir le fichier du tileset
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Afficher la trace d'erreur s'il y a un problème avec le fichier
         }
         this.imgTilep = new Image(fichierTileSet); // Chargement de l'image du tileset
 
@@ -54,4 +54,9 @@ public class VueTerrain {
         img.setViewport(new Rectangle2D(x, y, this.terrain.getTileMap().getTileSize(), this.terrain.getTileMap().getTileSize())); // Définition de la zone de découpage pour afficher la tuile correcte
         this.tilePane.getChildren().add(img); // Ajout de l'ImageView contenant la tuile au TilePane
     }
+
+    public Image getImgTilep() {
+        return imgTilep;
+    }
+
 }

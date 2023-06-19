@@ -38,8 +38,8 @@ public class Pièce {
         int caseY;
         int caseX;
         do {
-            int x = r.nextInt(1441); // Génère une valeur aléatoire pour la coordonnée x
-            int y = r.nextInt(801); // Génère une valeur aléatoire pour la coordonnée y
+            int x = r.nextInt(1440); // Génère une valeur aléatoire pour la coordonnée x
+            int y = r.nextInt(800); // Génère une valeur aléatoire pour la coordonnée y
 
             int coordX = x - (x % this.environnement.getTileMap().getTileSize()); // Calcule la coordonnée x avec gestion de la taille des cases
             int coordY = y - (y % this.environnement.getTileMap().getTileSize()); // Calcule la coordonnée y avec gestion de la taille des cases
