@@ -3,19 +3,16 @@ package com.application.saejeu.saejeu1.test;
 import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.modele.TileMap;
 import com.application.saejeu.saejeu1.vue.VueTerrain;
-import javafx.scene.image.Image;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
-import java.awt.*;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+
 
 public class VueTerrainTest {
     private Environnement environnement;

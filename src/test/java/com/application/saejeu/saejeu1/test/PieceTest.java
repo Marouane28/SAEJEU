@@ -3,8 +3,6 @@ package com.application.saejeu.saejeu1.test;
 import com.application.saejeu.saejeu1.modele.Environnement;
 import com.application.saejeu.saejeu1.modele.Pièce;
 import com.application.saejeu.saejeu1.modele.TileMap;
-import com.application.saejeu.saejeu1.vue.VuePièce;
-import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +14,6 @@ public class PieceTest {
     private Environnement environnement; // Déclaration de la variable environnement
     private TileMap tileMap; // Déclaration de la variable tileMap
     private Pièce piece, piece2; // Déclaration des variables piece et piece2
-    private Pane panneauJeu; // Déclaration de la variable panneauJeu
 
     @BeforeEach
     void setUp() throws IOException {
