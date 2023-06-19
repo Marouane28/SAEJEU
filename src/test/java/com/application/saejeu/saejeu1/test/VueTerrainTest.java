@@ -22,6 +22,7 @@ public class VueTerrainTest {
     private TilePane tilePane;
     private String nomFichier;
 
+
     @Before
     public void setUp() throws IOException {
         environnement = new Environnement(new TileMap(",", "vraietilemap"));

@@ -194,6 +194,7 @@ public class Environnement {
     public void ajouterActeur(Acteur a) {
         this.acteurs.add(a); // Ajoute un acteur à la liste des acteurs
     }
+
     public void ajouterPièce(Pièce p) {
         this.listePièces.add(p); // Ajoute un acteur à la liste des acteurs
     }
@@ -236,15 +237,6 @@ public class Environnement {
 
     public ArrayList<Sommet> getChemin() {
         return chemin; // Renvoie le chemin trouvé par l'algorithme BFS
-    }
-
-    public void ajouterArete(Sommet sommet1, Sommet sommet2) {
-        Set<Sommet> adjacents1 = listeAdj.getOrDefault(sommet1, new HashSet<>());
-        Set<Sommet> adjacents2 = listeAdj.getOrDefault(sommet2, new HashSet<>());
-        adjacents1.add(sommet2);
-        adjacents2.add(sommet1);
-        listeAdj.put(sommet1, adjacents1);
-        listeAdj.put(sommet2, adjacents2);
     }
 
 
